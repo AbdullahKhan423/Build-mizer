@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box, Typography,Button } from '@mui/material';
-import cover from '../media/cover.jpg'
-function Cover() {
+
+function Cover({imageSrc}) {
   return (
     <div>
       {/* Your other landing page content */}
       
       {/* Section where you want the opaque cover */}
       <section style={{ position: 'relative' }}>
-        <img src={cover} alt="Section Background" style={{ width: '100%', height: 'auto' }} />
+        <img src={imageSrc} alt="Section Background" style={{ width: '100%', height: 'auto' }} />
 
         {/* Opaque cover */}
         <Box

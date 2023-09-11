@@ -11,6 +11,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import BalanceIcon from '@mui/icons-material/Balance';
 import Footer from '../components/Footer'
 import { Typography, Box, Container } from '@mui/material';
+import cover from '../media/cover.jpg'
 import '../css/styles.css';
 
 
@@ -24,7 +25,7 @@ function HomePage() {
   return (
     <div>
         <ResponsiveAppBar></ResponsiveAppBar>
-        <Cover></Cover>
+        <Cover imageSrc={cover}></Cover>
         <Container maxWidth="x1">
       <Box sx={{ textAlign: 'center', marginTop: '3rem', paddingTop: '1rem' }}>
         <Typography variant="h4" color="black" style={{ textTransform: 'capitalize', animation: 'slideUp 1s forwards' }}>

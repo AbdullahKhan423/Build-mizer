@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Typography, Link, Grid, IconButton } from '@mui/material';
+import { Container, Typography, Grid, IconButton } from '@mui/material';
+import {Link} from 'react-router-dom';
 import { Facebook, Twitter, Instagram, LinkedIn } from '@mui/icons-material';
 import Logo from '../media/image.png';
 const Footer = () => {
@@ -28,19 +29,19 @@ const Footer = () => {
               <Typography variant="h6">Quick Links</Typography>
               <ul style={{ listStyleType: 'none', padding: 0 }}>
                 <li>
-                  <Link href="/">Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link href="/about">About Us</Link>
+                  <Link to="About us">About Us</Link>
                 </li>
                 <li>
-                  <Link href="/contact">Contact Us</Link>
+                  <Link to="Construction Cost Calculator">Construction Cost Calculator</Link>
                 </li>
                 <li>
-                  <Link href="/privacy">Privacy Policy</Link>
+                  <Link to="Daily Pricing">Daily Pricing</Link>
                 </li>
                 <li>
-                  <Link href="/terms">Terms and Conditions</Link>
+                  <Link to="Stay in Touch">Stay in Touch</Link>
                 </li>
               </ul>
             </div>
@@ -48,8 +49,8 @@ const Footer = () => {
           <Grid item xs={12} sm={6} md={3}>
             <div>
               <Typography variant="h6">Contact Us</Typography>
-              <Typography>Email: example@email.com</Typography>
-              <Typography>Phone: +1 (123) 456-7890</Typography>
+              <Typography>Email: support@buildmizer.com</Typography>
+              <Typography>Phone: +923091040098</Typography>
             </div>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -72,7 +73,7 @@ const Footer = () => {
         </Grid>
       </Container>
       <Typography variant="body2" align="center">
-        &copy; {new Date().getFullYear()} Your Company Name. All rights reserved.
+        &copy; {new Date().getFullYear()} Build-Mizer. All rights reserved.
       </Typography>
     </footer>
   );
