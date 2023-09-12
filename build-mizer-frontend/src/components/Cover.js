@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography,Button } from '@mui/material';
-
+import { Link } from 'react-router-dom';
 function Cover({imageSrc}) {
   return (
     <div>
@@ -36,10 +36,14 @@ function Cover({imageSrc}) {
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
             <Button variant="contained" color="primary" sx={{ '&:hover': { backgroundColor: 'green' } }}>
+            <Link to="Construction Cost Calculator" style={{ textDecoration: 'none', color: 'white' }}>
               Cost Calculator
+            </Link>
             </Button>
             <Button variant="contained" color="secondary" sx={{ '&:hover': { backgroundColor: 'red' } }}>
-              View Updated Price
+            <Link to="Daily Pricing" style={{ textDecoration: 'none', color: 'white' }}>
+            View Updated Price of materials
+            </Link>
             </Button>
           </Box>
         </Box>

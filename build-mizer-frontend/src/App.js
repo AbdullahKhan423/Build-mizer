@@ -8,7 +8,7 @@ import DailyPricing from './pages/DailyPricing';
 import Products from './pages/Products';
 import SignUp from './pages/SignUp';
 import StayInTouch from './pages/StayInTouch';
-
+import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <Router>
@@ -21,7 +21,7 @@ function App() {
         <Route path="products" element={<Products></Products>} />
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
-        
+        <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
       </Routes>
     </Router>
   );
