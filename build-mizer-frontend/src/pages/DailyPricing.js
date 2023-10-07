@@ -18,7 +18,7 @@ import {
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import Footer from '../components/Footer';
 function DailyPricing() {
-  const [selectedCategory, setSelectedCategory] = useState('Steel'); // Default selected category
+  const [selectedCategory, setSelectedCategory] = useState('Cement'); // Default selected category
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
