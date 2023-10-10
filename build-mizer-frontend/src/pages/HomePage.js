@@ -100,6 +100,119 @@ function HomePage() {
         </Typography>
       </Box>
     </Container>
+
+    <Container>
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '2rem',
+      flexDirection: ['column', 'row'], // Change direction to column on small screens
+    }}
+  >
+    <ConstructionIcon
+      sx={{
+        fontSize: 100,
+        animation: 'slideLeft 1s forwards',
+        marginBottom: ['1rem', '0'], // Add margin for spacing on small screens
+        marginLeft: ['0', '1rem'], // Add margin for spacing on small screens
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Updated Pricing</Typography>
+      <Typography variant="body2">Stay informed with real-time pricing information for construction materials.</Typography>
+    </Box>
+    <CalculateIcon
+      sx={{
+        fontSize: 100,
+        marginLeft: ['0', '2rem'], // Add margin for spacing on small screens
+        animation: 'slideLeft 1s forwards',
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Calculation Cost Calculator</Typography>
+      <Typography variant="body2">Estimate the total cost of your construction project, including materials and labor.</Typography>
+    </Box>
+    <ContentPasteSearchIcon sx={{ fontSize: 100, animation: 'slideLeft 1s forwards' }} />
+    <Box sx={{ marginLeft: '1rem' }}></Box>
+    <Typography variant="h6">Cost tracker</Typography>
+          <Typography variant="body2">Monitor and manage your construction expenses as your project progresses.</Typography>
+        </Box>
+        <HomeRepairServiceIcon sx={{ fontSize: 100, marginLeft: '10rem', animation: 'slideLeft 1s forwards' }} />
+        <Box sx={{ marginLeft: '1rem' }}>
+          <Typography variant="h6">Material ledger</Typography>
+          <Typography variant="body2">Keep a detailed record of all construction materials used, ensuring accurate inventory and project tracking.</Typography>
+  </Box>
+</Container>
+
+
+<Container>
+  <Box
+    sx={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '2rem',
+      flexDirection: ['column', 'row'], // Change to column on small screens
+    }}
+  >
+    <ConstructionIcon
+      sx={{
+        fontSize: 100,
+        animation: 'slideLeft 1s forwards',
+        marginBottom: ['1rem', '0'], // Add margin for spacing on small screens
+        marginLeft: ['0', '1rem'], // Add margin for spacing on small screens
+        width: ['100%', 'auto'], // Full width on small screens, auto width on larger screens
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Updated Pricing</Typography>
+      <Typography variant="body2">Stay informed with real-time pricing information for construction materials.</Typography>
+    </Box>
+    <CalculateIcon
+      sx={{
+        fontSize: 100,
+        marginLeft: ['0', '2rem'], // Add margin for spacing on small screens
+        animation: 'slideLeft 1s forwards',
+        width: ['100%', 'auto'], // Full width on small screens, auto width on larger screens
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Calculation Cost Calculator</Typography>
+      <Typography variant="body2">Estimate the total cost of your construction project, including materials and labor.</Typography>
+    </Box>
+    <ContentPasteSearchIcon
+      sx={{
+        fontSize: 100,
+        animation: 'slideLeft 1s forwards',
+        marginBottom: ['1rem', '0'], // Add margin for spacing on small screens
+        marginLeft: ['0', '1rem'], // Add margin for spacing on small screens
+        width: ['100%', 'auto'], // Full width on small screens, auto width on larger screens
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Cost tracker</Typography>
+      <Typography variant="body2">Monitor and manage your construction expenses as your project progresses.</Typography>
+    </Box>
+    <HomeRepairServiceIcon
+      sx={{
+        fontSize: 100,
+        animation: 'slideLeft 1s forwards',
+        marginLeft: ['0', '2rem'], // Add margin for spacing on small screens
+        width: ['100%', 'auto'], // Full width on small screens, auto width on larger screens
+      }}
+    />
+    <Box sx={{ marginLeft: ['0', '1rem'] }}>
+      <Typography variant="h6">Material ledger</Typography>
+      <Typography variant="body2">Keep a detailed record of all construction materials used, ensuring accurate inventory and project tracking.</Typography>
+    </Box>
+  </Box>
+</Container>
+
+
+
     <Box >
    <CarouselComponent ></CarouselComponent></Box>
     <Footer ></Footer>

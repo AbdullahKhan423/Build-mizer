@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import axios from 'axios';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,14 +31,45 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    // Extract form data
+    const formData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    try {
+      // Make an Axios POST request to your server endpoint for registration
+      const response = await axios.post(
+        'http://your-server-url/signup', // Replace with your server URL
+        formData
+      );
+
+      // Handle the response from the server here
+      const { success, message } = response.data;
+
+      if (success) {
+        // Registration was successful
+        // You can handle this as needed, such as redirecting to a login page
+        console.log('Registration successful:', message);
+        // Add your navigation logic here
+      } else {
+        // Registration failed, handle errors
+        console.error('Registration failed:', message);
+        // You can display an error message to the user if needed
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      // Handle any unexpected errors here, such as network issues
+    }
   };
+
+  // Rest of your component code...
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -128,4 +159,4 @@ export default function SignUp() {
       </Container>
     </ThemeProvider>
   );
-}
+    }

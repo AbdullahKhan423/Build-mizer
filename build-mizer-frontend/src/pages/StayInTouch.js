@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 
 function StayInTouch() {
   return (
-    <div><ResponsiveAppBar></ResponsiveAppBar>
+    <div><ResponsiveAppBar></ResponsiveAppBar> 
     <Footer></Footer></div>
   )
 }

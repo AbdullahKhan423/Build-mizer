@@ -6,6 +6,7 @@ import team from '../media/team.jpg';
 import moizImage from '../media/brick.jpg';
 import abdullahImage from '../media/brick.jpg';
 import daniyalImage from '../media/brick.jpg';
+import {Container} from '@mui/material';
 import '../css/styles.css';
 function AboutUs() {
   return (
@@ -67,6 +68,39 @@ function AboutUs() {
           Say goodbye to handwritten rough calculations and embrace the convenience of Build-Mizer.
         </Typography>
       </section>
+
+
+      <Container
+      maxWidth="sm"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh', // Center vertically
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant="h4" component="h1" gutterBottom>
+        About Us
+      </Typography>
+      <Typography variant="body1" paragraph>
+      Zarea employs technology to streamline raw material procurement in the construction industry.
+
+      A one stop procurement solution for businesses and retailers, enabling better prices and
+       transparency, quality assurance, intelligent inventory management, faster delivery and flexible
+        payment options as well as extensive online and offline assistance. For our suppliers, we help
+         them achieve a bigger client base, high order volumes and advance payments.
+      </Typography>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Our Missions
+      </Typography>
+      <Typography variant="body1" paragraph>
+      Zarea’s mission is to make procurement simple and easy.
+      </Typography>
+      </Container>
+
+
 
     <Footer></Footer>
     </div>
