@@ -36,7 +36,7 @@ function AboutUs() {
         </Typography>
         <Grid container justifyContent="center" spacing={3}>
           <Grid item xs={4}>
-            <Avatar alt="Moiz Fayyaz" src={moizImage} sx={{ width: 120, height: 120, margin: '0 auto' }} />
+            <Avatar alt="Moiz fayyaz" src={moizImage} sx={{ width: 120, height: 120, margin: '0 auto' }} />
             <Typography variant="body1" color="textSecondary" align="center" paragraph>
               Moiz Fayyaz
             </Typography>
