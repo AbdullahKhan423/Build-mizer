@@ -5,12 +5,12 @@ import bcrypt from 'bcrypt';
 
 export const Signup = async (req, res, next) => {
     try {
-      const { email, password, username, createdAt } = req.body;
+      const { firstname,lastname,email, password, createdAt } = req.body;
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.json({ message: "User already exists" });
       }
-      const user = await User.create({ email, password, username, createdAt });
+      const user = await User.create({  firstname,lastname,email,password,createdAt });
       const token = createSecretToken(user._id);
       res.cookie("token", token, {
         withCredentials: true,
@@ -48,9 +48,8 @@ export const Signup = async (req, res, next) => {
       }
   
       const token = createSecretToken(user._id);
-  
       res.cookie('token', token, {
-        httpOnly: true, // Set to true for added security
+        httpOnly: false, // Set to true for added security
         sameSite: 'strict', // Adjust to your needs
         // Other cookie options as needed
       });
@@ -67,4 +66,11 @@ export const Signup = async (req, res, next) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+// In your server-side route (authRoute.js)
+
+export const Logout = (req, res) => {
+  // Clear the token on the server
+  res.clearCookie("token");
+  res.status(200).json({ message: "User logged out successfully" });
+};
 

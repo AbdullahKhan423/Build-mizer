@@ -1,17 +1,19 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 //import Link from '@mui/material/Link';
-import {Link} from 'react-router-dom';
+import {  toast } from "react-toastify";
+import {Link,useNavigate} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Logo from '../media/logo.png';
+import axios from "axios";
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -30,14 +32,59 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
+      email: "",
+      password: "",
     });
-  };
+    const { email, password } = inputValue;
+    const handleOnChange = (e) => {
+      const { name, value } = e.target;
+      setInputValue({
+        ...inputValue,
+        [name]: value,
+      });
+    };
+  
+    const handleError = (err) =>
+      toast.error(err, {
+        position: "bottom-left",
+      });
+    const handleSuccess = (msg) =>
+      toast.success(msg, {
+        position: "bottom-left",
+      });
+      
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const { data } = await axios.post(
+          "http://localhost:4000/login",
+          {
+            ...inputValue,
+          },
+          { withCredentials: true }
+        );
+        
+        const { success, message } = data;
+        if (success) {
+          handleSuccess(message);
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        } else {
+          handleError(message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      setInputValue({
+        ...inputValue,
+        email: "",
+        password: "",
+      });
+    };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -63,6 +110,8 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={handleOnChange}
               autoComplete="email"
               autoFocus
             />
@@ -72,8 +121,9 @@ export default function SignIn() {
               fullWidth
               name="password"
               label="Password"
+              value={password}
+              onChange={handleOnChange}
               type="password"
-              id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
@@ -105,5 +155,4 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
-}
+  )};

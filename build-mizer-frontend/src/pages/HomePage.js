@@ -13,19 +13,60 @@ import Footer from '../components/Footer'
 import { Typography, Box, Container } from '@mui/material';
 import cover from '../media/cover.jpg'
 import '../css/styles.css';
-
-
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
 import CarouselComponent from '../components/CarouselComponent';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 
 
 
 function HomePage() {
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies([]);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.token) {
+        navigate("/signin");
+      }
+      
+      const { data } = await axios.post(
+        "http://localhost:4000",
+        {},
+        { withCredentials: true }
+      );
+      const { status, user } = data;
+
+      setUsername(user);
+      return status
+        ? toast(`Hello ${user}`, {
+            position: "top-right",
+          })
+        : (removeCookie("token"), navigate("/signin"));
+    };
+    verifyCookie();
+  }, [cookies, navigate, removeCookie]);
+  const Logout = () => {
+    removeCookie("token");
+    navigate("/signup");
+  };
   return (
     <div>
         <ResponsiveAppBar></ResponsiveAppBar>
         <Cover imageSrc={cover}></Cover>
+       
+        <h4>
+          {" "}
+          Welcome <span>{username}</span>
+        </h4>
+        <button onClick={Logout}>LOGOUT</button>
+     
         <Container maxWidth="x1">
       <Box sx={{ textAlign: 'center', marginTop: '3rem', paddingTop: '1rem' }}>
         <Typography variant="h4" color="black" style={{ textTransform: 'capitalize', animation: 'slideUp 1s forwards' }}>

@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -31,23 +32,25 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
 
     // Extract form data
     const formData = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
       email: data.get('email'),
+      firstname: data.get('firstname'),
+      lastname: data.get('lastname'),
       password: data.get('password'),
     };
 
     try {
       // Make an Axios POST request to your server endpoint for registration
       const response = await axios.post(
-        'http://your-server-url/signup', // Replace with your server URL
-        formData
+        'http://localhost:4000/signup', // Replace with your server URL
+        formData, { withCredentials: true }
       );
 
       // Handle the response from the server here
@@ -57,6 +60,7 @@ export default function SignUp() {
         // Registration was successful
         // You can handle this as needed, such as redirecting to a login page
         console.log('Registration successful:', message);
+        navigate('/');
         // Add your navigation logic here
       } else {
         // Registration failed, handle errors
@@ -92,7 +96,7 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="firstname"
                   required
                   fullWidth
                   id="firstName"
@@ -106,7 +110,7 @@ export default function SignUp() {
                   fullWidth
                   id="lastName"
                   label="Last Name"
-                  name="lastName"
+                  name="lastname"
                   autoComplete="family-name"
                 />
               </Grid>
