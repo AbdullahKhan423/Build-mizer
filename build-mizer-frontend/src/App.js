@@ -22,6 +22,7 @@ function App() {
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
         <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
+       
       </Routes>
     </Router>
   );

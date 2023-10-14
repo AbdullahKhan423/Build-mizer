@@ -1,0 +1,22 @@
+.main-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+}
+
+.card {
+    flex: 1; /* This allows the cards to grow and shrink equally */
+    /* Adjust the maximum width based on your design */
+  }
+  
+  /* Media query for responsiveness */
+  @media (max-width: 768px) {
+    .main-container {
+      flex-direction: column; /* Stack cards vertically on smaller screens */
+    }
+  
+    .card {
+      max-width: 100%; /* Cards take full width on smaller screens */
+    }
+  }

@@ -30,7 +30,7 @@ function HomePage() {
   const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
 
-  useEffect(() => {
+  /*useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
         navigate("/signin");
@@ -55,7 +55,7 @@ function HomePage() {
   const Logout = () => {
     removeCookie("token");
     navigate("/signup");
-  };
+  }; */
   return (
     <div>
         <ResponsiveAppBar></ResponsiveAppBar>
@@ -65,7 +65,7 @@ function HomePage() {
           {" "}
           Welcome <span>{username}</span>
         </h4>
-        <button onClick={Logout}>LOGOUT</button>
+       {/* <button onClick={Logout}>LOGOUT</button> */}
      
         <Container maxWidth="x1">
       <Box sx={{ textAlign: 'center', marginTop: '3rem', paddingTop: '1rem' }}>
