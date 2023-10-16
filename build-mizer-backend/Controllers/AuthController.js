@@ -5,12 +5,20 @@ import bcrypt from 'bcrypt';
 
 export const Signup = async (req, res, next) => {
     try {
+
       const { firstname,lastname,email, password, createdAt } = req.body;
+
+      const { email, password, username, createdAt } = req.body;
+
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.json({ message: "User already exists" });
       }
+
       const user = await User.create({  firstname,lastname,email,password,createdAt });
+
+      const user = await User.create({ email, password, username, createdAt });
+
       const token = createSecretToken(user._id);
       res.cookie("token", token, {
         withCredentials: true,
@@ -73,4 +81,7 @@ export const Logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "User logged out successfully" });
 };
+
+  
+
 
