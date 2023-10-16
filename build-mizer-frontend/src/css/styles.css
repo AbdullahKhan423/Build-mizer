@@ -41,8 +41,10 @@
     opacity: 1;
     transform: translateX(0);
   }
+
 }
 
 .centered-container {
   text-align: center;
+
 }

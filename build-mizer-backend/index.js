@@ -21,9 +21,14 @@ mongoose.connect(process.env.YOUR_MONGODB_URI, { useNewUrlParser: true, useUnifi
 
 // Define your routes here
 
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Servers is running on port ${PORT}`);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+
 });
 
 app.use(
@@ -38,4 +43,9 @@ app.use(cookieParser());
 
 app.use(express.json());
 
+
 app.use("/", authRoute);
+
+
+app.use("/", authRoute);
+
