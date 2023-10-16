@@ -9,6 +9,8 @@ import Products from './pages/Products';
 import SignUp from './pages/SignUp';
 import StayInTouch from './pages/StayInTouch';
 import Dashboard from './pages/Dashboard';
+import Api from './pages/api';
+
 function App() {
   return (
     <Router>
@@ -22,7 +24,8 @@ function App() {
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
         <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
-       
+       <Route path='api' element={<Api></Api>}/>
+      
       </Routes>
     </Router>
   );
