@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: [true, "Your password is required"],
     },
+    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }],
     createdAt: {
       type: Date,
       default: new Date(),

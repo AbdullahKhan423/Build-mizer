@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoute from './Routes/AuthRoute.js';
+import projectRoute from './Routes/ProjectRoute.js';
 const app = express();
 dotenv.config();
 // Middleware
@@ -40,3 +41,4 @@ app.use(express.json());
 
 app.use("/", authRoute);
 
+app.use("/projects", projectRoute);

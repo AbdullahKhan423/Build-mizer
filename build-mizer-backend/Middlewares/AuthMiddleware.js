@@ -20,7 +20,7 @@ export const userVerification = async (req, res) => {
         const user = await User.findById(decodedToken.id);
 
         if (user) {
-          return res.json({ status: true, user: user.lastname });
+          console.log("succesful");
         } else {
           return res.json({ status: false });
         }
@@ -28,6 +28,6 @@ export const userVerification = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: false, message: 'Internal server error' });
+    return res.status(500).json({ status: false, message: 'Internal server error' });
   }
 };
