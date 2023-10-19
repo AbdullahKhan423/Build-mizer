@@ -9,8 +9,10 @@ import Products from './pages/Products';
 import SignUp from './pages/SignUp';
 import StayInTouch from './pages/StayInTouch';
 import Dashboard from './pages/Dashboard';
-import Api from './pages/api';
-
+import Cement from './pages/Cement';
+import Steel from './pages/Steel';
+import Crush from './pages/Crush';
+import Sand from './pages/Sand';
 function App() {
   return (
     <Router>
@@ -24,8 +26,10 @@ function App() {
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
         <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
-       <Route path='api' element={<Api></Api>}/>
-      
+       <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
+        <Route path='cement-price-in-pakistan' element={<Cement></Cement>}/>
+        <Route path='crush-price-in-pakistan' element={<Crush></Crush>}/>
+        <Route path='sand-price-in-pakistan' element={<Sand></Sand>}/>
       </Routes>
     </Router>
   );
