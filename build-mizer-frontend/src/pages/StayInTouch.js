@@ -8,9 +8,8 @@ import lahore from "../media/lahore.jpeg"
 
 function StayInTouch() {
   return (
-
-    <div><ResponsiveAppBar></ResponsiveAppBar> 
-    <Footer></Footer></div>
+<>
+ 
 
     
     <div>
@@ -119,7 +118,7 @@ function StayInTouch() {
 
     <Footer></Footer>
     </div>
-
+    </>
   )
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import SignIn from './pages/SignIn';
 import AboutUs from './pages/AboutUs'
 import HomePage from './pages/HomePage';
+import AreaUnit from './pages/AreaUnitConverter';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ConstructionCostCalculator from './pages/ConstructionCostCalculator';
 import DailyPricing from './pages/DailyPricing';
@@ -22,6 +23,7 @@ function App() {
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
         <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
+        <Route path='AreaUnit' element={<AreaUnit></AreaUnit>}/>
       </Routes>
     </Router>
   );

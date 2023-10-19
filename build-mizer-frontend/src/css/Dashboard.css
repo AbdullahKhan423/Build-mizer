@@ -1,0 +1,29 @@
+/* Dashboard.css (or your preferred CSS file) */
+.dashboard-container {
+    
+    width: 100%;
+    height:10%; /* 100% of viewport height */
+    border: 2px solid red;
+  }
+  .content-container{
+    display: flex;
+    height: 90%;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    width: 80%;
+   /* 70% width for the right section */
+    border:2px solid blue;
+  }
+  
+  .panel-content{
+    display: flex;
+    width: 20%;
+    border: 2px solid green;
+    
+  }
+ 
+.tab{
+    width: 30%;
+}
