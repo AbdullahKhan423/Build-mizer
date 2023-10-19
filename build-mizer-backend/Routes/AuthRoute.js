@@ -11,7 +11,7 @@ router.post('/',userVerification);
 router.get('/logout', Logout);
 
 
-const router = Router();
+
 router.post("/signup", Signup);
 
 

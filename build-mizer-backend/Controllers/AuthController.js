@@ -8,7 +8,7 @@ export const Signup = async (req, res, next) => {
 
       const { firstname,lastname,email, password, createdAt } = req.body;
 
-      const { email, password, username, createdAt } = req.body;
+      
 
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -17,7 +17,7 @@ export const Signup = async (req, res, next) => {
 
       const user = await User.create({  firstname,lastname,email,password,createdAt });
 
-      const user = await User.create({ email, password, username, createdAt });
+      
 
       const token = createSecretToken(user._id);
       res.cookie("token", token, {
