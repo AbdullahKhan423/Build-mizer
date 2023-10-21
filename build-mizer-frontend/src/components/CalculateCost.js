@@ -104,6 +104,7 @@ function ConstructionCostEstimator() {
           variant="contained"
           color="primary"
           onClick={handleCalculate}
+          style={{ margin: '20px' }}
         >
           Calculate
         </Button>
