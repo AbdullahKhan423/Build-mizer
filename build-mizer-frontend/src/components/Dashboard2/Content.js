@@ -10,7 +10,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 const modalStyle = {
   position: 'absolute',
   width: 550,
@@ -26,12 +29,54 @@ const modalStyle = {
 
 function ProjectManager() {
   const [showInputForm, setShowInputForm] = useState(false);
-  const [projects, setProjects] = useState([]);
+  
   const [projectData, setProjectData] = useState({
-    
+    name: '',
+    description: '',
+    location: '',
+    type: '',
+    size: '',
+    phase: '',
   });
   const [isNavigating, setIsNavigating] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies([]);
+  const [projects, setProjects] = useState([]);
+  
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.token) {
+        navigate("/signin");
+        return; // Return to exit the function if the token is missing.
+      }
+  
+      try {
+        const response = await axios.get("http://localhost:4000/projects", {
+          withCredentials: true,
+        });
+  
+        const { status, data } = response;
+        
+        if (status) {
+          setProjects(data); // Set the project data in the state.
+          toast("Projects fetched successfully", {
+            position: "top-right",
+          });
+        } else {
+          removeCookie("token");
+          navigate("/signin");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        removeCookie("token");
+        navigate("/signin");
+      }
+    };
+    verifyCookie();
+  }, [cookies, navigate, removeCookie]);
+  
+
 
   const handleAddProjectClick = () => {
     setShowInputForm(true);
@@ -43,9 +88,7 @@ function ProjectManager() {
       return;
     }
 
-    // Send a POST request to the backend to save projectData
-    // After a successful response, update the projects state with the new project
-    // Simulating the request here for demonstration
+    
 
     // Clear the form and update projects
     setProjects([...projects, projectData]);
@@ -60,18 +103,7 @@ function ProjectManager() {
     }, 3000);
   };
 
-  {/*}useEffect(() => {
-    // Simulate fetching projects from the server on component mount
-    // Replace this with an actual API request to retrieve existing projects
-    const fetchData = async () => {
-      // Simulated data
-      const response = await fetch('api/projects');
-      const data = await response.json();
-      setProjects(data);
-    };
 
-    fetchData();
-  }, []);{*/}
 
   return (
     <Paper sx={{ marginTop: '2%' }}>
