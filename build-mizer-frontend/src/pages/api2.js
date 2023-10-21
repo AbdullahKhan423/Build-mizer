@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Container,
   Typography,
+  Paper,
   Tabs,
   Tab,
-  Box,
-  Paper,
   TableContainer,
   Table,
   TableHead,
@@ -15,128 +13,89 @@ import {
   TableBody,
   TablePagination,
 } from '@mui/material';
+import axios from 'axios';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import Footer from '../components/Footer';
-import cheerio from 'cheerio';
+
 function Api2() {
-  const [selectedCategory, setSelectedCategory] = useState('Cement');
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'https://zarea.pk/wp-json/wp/v2/pages/6352'
-          
-        );
-        console.log(response.data.content.rendered);
-        const $ = cheerio.load(response.data.content.rendered);
-        const tableRows = $('table#tablepress-1 tbody tr');
-
-        const newData = tableRows.map((index, row) => {
-          const columns = $(row).find('td');
-          return {
-            id: $(columns[0]).text(),
-            name: $(columns[1]).text(),
-            brand: $(columns[2]).text(),
-            date: $(columns[3]).text(),
-            unit: $(columns[4]).text(),
-            price: $(columns[5]).text(),
-          };
-        }).get();
-
-        setData(newData);
+        const response = await axios.get('https://zarea.pk/wp-json/wp/v2/pages/6356');
+        setData(response.data);
       } catch (error) {
         setError(error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, []); // Empty dependency array ensures that this effect runs once when the component mounts
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleTabChange = (event, newValue) => {
-    setSelectedCategory(newValue);
-  };
-
-  const getTitle = () => {
-    return `${selectedCategory} Price in Pakistan`;
-  };
-
-  if (loading) {
-    return <p>Loading...</p>;
+  function modifyContent(content) {
+    // Manipulate the content as needed
+    return content.replace(/oldWord/g, 'newWord');
   }
+  const containerStyle = {
+    fontFamily: 'Arial, sans-serif',
+    padding: '20px',
+  };
 
-  if (error) {
-    return <p>Error: {error.message}</p>;
+  const errorStyle = {
+    color: 'red',
+  };
+
+  const headingStyle = {
+    fontSize: '24px',
+    marginBottom: '20px',
+    color: 'blue',
+  };
+
+  const contentStyle = {
+    marginBottom: '15px',
+  };
+  function extractTableContent(content) {
+    // Use a regular expression to match the table content
+    const tableRegex = /<table[^>]*>[\s\S]*?<\/table>/;
+    const tableHTML = content.match(tableRegex);
+    console.log("hello");
+    // If a table was found, return it; otherwise, return an empty string
+    return tableHTML ? tableHTML[0] : '';
   }
-
-  // Assuming data is the entire response object from your API
-const items = data.content; // Adjust this based on your data structure
-
-let categoryData = null;
-
-// Check if items is an array before using map
-
-  
-
 
   return (
     <div>
       <ResponsiveAppBar />
+
       <Container maxWidth="lg">
         <Typography variant="h3" align="center" style={{ marginTop: '20px', marginBottom: '10px' }}>
-          {getTitle()}
+          {data && data.title.rendered}
         </Typography>
-        <Box borderBottom={1} mb={2} pb={2} borderColor="text.primary">
-        <Tabs
-  value={selectedCategory}
-  onChange={handleTabChange}
-  indicatorColor="primary"
-  textColor="primary"
-  centered
->
 
-</Tabs>
-        </Box>
-        <Paper>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Price</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50]}
-            component="div"
-            count={categoryData ? categoryData.data.length : 0}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+        <Paper style={{ padding: '20px', marginBottom: '20px' }}>
+          {error && (
+            <Typography variant="body1" style={{ color: 'red' }}>
+              Error: {error.message}
+            </Typography>
+          )}
+
+          {data && (
+            <div>
+              <Typography variant="h4" style={{ fontSize: '24px', marginBottom: '20px', color: 'blue' }}>
+                {data.title.rendered}
+              </Typography>
+
+              {/* Extract and display the table content */}
+              <div
+                dangerouslySetInnerHTML={{ __html: extractTableContent(data.content.rendered) }}
+                style={{ marginBottom: '15px' }}
+              />
+            </div>
+          )}
         </Paper>
       </Container>
       <Footer />

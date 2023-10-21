@@ -20,7 +20,7 @@ export const userVerification = async (req, res) => {
         const user = await User.findById(decodedToken.id);
 
         if (user) {
-          console.log("succesful");
+          return res.json({ status: true, user: user.firstname });
         } else {
           return res.json({ status: false });
         }
