@@ -60,7 +60,7 @@ function ProjectManager() {
     }, 3000);
   };
 
-  useEffect(() => {
+  {/*}useEffect(() => {
     // Simulate fetching projects from the server on component mount
     // Replace this with an actual API request to retrieve existing projects
     const fetchData = async () => {
@@ -71,7 +71,7 @@ function ProjectManager() {
     };
 
     fetchData();
-  }, []);
+  }, []);{*/}
 
   return (
     <Paper sx={{ marginTop: '2%' }}>

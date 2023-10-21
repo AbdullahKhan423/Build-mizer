@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -17,15 +18,22 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from 'axios';
+
+
 
 const categories = [
   {
     id: 'Build',
     children: [
       {
-        id: 'Authentication',
+        id: 'Projects',
         icon: <PeopleIcon />,
         active: true,
+        
       },
       { id: 'Database', icon: <DnsRoundedIcon /> },
       { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
@@ -63,10 +71,57 @@ const itemCategory = {
 };
 
 export default function Navigator(props) {
+  
   const { ...other } = props;
+  const navigate = useNavigate();
+const [cookies, removeCookie] = useCookies([]);
+const [projects, setProjects] = useState([]);
 
+useEffect(() => {
+  const verifyCookie = async () => {
+    if (!cookies.token) {
+      navigate("/signin");
+      return; // Return to exit the function if the token is missing.
+    }
+
+    try {
+      const response = await axios.get("http://localhost:4000/projects", {
+        withCredentials: true,
+      });
+
+      const { status, data } = response;
+      
+      if (status) {
+        setProjects(data); // Set the project data in the state.
+        toast("Projects fetched successfully", {
+          position: "top-right",
+        });
+      } else {
+        removeCookie("token");
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      removeCookie("token");
+      navigate("/signin");
+    }
+  };
+  verifyCookie();
+}, [cookies, navigate, removeCookie]);
+
+  
   return (
+    
     <Drawer variant="permanent" {...other}>
+      <div>
+      <h1>Projects</h1>
+      <ul>
+        {projects.map((project) => (
+          <li key={project._id}>{project.name}</li>
+        ))}
+      </ul>
+      {/* Render the content for the selected page here */}
+    </div>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Paperbase

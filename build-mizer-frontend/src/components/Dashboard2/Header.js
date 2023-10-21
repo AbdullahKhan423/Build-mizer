@@ -21,15 +21,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-
-
-
 function Header(props) {
     const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies([]);
     const [username, setUsername] = useState("");
   
-    useEffect(() => {
+   useEffect(() => {
       const verifyCookie = async () => {
         if (!cookies.token) {
           navigate("/signin");
@@ -43,6 +40,7 @@ function Header(props) {
         const { status, user } = data;
   
         setUsername(user);
+        console.log(setUsername);
         return status
           ? toast(`Hello ${user}`, {
               position: "top-right",
@@ -61,7 +59,9 @@ function Header(props) {
 
   return (
     <React.Fragment>
+      
       <AppBar color="primary" position="sticky" elevation={0}>
+        
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
@@ -121,7 +121,7 @@ function Header(props) {
                 Authentication
                 
               </Typography>
-              <h4>
+          <h4>
           {" "}
           Welcome <span>{username}</span>
         </h4>

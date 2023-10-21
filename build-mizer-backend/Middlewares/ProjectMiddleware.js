@@ -13,6 +13,7 @@ export const authenticateUserForProjects = async (req, res, next) => {
 
     // If user verification is successful, proceed to the project-related action
     next();
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ status: false, message: 'Internal server error' });

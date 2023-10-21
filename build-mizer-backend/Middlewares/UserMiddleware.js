@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import User from '../Models/UserModel.js'; // Adjust the import path as needed
 
 dotenv.config();
-export const userVerification = async (req, res) => {
+export const userResponse = async (req, res) => {
   try {
     const token = req.cookies.token;
 
@@ -18,8 +18,8 @@ export const userVerification = async (req, res) => {
         const user = await User.findById(decodedToken.id);
 
         if (user) {
-         
-          return res.status(200);
+          
+          return res.status(200).json({ status: true,user:user.firstname });
         } else {
           return res.status(401).json({ status: false, message: 'User not found' });
         }

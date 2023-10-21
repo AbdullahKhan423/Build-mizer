@@ -5,11 +5,11 @@ import Project from '../Models/ProjectModel.js'; // Adjust the path as per your 
 // Get a list of all projects
 export const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate('projectManager'); // Populate the projectManager field with user data
-    return res.status(200).json(projects);
-    
+    const projects = await Project.find().populate('projectManager'); 
+    // Populate the projectManager field with user data
+    return res.status(200).json(projects); 
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500);
   }
 };
 // Create a new project
@@ -17,7 +17,7 @@ export const createProject = async (req, res) => {
     try {
       const newProject = new Project(req.body); // Assuming the request body contains project data
       const savedProject = await newProject.save();
-      return res.status(201).json(savedProject);
+      return res.status(200).json(savedProject);
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
