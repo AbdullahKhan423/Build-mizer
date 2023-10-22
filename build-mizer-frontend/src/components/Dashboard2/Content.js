@@ -30,7 +30,6 @@ const modalStyle = {
 
 function ProjectManager() {
   const [showInputForm, setShowInputForm] = useState(false);
-  
   const [projectData, setProjectData] = useState({
     name: '',
     description: '',
@@ -122,6 +121,24 @@ function ProjectManager() {
       });
   };
 
+  const handleDelete = (projectId) => {
+
+    fetch(`http://localhost:4000/projects/${projectId}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          window.location.reload();
+          // Update your state or perform any necessary actions
+        } else {
+          // Handle errors, e.g., project not found or server error
+        }
+      })
+      .catch((error) => {
+        // Handle network or request error
+      });
+  };
+  
 
 
   return (
@@ -149,6 +166,9 @@ function ProjectManager() {
                 <TableCell sx={{ textAlign: 'center' }}>{project.location}</TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>{project.type}</TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>{project.size}</TableCell>
+                <TableCell>
+                <button onClick={() => handleDelete(project._id)}>Delete</button>
+              </TableCell>
                 {/* Display other project details in table cells */}
               </TableRow>
             ))}
