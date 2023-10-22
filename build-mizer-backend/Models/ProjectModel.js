@@ -19,7 +19,12 @@ const projectSchema = new mongoose.Schema({
   },
   materialSelection: {
     type: String, // Details about materials
-  },
+  },materials: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Material',
+    },
+  ],
   constructionPhases: [
     {
       name: String,

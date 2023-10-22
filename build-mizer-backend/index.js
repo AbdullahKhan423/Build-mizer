@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 import authRoute from './Routes/AuthRoute.js';
 import projectRoute from './Routes/ProjectRoute.js';
 import userRoute from './Routes/UserRoute.js';
+import materialRoute from './Routes/MaterialRoute.js';
+import custommaterialRoute from './Routes/CustomMaterialRoute.js';
 const app = express();
 dotenv.config();
 // Middleware
@@ -33,6 +35,8 @@ mongoose.connect(process.env.YOUR_MONGODB_URI, { useNewUrlParser: true, useUnifi
 // Define your routes here
 app.use("/", authRoute);
 app.use("/projects", projectRoute);
+app.use('/materials',materialRoute);
+app.use('/custom',custommaterialRoute);
 app.use('/',userRoute);
 
 const PORT = process.env.PORT || 4000;

@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 
 
 const categories = [
@@ -30,12 +30,12 @@ const categories = [
     id: 'Build',
     children: [
       {
-        id: 'Projects',
+        id: 'Dashboard',
         icon: <PeopleIcon />,
         active: true,
         
       },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
+      { id: 'Report', icon: <DnsRoundedIcon /> },
       { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
       { id: 'Hosting', icon: <PublicIcon /> },
       { id: 'Functions', icon: <SettingsEthernetIcon /> },
@@ -114,14 +114,8 @@ useEffect(() => {
     
     <Drawer variant="permanent" {...other}>
       <div>
-      <h1>Projects</h1>
-      <ul>
-        {projects.map((project) => (
-          <li key={project._id}>{project.name}</li>
-        ))}
-      </ul>
-      {/* Render the content for the selected page here */}
-    </div>
+        {/* Render the content for the selected page here */}
+      </div>
       <List disablePadding>
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Paperbase
@@ -130,7 +124,9 @@ useEffect(() => {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText>Project Overview</ListItemText>
+          <Link to="/project-overview"> {/* Add a Link to the Project Overview page */}
+            <ListItemText>Project Overview</ListItemText>
+          </Link>
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
@@ -141,7 +137,9 @@ useEffect(() => {
               <ListItem disablePadding key={childId}>
                 <ListItemButton selected={active} sx={item}>
                   <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
+                  <Link to={`/${childId.toLowerCase()}`}> {/* Add a Link to the corresponding page */}
+                    <ListItemText>{childId}</ListItemText>
+                  </Link>
                 </ListItemButton>
               </ListItem>
             ))}

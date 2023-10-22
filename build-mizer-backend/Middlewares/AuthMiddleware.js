@@ -8,7 +8,7 @@ export const userVerification = async (req, res) => {
     const token = req.cookies.token;
 
     if (!token) {
-      return res.status(401).json({ status: false, message: 'Token not found' });
+      return res.status(401);
     }
 
     jwt.verify(token, process.env.TOKEN_KEY, async (err, decodedToken) => {

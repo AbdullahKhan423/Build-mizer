@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
@@ -83,17 +84,11 @@ function ProjectManager() {
   };
 
   const handleSubmitProject = () => {
-    if (!cookies.token) {
-      navigate("/signin");
-      return;
-    }
+   console.log(cookies.token);
     if (!projectData.name) {
       setNameError(true);
       return;
     }
-
-    
-
     // Clear the form and update projects
     fetch('http://localhost:4000/projects/create', {
       method: 'POST',
@@ -148,12 +143,12 @@ function ProjectManager() {
           </TableHead>
           <TableBody>
             {projects.map((project, index) => (
-              <TableRow key={index}>
-                <TableCell>{project.name}</TableCell>
-                <TableCell>{project.description}</TableCell>
-                <TableCell>{project.location}</TableCell>
-                <TableCell>{project.type}</TableCell>
-                <TableCell>{project.size}</TableCell>
+              <TableRow  key={index}>
+                 <Link to={`/projects/${project._id}`}>{project.name}</Link>
+                <TableCell sx={{ textAlign: 'center' }}>{project.description}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{project.location}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{project.type}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{project.size}</TableCell>
                 {/* Display other project details in table cells */}
               </TableRow>
             ))}
