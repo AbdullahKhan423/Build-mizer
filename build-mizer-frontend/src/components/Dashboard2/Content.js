@@ -83,6 +83,10 @@ function ProjectManager() {
   };
 
   const handleSubmitProject = () => {
+    if (!cookies.token) {
+      navigate("/signin");
+      return;
+    }
     if (!projectData.name) {
       setNameError(true);
       return;
@@ -91,16 +95,36 @@ function ProjectManager() {
     
 
     // Clear the form and update projects
-    setProjects([...projects, projectData]);
-    
-    setShowInputForm(false);
-    setIsNavigating(true);
-
-    // Navigate to a different tab or route after a delay
-    setTimeout(() => {
-      setIsNavigating(false);
-      // Use routing to navigate to a different tab
-    }, 3000);
+    fetch('http://localhost:4000/projects/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(projectData),
+    })
+      .then(response => {
+        if (response.ok) {
+          // Handle a successful response (status code 200) from the server
+          console.log('Project submitted successfully!');
+          // Clear the form and update local state
+          setProjects([...projects, projectData]);
+          setShowInputForm(false);
+          setIsNavigating(true);
+  
+          // Simulate navigation to a different tab or route after a delay
+          setTimeout(() => {
+            setIsNavigating(false);
+            // Use routing to navigate to a different tab
+          }, 3000);
+        } else {
+          // Handle errors or other responses from the server
+          console.error('Error submitting project');
+        }
+      })
+      .catch(error => {
+        // Handle network errors
+        console.error('Network error:', error);
+      });
   };
 
 

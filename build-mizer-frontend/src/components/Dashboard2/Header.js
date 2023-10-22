@@ -40,7 +40,7 @@ function Header(props) {
         const { status, user } = data;
   
         setUsername(user);
-        console.log(setUsername);
+       
         return status
           ? toast(`Hello ${user}`, {
               position: "top-right",
