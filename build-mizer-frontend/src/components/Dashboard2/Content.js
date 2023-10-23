@@ -34,9 +34,7 @@ function ProjectManager() {
     name: '',
     description: '',
     location: '',
-    type: '',
-    size: '',
-    phase: '',
+   
   });
   const [isNavigating, setIsNavigating] = useState(false);
   const [nameError, setNameError] = useState(false);
@@ -139,41 +137,55 @@ function ProjectManager() {
       });
   };
   
+  const linkStyles = {
+    textDecoration: 'none', // Remove underline
+   // Smooth color transition on hover
 
+    
+  };
+  
 
   return (
-    <Paper sx={{ marginTop: '2%' }}>
-      <Button onClick={handleAddProjectClick} variant="contained" sx={{ mx: 2, mt: 2 }}>
-        Add Project
+    <>
+
+    <div style={{ display: 'flex' ,justifyContent: 'center', marginBottom: '10px' }}>
+      <Button onClick={handleAddProjectClick} variant="contained" sx={{ ml: 'auto', m: 2 }}>
+      Add Project
       </Button>
+      </div>
+
+
+
+  <Paper sx={{ marginTop: '2%' }}>
+
       <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Project Name</TableCell>
-              <TableCell>Project Description</TableCell>
-              <TableCell>Project Location</TableCell>
-              <TableCell>Project Type</TableCell>
-              <TableCell>Project Size</TableCell>
-              {/* Add table headers for other project details */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {projects.map((project, index) => (
-              <TableRow  key={index}>
-                 <Link to={`/projects/${project._id}`}>{project.name}</Link>
-                <TableCell sx={{ textAlign: 'center' }}>{project.description}</TableCell>
-                <TableCell sx={{ textAlign: 'center' }}>{project.location}</TableCell>
-                <TableCell sx={{ textAlign: 'center' }}>{project.type}</TableCell>
-                <TableCell sx={{ textAlign: 'center' }}>{project.size}</TableCell>
-                <TableCell>
-                <button onClick={() => handleDelete(project._id)}>Delete</button>
-              </TableCell>
-                {/* Display other project details in table cells */}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <Table>
+      <TableHead>
+  <TableRow>
+    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Name</TableCell>
+    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Description</TableCell>
+    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Location</TableCell>
+    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}></TableCell>
+    {/* Add table headers for other project details */}
+  </TableRow>
+</TableHead>
+  <TableBody>
+    {projects.map((project, index) => (
+      <TableRow key={index}>
+        <TableCell>
+        <Link to={`/projects/${project._id}`} style={linkStyles} className="project-link">
+        {project.name}
+      </Link>        </TableCell>
+        <TableCell>{project.description}</TableCell>
+        <TableCell>{project.location}</TableCell>
+        <TableCell>
+        <Button variant="contained" color="error" onClick={() => handleDelete(project._id)}> Delete</Button>       
+         </TableCell>
+        {/* Display other project details in table cells */}
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
       </TableContainer>
       <Modal open={showInputForm} onClose={() => setShowInputForm(false)}>
         <Box sx={modalStyle}>
@@ -201,30 +213,14 @@ function ProjectManager() {
             onChange={(e) => setProjectData({ ...projectData, location: e.target.value })}
             sx={{  mx:1,my:1 }}
           />
-          <TextField
-            label="Project Type"
-            value={projectData.type}
-            onChange={(e) => setProjectData({ ...projectData, type: e.target.value })}
-            sx={{  mx:1,my:1 }}
-          />
-          <TextField
-            label="Project Size"
-            value={projectData.size}
-            onChange={(e) => setProjectData({ ...projectData, size: e.target.value })}
-            sx={{  mx:1,my:1 }}
-          />
-          <TextField
-            label="Project Phase"
-            value={projectData.phase}
-            onChange={(e) => setProjectData({ ...projectData, phase: e.target.value })}
-            sx={{  mx:1,my:1 }}
-          />
+         
           {/* Add more input fields for other project details */}
           <Button sx={{mx:20}} variant ="contained" onClick={handleSubmitProject}>Submit Project</Button>
         </Box>
       </Modal>
       {isNavigating && <div>Navigating to a different tab...</div>}
     </Paper>
+    </>
   );
 }
 

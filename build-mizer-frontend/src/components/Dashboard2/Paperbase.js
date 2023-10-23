@@ -199,11 +199,16 @@ export default function Paperbase() {
             sx={{ display: { sm: 'block', xs: 'none' } }}
           />
         </Box>
+
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+        <Header onDrawerToggle={handleDrawerToggle} />
+
+
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
             <Content />
           </Box>
+
+
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />
           </Box>

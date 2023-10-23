@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css'; // Import carousel styles
-import paint from '../media/paint.jpg';
 import brick from '../media/brick.jpg';
 import cement from '../media/cement.jpeg';
-import concrete from '../media/concrete.jpg';
 import crush from '../media/crush.jpg';
+import steel from '../media/steel.jpg';
+import sand from '../media/sand.jpeg';
 const ItemCard = ({ image, itemName, onClick }) => {
   const cardStyle = {
     display: 'flex',
@@ -22,10 +22,11 @@ const ItemCard = ({ image, itemName, onClick }) => {
 
   const imageStyle = {
     width: '100%', // Make sure the image takes up the full width of the container
-    height: 'auto', // Allow the image to scale proportionally
+    height: '200px', // Allow the image to scale proportionally
     objectFit: 'cover',
     marginBottom: '10px',
   };
+
 
   const buttonStyle = {
     backgroundColor: '#007bff', // Change button color
@@ -75,24 +76,21 @@ const CarouselComponent = () => {
     <div>
       <h2 style={{ fontSize: '1.5rem', textAlign: 'center', marginBottom: '20px' }}>Browse Through Items</h2>
       <Carousel
-        autoPlay
-        interval={5000}
-        infiniteLoop
+        autoPlay={1000}
+        infinite
         showArrows={false}
         showStatus={false}
         showIndicators={false}
         responsive={responsive}
       >
-        <ItemCard
-          image={paint}
-          itemName="Paint"
-          onClick={() => 
-            <Link to='Daily Pricing'></Link>
-            }
+         <ItemCard
+          image={brick}
+          itemName="Brick"
+          onClick={() => console.log('View updated price 2')}
         />
         <ItemCard
-          image={brick}
-          itemName="Bricks"
+          image={sand}
+          itemName="Sand"
           onClick={() => console.log('View updated price 2')}
         />
         <ItemCard
@@ -106,8 +104,8 @@ const CarouselComponent = () => {
           onClick={() => console.log('View updated price 2')}
         />
         <ItemCard
-          image={concrete}
-          itemName="Concrete"
+          image={steel}
+          itemName="steel"
           onClick={() => console.log('View updated price 2')}
         />
         {/* Add more items */}
