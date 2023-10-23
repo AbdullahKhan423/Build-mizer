@@ -1,0 +1,26 @@
+.header-container{
+    display: flex;
+    flex-direction: row;
+    
+}
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+    gap: 1%;
+   
+    width: 50%;
+    
+}
+.icon{
+    margin-top: 5px;
+}
+
+.flex-row{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 1%;
+
+    width: 50%;
+    margin-top: 8px;
+}

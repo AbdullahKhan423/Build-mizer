@@ -61,7 +61,7 @@ export const Signup = async (req, res, next) => {
         sameSite: 'strict', // Adjust to your needs
         // Other cookie options as needed
       });
-  
+      
       res.status(200).json({
         message: 'User logged in successfully',
         success: true,

@@ -9,7 +9,13 @@ import DailyPricing from './pages/DailyPricing';
 import Products from './pages/Products';
 import SignUp from './pages/SignUp';
 import StayInTouch from './pages/StayInTouch';
-import Dashboard from './pages/Dashboard';
+import Cement from './pages/Cement';
+import Steel from './pages/Steel';
+import Crush from './pages/Crush';
+import Sand from './pages/Sand';
+import Api2 from './pages/Api2';
+import Paper from './components/Dashboard2/Paperbase';
+import DashboardRoutes from './components/Dashboard2/Routes/Dashboardroute';
 function App() {
   return (
     <Router>
@@ -22,10 +28,18 @@ function App() {
         <Route path="products" element={<Products></Products>} />
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
-        <Route path='Dashboard' element={<Dashboard></Dashboard>}/>
+        
         <Route path='AreaUnit' element={<AreaUnit></AreaUnit>}/>
+       <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
+        <Route path='cement-price-in-pakistan' element={<Cement></Cement>}/>
+        <Route path='crush-price-in-pakistan' element={<Crush></Crush>}/>
+        <Route path='sand-price-in-pakistan' element={<Sand></Sand>}/>
+        <Route path='Api2' element={<Api2></Api2>}/>
+        <Route path='Dashboard' element={<Paper></Paper>}/>
       </Routes>
+      <DashboardRoutes></DashboardRoutes>
     </Router>
+    
   );
 }
 

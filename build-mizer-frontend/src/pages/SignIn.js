@@ -70,7 +70,7 @@ export default function SignIn() {
         if (success) {
           handleSuccess(message);
           setTimeout(() => {
-            navigate("/");
+            navigate("/dashboard");
           }, 1000);
         } else {
           handleError(message);

@@ -1,0 +1,32 @@
+
+.panel-flex{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    
+   /* Make the panel full-width */
+   
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    height: 129vh;
+    padding: 0;
+    
+}
+.panel-profile{
+ 
+    margin-bottom: 20%;
+    
+}
+.tabs{
+    margin-bottom: 30%;
+   
+}
+
+.lower-panel{
+    
+
+    display: flex;
+    flex-direction: column-reverse;
+}

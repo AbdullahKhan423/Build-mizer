@@ -1,0 +1,27 @@
+.top-container{
+    display: flex;
+    flex-direction: row;
+    padding: 1%
+
+}
+.heading{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    
+}
+.heading-right{
+    width: 50%;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 2%;
+}
+
+.my-5{
+    
+    display: flex;
+    flex-direction:column;
+    width: 20%;
+    
+}
