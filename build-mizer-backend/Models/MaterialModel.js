@@ -17,6 +17,7 @@ const materialSchema = new mongoose.Schema({
     totalCost:{
         type:Number,
     },
+    createdAt: { type: Date, default: Date.now },
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project', // Reference to the Project model

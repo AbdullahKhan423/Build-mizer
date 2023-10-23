@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Navigator from './Navigator';
-import Content from './Content';
+import Content from '../Dashboard2/MaterialContent';
 import Header from './Header';
 
 
