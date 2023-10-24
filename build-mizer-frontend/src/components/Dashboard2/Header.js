@@ -18,13 +18,36 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+
+
+
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 function Header(props) {
     const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies([]);
     const [username, setUsername] = useState("");
+
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+ 
+
+
+
+  
   
    useEffect(() => {
       const verifyCookie = async () => {
@@ -59,9 +82,9 @@ function Header(props) {
 
   return (
     <React.Fragment>
-      
-      <AppBar color="primary" position="sticky" elevation={0}>
-        
+                  <AppBar color="primary" position="sticky" elevation={0} sx={{ backgroundColor: '#103556' }}>
+
+          
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
@@ -89,7 +112,7 @@ function Header(props) {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Go to docs
+                Go To HomePage
               </Link>
             </Grid>
             <Grid item>
@@ -99,33 +122,54 @@ function Header(props) {
                 </IconButton>
               </Tooltip>
             </Grid>
+
+
+
+
+
+
             <Grid item>
-              <IconButton color="inherit" sx={{ p: 0.5 }}>
-                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
-              </IconButton>
-            </Grid>
+        <IconButton
+          color="inherit"
+          sx={{ p: 0.5 }}
+          onClick={handleAvatarClick} // Open the menu on Avatar click
+        >
+          <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={Logout}>Logout</MenuItem>
+         </Menu>
+      </Grid> 
+
+
+            
           </Grid>
         </Toolbar>
       </AppBar>
       <AppBar
-        component="div"
-        color="primary"
-        position="static"
-        elevation={0}
-        sx={{ zIndex: 0 }}
-      >
+                component="div"
+                color="primary"
+                position="static"
+                elevation={0}
+                sx={{ zIndex: 0, backgroundColor: '#103556' }}
+            >    
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
-              <Typography color="inherit" variant="h5" component="h1">
-                Authentication
-                
-              </Typography>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+  <Typography color="inherit" variant="h5" component="h1">
+    Project Details
+  </Typography>
+</div>
+
           <h4>
           {" "}
           Welcome <span>{username}</span>
         </h4>
-        <button onClick={Logout}>LOGOUT</button> 
             </Grid>
             <Grid item>
               <Button
@@ -147,14 +191,11 @@ function Header(props) {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0 }}>
-        <Tabs value={0} textColor="inherit">
-          <Tab label="Users" />
-          <Tab label="Sign-in method" />
-          <Tab label="Templates" />
-          <Tab label="Usage" />
-        </Tabs>
-      </AppBar>
+      <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0, backgroundColor: '#103556' }}>
+                <Tabs value={0} textColor="inherit">
+                    <Tab label="User" />
+                </Tabs>
+            </AppBar>
     </React.Fragment>
   );
 }

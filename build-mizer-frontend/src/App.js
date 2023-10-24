@@ -28,7 +28,6 @@ function App() {
         <Route path="products" element={<Products></Products>} />
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
-        
         <Route path='AreaUnit' element={<AreaUnit></AreaUnit>}/>
        <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
         <Route path='cement-price-in-pakistan' element={<Cement></Cement>}/>
