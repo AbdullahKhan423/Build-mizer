@@ -77,37 +77,35 @@ export default function Navigator(props) {
 const [cookies, removeCookie] = useCookies([]);
 const [projects, setProjects] = useState([]);
 
-useEffect(() => {
-  const verifyCookie = async () => {
-    if (!cookies.token) {
-      navigate("/signin");
-      return; // Return to exit the function if the token is missing.
-    }
+// useEffect(() => {
+//   const verifyCookie = async () => {
+//     if (!cookies.token) {
+//       navigate("/signin");
+//       return; // Return to exit the function if the token is missing.
+//     }
+//     try {
+//       const response = await axios.get("http://localhost:4000/projects", {
+//         withCredentials: true,
+//       });
+//       const { status, data } = response;
+//       if (status) {
+//         setProjects(data); // Set the project data in the state.
+//         toast("Projects fetched successfully", {
+//           position: "top-right",
+//         });
+//       } else {
+//         removeCookie("token");
+//         navigate("/signin");
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       removeCookie("token");
+//       navigate("/signin");
+//     }
+//   };
+//   verifyCookie();
+// },
 
-    try {
-      const response = await axios.get("http://localhost:4000/projects", {
-        withCredentials: true,
-      });
-
-      const { status, data } = response;
-      
-      if (status) {
-        setProjects(data); // Set the project data in the state.
-        toast("Projects fetched successfully", {
-          position: "top-right",
-        });
-      } else {
-        removeCookie("token");
-        navigate("/signin");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      removeCookie("token");
-      navigate("/signin");
-    }
-  };
-  verifyCookie();
-}, [cookies, navigate, removeCookie]);
 
   
   return (

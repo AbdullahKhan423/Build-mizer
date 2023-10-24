@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
+import { useUser } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
@@ -11,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
@@ -41,19 +43,24 @@ function ProjectManager() {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
   const [projects, setProjects] = useState([]);
-  
+  const token = Cookies.get('token');
+  const { user } = useUser();
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
         navigate("/signin");
         return; // Return to exit the function if the token is missing.
       }
-  
-      try {
-        const response = await axios.get("http://localhost:4000/projects", {
-          withCredentials: true,
-        });
-  
+      
+      
+      try {  
+    // Assuming you're using a library like 'jsonwebtoken'
+       // Extract the user's ID from the decoded token
+        
+      const response = await axios.get(`http://localhost:4000/projects`, {
+        withCredentials: true,
+      });
+        console.log(response);
         const { status, data } = response;
         
         if (status) {
@@ -86,17 +93,22 @@ function ProjectManager() {
       setNameError(true);
       return;
     }
+    
+     //const token = getCookie("token");
     // Clear the form and update projects
     fetch('http://localhost:4000/projects/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+
       },
       body: JSON.stringify(projectData),
     })
       .then(response => {
         if (response.ok) {
           // Handle a successful response (status code 200) from the server
+          window.location.reload();
           console.log('Project submitted successfully!');
           // Clear the form and update local state
           setProjects([...projects, projectData]);
@@ -120,9 +132,10 @@ function ProjectManager() {
   };
 
   const handleDelete = (projectId) => {
-
+    console.log(projectId);
     fetch(`http://localhost:4000/projects/${projectId}`, {
       method: 'DELETE',
+      'Authorization': `Bearer ${token}`
     })
       .then((response) => {
         if (response.status === 204) {
@@ -136,7 +149,7 @@ function ProjectManager() {
         // Handle network or request error
       });
   };
-  
+
   const linkStyles = {
     textDecoration: 'none', // Remove underline
    // Smooth color transition on hover
@@ -179,8 +192,10 @@ function ProjectManager() {
         <TableCell>{project.description}</TableCell>
         <TableCell>{project.location}</TableCell>
         <TableCell>
-        <Button variant="contained" color="error" onClick={() => handleDelete(project._id)}> Delete</Button>       
-         </TableCell>
+         
+  <Button variant="contained" color="error" onClick={() => handleDelete(project._id)}> Delete</Button>
+   
+         </TableCell> 
         {/* Display other project details in table cells */}
       </TableRow>
     ))}
@@ -215,7 +230,7 @@ function ProjectManager() {
           />
          
           {/* Add more input fields for other project details */}
-          <Button sx={{mx:20}} variant ="contained" onClick={handleSubmitProject}>Submit Project</Button>
+          <Button sx={{mx:20}} variant ="contained"  onClick={handleSubmitProject}>Submit Project</Button>
         </Box>
       </Modal>
       {isNavigating && <div>Navigating to a different tab...</div>}

@@ -1,7 +1,7 @@
 import express from 'express';
 import { getAllProjects, createProject, updateProject,getProjectById, deleteProject } from '../Controllers/ProjectController.js';
 import { authenticateUserForProjects } from '../Middlewares/ProjectMiddleware.js';
-
+import { userResponse } from '../Middlewares/UserMiddleware.js';
 // Create an instance of the Express router
 const router = express.Router();
 

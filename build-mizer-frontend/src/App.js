@@ -1,5 +1,6 @@
 import React from 'react';
 import SignIn from './pages/SignIn';
+import { UserProvider } from './context/UserContext';
 import AboutUs from './pages/AboutUs'
 import HomePage from './pages/HomePage';
 import AreaUnit from './pages/AreaUnitConverter';
@@ -18,6 +19,7 @@ import Paper from './components/Dashboard2/Paperbase';
 import DashboardRoutes from './components/Dashboard2/Routes/Dashboardroute';
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<HomePage></HomePage>} />
@@ -39,7 +41,7 @@ function App() {
       </Routes>
       <DashboardRoutes></DashboardRoutes>
     </Router>
-    
+    </UserProvider>
   );
 }
 

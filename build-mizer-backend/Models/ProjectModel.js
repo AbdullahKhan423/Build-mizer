@@ -60,7 +60,7 @@ const projectSchema = new mongoose.Schema({
     miscellaneousCosts: Number,
   },
 
-  projectManager: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  projectManager: { type: mongoose.Schema.Types.ObjectId, ref: 'User',required: true  },
 
   // Progress Tracking Fields
   currentPhase: {

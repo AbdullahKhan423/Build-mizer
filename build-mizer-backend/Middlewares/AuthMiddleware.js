@@ -18,7 +18,8 @@ export const userVerification = async (req, res) => {
         const user = await User.findById(decodedToken.id);
 
         if (user) {
-         
+          req.user = user; // Populate req.user with user data
+          
           return res.status(200);
         } else {
           return res.status(401).json({ status: false, message: 'User not found' });

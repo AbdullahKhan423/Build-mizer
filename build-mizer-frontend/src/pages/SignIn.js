@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useUser } from '../context/UserContext';
 import Checkbox from '@mui/material/Checkbox';
 //import Link from '@mui/material/Link';
 import {  toast } from "react-toastify";
@@ -32,6 +33,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const { user, setUser } = useUser(); 
     const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
       email: "",
@@ -69,8 +71,10 @@ export default function SignIn() {
         const { success, message } = data;
         if (success) {
           handleSuccess(message);
+          setUser(user);
+          console.log("Hello",user);
           setTimeout(() => {
-            navigate("/dashboard");
+            navigate("/Dashboard");
           }, 1000);
         } else {
           handleError(message);

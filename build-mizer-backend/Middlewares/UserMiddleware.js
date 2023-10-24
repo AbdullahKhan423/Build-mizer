@@ -19,7 +19,7 @@ export const userResponse = async (req, res) => {
 
         if (user) {
           
-          return res.status(200).json({ status: true,user:user.firstname });
+          return res.status(200).json({ status: true,user:user.id });
         } else {
           return res.status(401).json({ status: false, message: 'User not found' });
         }
