@@ -6,7 +6,20 @@ import Project from '../Models/ProjectModel.js'; // Adjust the path as per your 
 export const getAllMaterials = async (req, res) => {
   try {
     const materials = await Material.find({ project: req.params.projectId });
-    return res.status(200).json(materials);
+    const formattedMaterials = materials.map(material => {
+      const formattedDate = new Intl.DateTimeFormat('en-GB', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+      }).format(material.date);
+
+      // Create a new object with the formatted date
+      return {
+        ...material._doc, // Assuming it's a Mongoose document
+        date: formattedDate,
+      };
+    });
+    return res.status(200).json(formattedMaterials);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
