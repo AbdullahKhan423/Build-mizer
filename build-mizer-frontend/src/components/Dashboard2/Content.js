@@ -161,24 +161,16 @@ function ProjectManager() {
   return (
     <>
 
-    <div style={{ display: 'flex' ,justifyContent: 'center', marginBottom: '10px' }}>
-      <Button onClick={handleAddProjectClick} variant="contained" sx={{ ml: 'auto', m: 2 }}>
-      Add Project
-      </Button>
-      </div>
-
-
-
   <Paper sx={{ marginTop: '2%' }}>
 
       <TableContainer component={Paper}>
       <Table>
       <TableHead>
   <TableRow>
-    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Name</TableCell>
-    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Description</TableCell>
-    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}>Project Location</TableCell>
-    <TableCell sx={{ backgroundColor: 'gray', color: 'white' }}></TableCell>
+    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black' }}>Project Name</TableCell>
+    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black' }}>Project Description</TableCell>
+    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black' }}>Project Location</TableCell>
+    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black' }}></TableCell>
     {/* Add table headers for other project details */}
   </TableRow>
 </TableHead>
@@ -235,6 +227,11 @@ function ProjectManager() {
       </Modal>
       {isNavigating && <div>Navigating to a different tab...</div>}
     </Paper>
+      <div style={{ display: 'flex' ,justifyContent: 'center', marginBottom: '10px' }}>
+      <Button onClick={handleAddProjectClick} variant="contained" sx={{ ml: 'auto', m: 2 }}>
+      Add Project
+      </Button>
+      </div>
     </>
   );
 }

@@ -15,23 +15,31 @@ import Modal from '@mui/material/Modal';
 function MaterialContent() {
   const [showMaterialForm, setShowMaterialForm] = useState(false);
   const [showCustomMaterialForm, setShowCustomMaterialForm] = useState(false);
-  const [materialType, setMaterialType] = useState('Bricks'); // Default to 'Bricks'
+  const [materialType, setMaterialType] = useState('Bricks');
   const [customMaterialType, setCustomMaterialType] = useState('');
   const [unitCost, setUnitCost] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [measuringUnit, setMeasuringUnit] = useState('');
   const [materialEntries, setMaterialEntries] = useState({});
   const [customEntries, setCustomEntries] = useState({});
+  const [showSummary, setShowSummary] = useState(false);
 
   const handleMaterialTypeChange = (event) => {
     setMaterialType(event.target.value);
   };
 
   const handleMaterialSubmit = () => {
-    // Create a new object entry with the materialType as the key
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString();
+
+    const totalCost = (parseFloat(unitCost) * parseFloat(quantity)).toFixed(2);
+
     const newMaterialEntry = {
       materialType,
       unitCost,
-      quantity,
+      quantity: `${quantity} ${measuringUnit}`,
+      totalCost,
+      entryDate: formattedDate,
     };
 
     setMaterialEntries((prevEntries) => ({
@@ -39,20 +47,26 @@ function MaterialContent() {
       [materialType]: [...(prevEntries[materialType] || []), newMaterialEntry],
     }));
 
-    // Clear form fields
     setMaterialType('Bricks');
     setUnitCost('');
+    setMeasuringUnit('');
     setQuantity('');
 
     setShowMaterialForm(false);
   };
 
   const handleCustomMaterialSubmit = () => {
-    // Create a new object entry with the customMaterialType as the key
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString();
+
+    const totalCost = (parseFloat(unitCost) * parseFloat(quantity)).toFixed(2);
+
     const newCustomMaterialEntry = {
       name: customMaterialType,
       unitCost,
-      quantity,
+      quantity: `${quantity} ${measuringUnit}`,
+      totalCost,
+      entryDate: formattedDate,
     };
 
     setCustomEntries((prevEntries) => ({
@@ -60,9 +74,9 @@ function MaterialContent() {
       [customMaterialType]: [...(prevEntries[customMaterialType] || []), newCustomMaterialEntry],
     }));
 
-    // Clear form fields
     setCustomMaterialType('');
     setUnitCost('');
+    setMeasuringUnit('');
     setQuantity('');
 
     setShowCustomMaterialForm(false);
@@ -76,99 +90,191 @@ function MaterialContent() {
     setShowCustomMaterialForm(true);
   };
 
+  const generateSummary = () => {
+    setShowSummary(true);
+  };
+
+  const closeSummary = () => {
+    setShowSummary(false);
+  };
+
+  const generateSummaryTable = () => {
+    const summary = {};
+    
+    // Collect and summarize data
+    for (const entry of Object.values(materialEntries).flat().concat(Object.values(customEntries).flat())) {
+      if (!summary[entry.materialType]) {
+        summary[entry.materialType] = {
+          totalQuantity: 0,
+          totalCost: 0,
+        };
+      }
+      const quantity = parseFloat(entry.quantity.split(' ')[0]);
+      const cost = parseFloat(entry.totalCost);
+      summary[entry.materialType].totalQuantity += quantity;
+      summary[entry.materialType].totalCost += cost;
+    }
+
+    return (
+      <div>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Material Type</TableCell>
+                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Quantity</TableCell>
+                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.entries(summary).map(([materialType, { totalQuantity, totalCost }], index) => (
+                <TableRow key={index}>
+                  <TableCell sx={{ textAlign: 'center' }}>{materialType}</TableCell>
+                  <TableCell sx={{ textAlign: 'center' }}>{totalQuantity}</TableCell>
+                  <TableCell sx={{ textAlign: 'center' }}>{totalCost.toFixed(2)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    );
+  };
+
+
   return (
-    <Paper>
-      <Button variant="contained" onClick={openMaterialForm}>
-        Add Material
-      </Button>
-      <Button variant="contained" onClick={openCustomMaterialForm}>
-        Add Custom Material
-      </Button>
-
-      {/* Material Entry Form */}
-      <Modal open={showMaterialForm} onClose={() => setShowMaterialForm(false)}>
-        <Paper>
-          <h2>Add Material</h2>
-          <Select label="Material Type" value={materialType} onChange={handleMaterialTypeChange}>
-            {["Bricks", "Sand", "Crush", "Cement", "Steel"].map((material) => (
-              <MenuItem key={material} value={material}>
-                {material}
-              </MenuItem>
-            ))}
-          </Select>
-
-          <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
-          <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-          <Button variant="contained" onClick={handleMaterialSubmit}>
-            Submit Material
+    <>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
+        <Button variant="contained" onClick={openMaterialForm} style={{ marginRight: '10px' }}>
+          Add Material
+        </Button>
+  
+        <Button variant="contained" onClick={openCustomMaterialForm} style={{ marginRight: '10px' }}>
+          Add Custom Material
+        </Button>
+        
+        <Button variant="contained" onClick={generateSummary}>
+          Summary
+        </Button>
+      </div>
+  
+      {showSummary && (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <Button variant="contained" onClick={closeSummary}>
+            Close Summary
           </Button>
-        </Paper>
-      </Modal>
-
-      {/* Custom entry form */}
-      <Modal open={showCustomMaterialForm} onClose={() => setShowCustomMaterialForm(false)}>
-        <Paper>
-          <h2>Add Custom Material</h2>
-          <TextField label="Name" value={customMaterialType} onChange={(e) => setCustomMaterialType(e.target.value)} />
-          <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
-          <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-          <Button variant="contained" onClick={handleCustomMaterialSubmit}>
-            Submit Custom Material
-          </Button>
-        </Paper>
-      </Modal>
-
-      {/* Material Entries Table */}
-      <TableContainer>
-        {Object.entries(materialEntries).map(([name, entries], index) => (
-          <div key={index}>
-            <h3>{name}</h3>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Material Type</TableCell>
-                  <TableCell>Unit Cost</TableCell>
-                  <TableCell>Quantity</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {entries.map((entry, entryIndex) => (
-                  <TableRow key={entryIndex}>
-                    <TableCell>{entry.materialType}</TableCell>
-                    <TableCell>{entry.unitCost}</TableCell>
-                    <TableCell>{entry.quantity}</TableCell>
-                  </TableRow>
+          {generateSummaryTable()}
+        </div>
+      )}
+      
+      <Paper>
+        <Modal open={showMaterialForm} onClose={() => setShowMaterialForm(false)}>
+          <Paper style={{ padding: '20px', textAlign: 'center' }}>
+            <h2 style={{ marginBottom: '20px' }}>Add Material</h2>
+  
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Select label="Material Type" value={materialType} onChange={handleMaterialTypeChange}>
+                {["Bricks", "Sand", "Crush", "Cement", "Steel"].map((material) => (
+                  <MenuItem key={material} value={material}>
+                    {material}
+                  </MenuItem>
                 ))}
-              </TableBody>
-            </Table>
-          </div>
-        ))}
-        {Object.entries(customEntries).map(([name, entries], index) => (
-          <div key={index}>
-            <h3>{name}</h3>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Unit Cost</TableCell>
-                  <TableCell>Quantity</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {entries.map((entry, entryIndex) => (
-                  <TableRow key={entryIndex}>
-                    <TableCell>{entry.name}</TableCell>
-                    <TableCell>{entry.unitCost}</TableCell>
-                    <TableCell>{entry.quantity}</TableCell>
+              </Select>
+  
+              <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
+              <TextField label="Measuring Unit" value={measuringUnit} onChange={(e) => setMeasuringUnit(e.target.value)} />
+              <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            </div>
+  
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+              <Button variant="contained" onClick={handleMaterialSubmit}>
+                Submit Material
+              </Button>
+            </div>
+          </Paper>
+        </Modal>
+  
+        <Modal open={showCustomMaterialForm} onClose={() => setShowCustomMaterialForm(false)}>
+          <Paper style={{ padding: '20px', textAlign: 'center' }}>
+            <h2 style={{ marginBottom: '20px' }}>Add Custom Material</h2>
+  
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <TextField label="Name" value={customMaterialType} onChange={(e) => setCustomMaterialType(e.target.value)} />
+              <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
+              <TextField label="Measuring Unit" value={measuringUnit} onChange={(e) => setMeasuringUnit(e.target.value)} />
+              <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            </div>
+  
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+              <Button variant="contained" onClick={handleCustomMaterialSubmit}>
+                Submit Custom Material
+              </Button>
+            </div>
+          </Paper>
+        </Modal>
+  
+        <TableContainer>
+          {Object.entries(materialEntries).map(([name, entries], index) => (
+            <div key={index} style={{ marginBottom: '20px' }}>
+              <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+                {name}
+              </h3>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Material Type</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Entry Date</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        ))}
-      </TableContainer>
-    </Paper>
-  );
-}
+                </TableHead>
+                <TableBody>
+                  {entries.map((entry, entryIndex) => (
+                    <TableRow key={entryIndex}>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.materialType}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.unitCost}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.quantity}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.totalCost}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.entryDate}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ))}
+          {Object.entries(customEntries).map(([name, entries], index) => (
+            <div key={index} style={{ marginBottom: '20px' }}>
+              <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+                {name}
+              </h3>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Name</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Entry Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {entries.map((entry, entryIndex) => (
+                    <TableRow key={entryIndex}>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.name}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.unitCost}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.quantity}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.totalCost}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.entryDate}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          ))}
+        </TableContainer>
+      </Paper>
+    </>
+  );}
 
-export default MaterialContent;
+  export default MaterialContent;
