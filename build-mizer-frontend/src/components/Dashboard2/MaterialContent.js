@@ -24,42 +24,122 @@ function MaterialContent() {
   const [unitCost, setUnitCost] = useState('');
   const [cookies, removeCookie] = useCookies([]);
   const [quantity, setQuantity] = useState('');
-  const [measuringUnit, setMeasuringUnit] = useState('');
+  // i introduced this state and now i am going to replace materialtype with materialName
+  const [materialName,setMaterialName]=useState();
   const [materialEntries, setMaterialEntries] = useState({});
   const [customEntries, setCustomEntries] = useState({});
-  const [showSummary, setShowSummary] = useState(false);
+  const [materials, setMaterials] = useState([]);
+  const token = Cookies.get('token');
+  const [materialData, setMaterialData] = useState({
+    name: '',
+    unitCost: '',
+    quantity: '',
+    
+  });
+  const { projectId } = useParams();
+  const handleNameTypeChange = (event) => {
+    const selectedName = event.target.value;
 
-  const handleMaterialTypeChange = (event) => {
-    setMaterialType(event.target.value);
+  // Use the state updater function to set the state based on the previous state
+  setMaterialName(selectedName);
+    
+  // Update the materialData state as well
+  setMaterialData((prevMaterialData) => ({
+    ...prevMaterialData,
+    name: selectedName,
+   
+  }));
+  console.log(selectedName);
   };
+  
 
-  const handleMaterialSubmit = () => {
+
+ 
+    // Inside the effect, make the API request to fetch materials when the component mounts or when projectId changes.
+    useEffect(() => {
+      async function fetchMaterials() {
+        try {
+          const response = await axios.get(`http://localhost:4000/materials/${projectId}`);
+          const materialsResponse = response.data;
+          
+          
+          // Create an object to group materials by their name
+          const groupedMaterials = {};
+    
+          // Iterate over the materialsResponse array
+          materialsResponse.forEach((material) => {
+            const name = material.name;
+    
+            if (!groupedMaterials[name]) {
+              // If the name doesn't exist in groupedMaterials, initialize it as an array
+              groupedMaterials[name] = [];
+            }
+    
+            // Push the material to the array with that name
+            groupedMaterials[name].push(material);
+          });
+    
+          // Now, you have grouped materials by their name in groupedMaterials
+          
+    
+          // You can set this grouped data in your state
+          setMaterials(groupedMaterials);
+        } catch (error) {
+          console.error('Error fetching materials', error);
+        }
+      }
+      fetchMaterials();
+    }, [projectId]);
+    
+
+   const handleMaterialSubmit = async() => {
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString();
+    
+   const response = await fetch(`http://localhost:4000/materials/${projectId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(materialData),
+      
+    })
+    console.log(materialData);
+    
+      
+    if (response.ok) {
+      const newMaterials = {
+        ...materials,
+        [materialName]: [...(materials[materialName] || []), materialData],
+      };
+      setMaterials(newMaterials);
+      setUnitCost('');
+      setQuantity('');
+      
+      setShowMaterialForm(false);
+      window.location.reload();
+    }
+    }
+    const handleMaterialUpdate = async()=>{
 
-    const totalCost = (parseFloat(unitCost) * parseFloat(quantity)).toFixed(2);
-
-    const newMaterialEntry = {
-      materialType,
-      unitCost,
-      quantity: `${quantity} ${measuringUnit}`,
-      totalCost,
-      entryDate: formattedDate,
-    };
-
-    setMaterialEntries((prevEntries) => ({
-      ...prevEntries,
-      [materialType]: [...(prevEntries[materialType] || []), newMaterialEntry],
-    }));
-
-    setMaterialType('Bricks');
-    setUnitCost('');
-    setMeasuringUnit('');
-    setQuantity('');
-
-    setShowMaterialForm(false);
-  };
-
+    }
+    const handleMaterialDelete = (materialId)=>{
+      console.log("Hello",materialId);
+      fetch(`http://localhost:4000/materials/${materialId}`, {
+      method: 'DELETE',
+      'Authorization': `Bearer ${token}`
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          window.location.reload();
+          // Update your state or perform any necessary actions
+        } else {
+          // Handle errors, e.g., project not found or server error
+        }
+      })
+      .catch((error) => {
+        // Handle network or request error
+      });
+    }
   const handleCustomMaterialSubmit = () => {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
@@ -95,57 +175,7 @@ function MaterialContent() {
     setShowCustomMaterialForm(true);
   };
 
-  const generateSummary = () => {
-    setShowSummary(true);
-  };
-
-  const closeSummary = () => {
-    setShowSummary(false);
-  };
-
-  const generateSummaryTable = () => {
-    const summary = {};
-    
-    // Collect and summarize data
-    for (const entry of Object.values(materialEntries).flat().concat(Object.values(customEntries).flat())) {
-      if (!summary[entry.materialType]) {
-        summary[entry.materialType] = {
-          totalQuantity: 0,
-          totalCost: 0,
-        };
-      }
-      const quantity = parseFloat(entry.quantity.split(' ')[0]);
-      const cost = parseFloat(entry.totalCost);
-      summary[entry.materialType].totalQuantity += quantity;
-      summary[entry.materialType].totalCost += cost;
-    }
-
-    return (
-      <div>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Material Type</TableCell>
-                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Quantity</TableCell>
-                <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Object.entries(summary).map(([materialType, { totalQuantity, totalCost }], index) => (
-                <TableRow key={index}>
-                  <TableCell sx={{ textAlign: 'center' }}>{materialType}</TableCell>
-                  <TableCell sx={{ textAlign: 'center' }}>{totalQuantity}</TableCell>
-                  <TableCell sx={{ textAlign: 'center' }}>{totalCost.toFixed(2)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    );
-  };
-
+  
 
   return (
     <>
@@ -172,10 +202,11 @@ function MaterialContent() {
                   </MenuItem>
                 ))}
               </Select>
-  
-              <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
-              <TextField label="Measuring Unit" value={measuringUnit} onChange={(e) => setMeasuringUnit(e.target.value)} />
-              <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                
+              {/*<TextField value={materialName} onChange={handleNameTypeChange}></TextField>*/}
+              <TextField label="Unit Cost" value={materialData.unitCost} onChange={(e) => {setMaterialData({ ...materialData, unitCost: e.target.value });}} />
+              <TextField label="Quantity" value={materialData.quantity} onChange={(e) => {setMaterialData({ ...materialData, quantity: e.target.value });}} />
+              
             </div>
   
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
