@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Cookies from 'js-cookie';
+import { useCookies } from "react-cookie";
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -20,56 +22,16 @@ function MaterialContent() {
   const [materialType, setMaterialType] = useState('Bricks');
   const [customMaterialType, setCustomMaterialType] = useState('');
   const [unitCost, setUnitCost] = useState('');
+  const [cookies, removeCookie] = useCookies([]);
   const [quantity, setQuantity] = useState('');
-  const [entryDate,setEntryDate]= useState('');
   const [measuringUnit, setMeasuringUnit] = useState('');
   const [materialEntries, setMaterialEntries] = useState({});
   const [customEntries, setCustomEntries] = useState({});
   const [showSummary, setShowSummary] = useState(false);
-  const [materials, setMaterials] = useState([]);
-  const { projectId } = useParams();
-  console.log(projectId);
+
   const handleMaterialTypeChange = (event) => {
     setMaterialType(event.target.value);
   };
-
- 
-    // Inside the effect, make the API request to fetch materials when the component mounts or when projectId changes.
-    useEffect(() => {
-      async function fetchMaterials() {
-        try {
-          const response = await axios.get(`http://localhost:4000/materials/${projectId}`);
-          const materialsResponse = response.data;
-          console.log(materialsResponse);
-    
-          // Create an object to group materials by their name
-          const groupedMaterials = {};
-    
-          // Iterate over the materialsResponse array
-          materialsResponse.forEach((material) => {
-            const name = material.name;
-    
-            if (!groupedMaterials[name]) {
-              // If the name doesn't exist in groupedMaterials, initialize it as an array
-              groupedMaterials[name] = [];
-            }
-    
-            // Push the material to the array with that name
-            groupedMaterials[name].push(material);
-          });
-    
-          // Now, you have grouped materials by their name in groupedMaterials
-          console.log(groupedMaterials);
-    
-          // You can set this grouped data in your state
-          setMaterialEntries(groupedMaterials);
-        } catch (error) {
-          console.error('Error fetching materials', error);
-        }
-      }
-      fetchMaterials();
-    }, [projectId]);
-    
 
   const handleMaterialSubmit = () => {
     const currentDate = new Date();
@@ -78,11 +40,11 @@ function MaterialContent() {
     const totalCost = (parseFloat(unitCost) * parseFloat(quantity)).toFixed(2);
 
     const newMaterialEntry = {
-      name:'',
+      materialType,
       unitCost,
       quantity: `${quantity} ${measuringUnit}`,
       totalCost,
-      entryDate:formattedDate,
+      entryDate: formattedDate,
     };
 
     setMaterialEntries((prevEntries) => ({
@@ -107,7 +69,7 @@ function MaterialContent() {
     const newCustomMaterialEntry = {
       name: customMaterialType,
       unitCost,
-      quantity: `${quantity} ${measuringUnit}`,
+      quantity: `${quantity}`,
       totalCost,
       entryDate:formattedDate,
     };
@@ -119,7 +81,7 @@ function MaterialContent() {
 
     setCustomMaterialType('');
     setUnitCost('');
-    setMeasuringUnit('');
+    
     setQuantity('');
 
     setShowCustomMaterialForm(false);
@@ -167,22 +129,19 @@ function MaterialContent() {
                 <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Material Type</TableCell>
                 <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Quantity</TableCell>
                 <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-              
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.entries(summary).map(([name, { totalQuantity }], index) => (
+              {Object.entries(summary).map(([materialType, { totalQuantity, totalCost }], index) => (
                 <TableRow key={index}>
-                  <TableCell sx={{ textAlign: 'center' }}>{name}</TableCell>
+                  <TableCell sx={{ textAlign: 'center' }}>{materialType}</TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>{totalQuantity}</TableCell>
-                  
-                
+                  <TableCell sx={{ textAlign: 'center' }}>{totalCost.toFixed(2)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        
       </div>
     );
   };
@@ -198,28 +157,15 @@ function MaterialContent() {
         <Button variant="contained" onClick={openCustomMaterialForm} style={{ marginRight: '10px' }}>
           Add Custom Material
         </Button>
-        
-        <Button variant="contained" onClick={generateSummary}>
-          Summary
-        </Button>
       </div>
-  
-      {showSummary && (
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <Button variant="contained" onClick={closeSummary}>
-            Close Summary
-          </Button>
-          {generateSummaryTable()}
-        </div>
-      )}
-      
       <Paper>
         <Modal open={showMaterialForm} onClose={() => setShowMaterialForm(false)}>
           <Paper style={{ padding: '20px', textAlign: 'center' }}>
             <h2 style={{ marginBottom: '20px' }}>Add Material</h2>
   
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <Select label="Material Type" value={materialType} onChange={handleMaterialTypeChange}>
+              
+              <Select label="Material Type" value={materialName} onChange={handleNameTypeChange}>
                 {["Bricks", "Sand", "Crush", "Cement", "Steel"].map((material) => (
                   <MenuItem key={material} value={material}>
                     {material}
@@ -230,7 +176,6 @@ function MaterialContent() {
               <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
               <TextField label="Measuring Unit" value={measuringUnit} onChange={(e) => setMeasuringUnit(e.target.value)} />
               <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-              <TextField label="Quantity" value={entryDate} onChange={(e) => setQuantity(e.target.value)} />
             </div>
   
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -248,7 +193,7 @@ function MaterialContent() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <TextField label="Name" value={customMaterialType} onChange={(e) => setCustomMaterialType(e.target.value)} />
               <TextField label="Unit Cost" value={unitCost} onChange={(e) => setUnitCost(e.target.value)} />
-              <TextField label="Measuring Unit" value={measuringUnit} onChange={(e) => setMeasuringUnit(e.target.value)} />
+              
               <TextField label="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
             </div>
   
@@ -261,7 +206,7 @@ function MaterialContent() {
         </Modal>
   
         <TableContainer>
-          {Object.entries(materialEntries).map(([name, entries], index) => (
+          {Object.entries(materials).map(([name, entries], index) => (
             <div key={index} style={{ marginBottom: '20px' }}>
               <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
                 {name}
@@ -274,16 +219,20 @@ function MaterialContent() {
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Entry Date</TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                    <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {entries.map((entry, entryIndex) => (
                     <TableRow key={entryIndex}>
-                      <TableCell sx={{ textAlign: 'center' }}>{entry.materialType}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.name}</TableCell>
                       <TableCell sx={{ textAlign: 'center' }}>{entry.unitCost}</TableCell>
                       <TableCell sx={{ textAlign: 'center' }}>{entry.quantity}</TableCell>
                       <TableCell sx={{ textAlign: 'center' }}>{entry.totalCost}</TableCell>
-                      <TableCell sx={{ textAlign: 'center' }}>{entry.entryDate}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{entry.createdAt}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}><button onClick={handleMaterialUpdate}>Update</button></TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleMaterialDelete(entry._id)}>Delete</button></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -303,6 +252,7 @@ function MaterialContent() {
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
                     <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Entry Date</TableCell>
+                    
                   </TableRow>
                 </TableHead>
                 <TableBody>

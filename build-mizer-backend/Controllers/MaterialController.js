@@ -2,23 +2,19 @@ import  Material from '../Models/MaterialModel.js';
 
 import Project from '../Models/ProjectModel.js'; // Adjust the path as per your project structure
 
+const formatDate = (date) => {
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  return new Date(date).toLocaleDateString('en-GB', options);
+};
+
 // Get a list of all materials for a specific project
 export const getAllMaterials = async (req, res) => {
   try {
     const materials = await Material.find({ project: req.params.projectId });
-    const formattedMaterials = materials.map(material => {
-      const formattedDate = new Intl.DateTimeFormat('en-GB', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-      }).format(material.date);
-
-      // Create a new object with the formatted date
-      return {
-        ...material._doc, // Assuming it's a Mongoose document
-        date: formattedDate,
-      };
-    });
+    const formattedMaterials = materials.map((material) => ({
+      ...material.toObject(), // Convert Mongoose document to a plain object
+      createdAt: material.createdAt.toLocaleDateString('en-GB'), // Format the date
+    }));
     return res.status(200).json(formattedMaterials);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -60,11 +56,13 @@ export const createMaterial = async (req, res) => {
 
 // Get details of a specific material by its ID
 export const getMaterialById = async (req, res) => {
+  console.log("Hello");
   try {
     const material = await Material.findById(req.params.id);
     if (!material) {
       return res.status(404).json({ message: 'Material not found' });
     }
+    
     return res.status(200).json(material);
   } catch (error) {
     return res.status(500).json({ error: error.message });
