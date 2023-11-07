@@ -9,6 +9,7 @@ import projectRoute from './Routes/ProjectRoute.js';
 import userRoute from './Routes/UserRoute.js';
 import materialRoute from './Routes/MaterialRoute.js';
 import custommaterialRoute from './Routes/CustomMaterialRoute.js';
+import brickRoute from './Routes/Material/BrickRoute.js';
 const app = express();
 dotenv.config();
 // Middleware
@@ -38,7 +39,8 @@ app.use("/projects", projectRoute);
 app.use('/materials',materialRoute);
 app.use('/custom',custommaterialRoute);
 app.use('/',userRoute);
-
+// material routes
+app.use('/brick',brickRoute);
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Servers is running on port ${PORT}`);

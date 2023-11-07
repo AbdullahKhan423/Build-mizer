@@ -19,12 +19,15 @@ const projectSchema = new mongoose.Schema({
   },
   materialSelection: {
     type: String, // Details about materials
-  },materials: [
+  },
+  materials: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Material',
     },
   ],
+  bricks:[{type:mongoose.Schema.Types.ObjectId,
+        ref:'Brick'}],
   constructionPhases: [
     {
       name: String,
@@ -60,7 +63,7 @@ const projectSchema = new mongoose.Schema({
     miscellaneousCosts: Number,
   },
 
-  projectManager: { type: mongoose.Schema.Types.ObjectId, ref: 'User',required: true  },
+  projectManager: { type: mongoose.Schema.Types.ObjectId, ref: 'User'  },
 
   // Progress Tracking Fields
   currentPhase: {

@@ -2,11 +2,6 @@ import  Material from '../Models/MaterialModel.js';
 
 import Project from '../Models/ProjectModel.js'; // Adjust the path as per your project structure
 
-const formatDate = (date) => {
-  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-  return new Date(date).toLocaleDateString('en-GB', options);
-};
-
 // Get a list of all materials for a specific project
 export const getAllMaterials = async (req, res) => {
   try {

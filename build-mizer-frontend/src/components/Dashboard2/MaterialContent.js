@@ -11,7 +11,6 @@ import TableRow from '@mui/material/TableRow';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Cookies from 'js-cookie';
-import { useCookies } from "react-cookie";
 import Modal from '@mui/material/Modal';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -19,14 +18,11 @@ import axios from 'axios';
 function MaterialContent() {
   const [showMaterialForm, setShowMaterialForm] = useState(false);
   const [showCustomMaterialForm, setShowCustomMaterialForm] = useState(false);
-  const [materialType, setMaterialType] = useState('Bricks');
   const [customMaterialType, setCustomMaterialType] = useState('');
   const [unitCost, setUnitCost] = useState('');
-  const [cookies, removeCookie] = useCookies([]);
   const [quantity, setQuantity] = useState('');
   // i introduced this state and now i am going to replace materialtype with materialName
-  const [materialName,setMaterialName]=useState();
-  const [materialEntries, setMaterialEntries] = useState({});
+  const [materialName,setMaterialName]=useState('');
   const [customEntries, setCustomEntries] = useState({});
   const [materials, setMaterials] = useState([]);
   const token = Cookies.get('token');
@@ -36,10 +32,29 @@ function MaterialContent() {
     quantity: '',
     
   });
-  const { projectId } = useParams();
+  
+  const [bricks, setBricks] = useState([]);
+  const [brick, setBrick] = useState({
+    date: '',
+    status: '',
+    supplier: '',
+    brand: '',
+    type: '',
+    quantity: 0,
+    unit_cost: 0,
+    payment: 0,
+    payment_type: 'cash',
+  });
+  const [showBrickForm, setShowBrickForm] = useState(false);
+
+  const { projectId } = useParams(); 
   const handleNameTypeChange = (event) => {
     const selectedName = event.target.value;
-
+    if (selectedName === 'Bricks') {
+      setShowBrickForm(true);
+    } else {
+      setShowBrickForm(false);
+    }
   // Use the state updater function to set the state based on the previous state
   setMaterialName(selectedName);
     
@@ -61,37 +76,32 @@ function MaterialContent() {
         try {
           const response = await axios.get(`http://localhost:4000/materials/${projectId}`);
           const materialsResponse = response.data;
-          
-          
-          // Create an object to group materials by their name
           const groupedMaterials = {};
-    
-          // Iterate over the materialsResponse array
           materialsResponse.forEach((material) => {
             const name = material.name;
-    
             if (!groupedMaterials[name]) {
-              // If the name doesn't exist in groupedMaterials, initialize it as an array
               groupedMaterials[name] = [];
             }
-    
-            // Push the material to the array with that name
             groupedMaterials[name].push(material);
           });
-    
-          // Now, you have grouped materials by their name in groupedMaterials
-          
-    
-          // You can set this grouped data in your state
           setMaterials(groupedMaterials);
         } catch (error) {
           console.error('Error fetching materials', error);
         }
       }
       fetchMaterials();
+      const getAllBricks = async () => {
+        try {
+          const response = await axios.get(`http://localhost:4000/brick/${projectId}`);
+          setBricks(response.data);
+        } catch (error) {
+          console.error('Error fetching bricks:', error);
+        }
+      };
+      getAllBricks();
     }, [projectId]);
     
-
+    
    const handleMaterialSubmit = async() => {
     const currentDate = new Date();
     
@@ -131,13 +141,13 @@ function MaterialContent() {
       .then((response) => {
         if (response.status === 204) {
           window.location.reload();
-          // Update your state or perform any necessary actions
+          
         } else {
-          // Handle errors, e.g., project not found or server error
+        
         }
       })
       .catch((error) => {
-        // Handle network or request error
+       
       });
     }
   const handleCustomMaterialSubmit = () => {
@@ -175,7 +185,66 @@ function MaterialContent() {
     setShowCustomMaterialForm(true);
   };
 
+  const handleBrickSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/brick/${projectId}`, brick);
   
+      if (response.status === 200) {
+        // Add the newly created brick to the state
+        setBricks([...bricks, response.data]);
+  
+        // Reset the brick state
+        setBrick({
+          date: '',
+          status: '',
+          supplier: '',
+          brand: '',
+          type: '',
+          quantity: 0,
+          unit_cost: 0,
+          payment: 0,
+          payment_type: 'cash',
+        });
+        
+        setShowBrickForm(false);
+        window.location.reload();
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error in handleBrickSubmit:', error);
+    }
+  };
+
+  const handleBrickDelete = async (entry) => {
+    try {
+      // Send a DELETE request to your server to delete the brick entry by its ID
+      console.log(entry);
+      const response = await axios.delete(`http://localhost:4000/brick/${entry}`);
+  
+      if (response.status === 204) {
+        // If the request is successful (status 204), remove the brick entry from your state
+        const updatedBricks = bricks.filter((brick) => brick._id !== entry._id);
+        setBricks(updatedBricks);
+        window.location.reload();
+      } else {
+        // Handle errors or provide user feedback if the deletion was unsuccessful
+        console.error('Failed to delete brick entry');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting brick entry:', error);
+    }
+  };
+  
+  const handleBrickUpdate=async(entry)=>{
+
+  }
+
+  const openBrickForm = () => {
+   
+    setShowBrickForm(true);
+    
+  };
 
   return (
     <>
@@ -202,17 +271,81 @@ function MaterialContent() {
                   </MenuItem>
                 ))}
               </Select>
+              {materialName==='Bricks'&&(
+                 <Modal open={showBrickForm}    onClose={() =>{ setShowBrickForm(false);setMaterialName(''); }}>
+                <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
+                <h2 style={{ marginBottom: '20px' }}>Add Brick</h2>
                 
-              {/*<TextField value={materialName} onChange={handleNameTypeChange}></TextField>*/}
-              <TextField label="Unit Cost" value={materialData.unitCost} onChange={(e) => {setMaterialData({ ...materialData, unitCost: e.target.value });}} />
-              <TextField label="Quantity" value={materialData.quantity} onChange={(e) => {setMaterialData({ ...materialData, quantity: e.target.value });}} />
-              
-            </div>
-  
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-              <Button variant="contained" onClick={handleMaterialSubmit}>
-                Submit Material
-              </Button>
+                {/* Add a form to collect brick data */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={brick.date}
+                    onChange={(e) => setBrick({ ...brick, date: e.target.value })}
+                  />
+                  <TextField
+                    label="Supplier"
+                    value={brick.supplier}
+                    onChange={(e) => setBrick({ ...brick, supplier: e.target.value })}
+                  />
+                  <TextField
+                    label="Brand"
+                    value={brick.brand}
+                    onChange={(e) => setBrick({ ...brick, brand: e.target.value })}
+                  />
+                  <Select
+                    label="Status"
+                    value={brick.status}
+                    onChange={(e) => setBrick({ ...brick, status: e.target.value })}
+                  >
+                    <MenuItem value="ordered">Ordered</MenuItem>
+                    <MenuItem value="received">Received</MenuItem>
+                  </Select>
+                  <Select
+                    label="Type"
+                    value={brick.type}
+                    onChange={(e) => setBrick({ ...brick, type: e.target.value })}
+                  >
+                    <MenuItem value="awal">Awal</MenuItem>
+                    <MenuItem value="dom">Dom</MenuItem>
+                    <MenuItem value="som">Som</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
+                  <TextField
+                    label="Quantity"
+                    type="number"
+                    value={brick.quantity}
+                    onChange={(e) => setBrick({ ...brick, quantity: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Unit Cost"
+                    type="number"
+                    value={brick.unit_cost}
+                    onChange={(e) => setBrick({ ...brick, unit_cost: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Payment"
+                    type="number"
+                    value={brick.payment}
+                    onChange={(e) => setBrick({ ...brick, payment: parseInt(e.target.value) })}
+                  />
+                  <Select
+                    label="Payment Type"
+                    value={brick.payment_type}
+                    onChange={(e) => setBrick({ ...brick, payment_type: e.target.value })}
+                  >
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="account">Account</MenuItem>
+                  </Select>
+                  <Button variant="contained" onClick={handleBrickSubmit}>
+                    Submit Brick
+                  </Button>
+                </div>
+                    </Paper>
+                    </Modal>
+              )}
+                  
             </div>
           </Paper>
         </Modal>
@@ -297,11 +430,63 @@ function MaterialContent() {
                     </TableRow>
                   ))}
                 </TableBody>
+                
               </Table>
             </div>
+            
           ))}
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+              Brick
+            </h3>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Date</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {bricks.map((brick, brickIndex) => (
+                  <TableRow key={brickIndex}>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.date}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.status}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.supplier}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.brand}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.quantity}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.unit_cost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.totalCost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment_type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickDelete(brick._id)}>Delete</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(brick._id)}>Update</button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </TableContainer>
       </Paper>
+      
+  <div>
+   
+  
+  
+</div>
+
     </>
   );}
 
