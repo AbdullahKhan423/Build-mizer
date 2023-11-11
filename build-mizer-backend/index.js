@@ -10,6 +10,10 @@ import userRoute from './Routes/UserRoute.js';
 import materialRoute from './Routes/MaterialRoute.js';
 import custommaterialRoute from './Routes/CustomMaterialRoute.js';
 import brickRoute from './Routes/Material/BrickRoute.js';
+import cementRoute from './Routes/Material/CementRoute.js';
+import crushRoute from './Routes/Material/CrushRoute.js';
+import sandRoute from './Routes/Material/SandRoute.js';
+import steelRoute from './Routes/Material/Steel.js';
 const app = express();
 dotenv.config();
 // Middleware
@@ -41,6 +45,10 @@ app.use('/custom',custommaterialRoute);
 app.use('/',userRoute);
 // material routes
 app.use('/brick',brickRoute);
+app.use('/cement',cementRoute);
+app.use('/crush',crushRoute);
+app.use('/steel',steelRoute);
+app.use('/sand',sandRoute);
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Servers is running on port ${PORT}`);

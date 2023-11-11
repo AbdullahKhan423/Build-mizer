@@ -26,12 +26,12 @@ function App() {
         <Route path="signin" element={<SignIn></SignIn>} />
         <Route path="About us" element={<AboutUs></AboutUs>} />
         <Route path="Construction Cost Calculator" element={<ConstructionCostCalculator></ConstructionCostCalculator>} />
-        <Route path="Daily Pricing" element={<DailyPricing></DailyPricing>} />
+        <Route path="Daily Pricing1" element={<DailyPricing></DailyPricing>} />
         <Route path="products" element={<Products></Products>} />
         <Route path="signup" element={<SignUp></SignUp>} />
         <Route path="Stay in Touch" element={<StayInTouch></StayInTouch>} />
         <Route path='AreaUnit' element={<AreaUnit></AreaUnit>}/>
-       <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
+       <Route path='Daily Pricing' element={<Steel></Steel>}/>
         <Route path='cement-price-in-pakistan' element={<Cement></Cement>}/>
         <Route path='crush-price-in-pakistan' element={<Crush></Crush>}/>
         <Route path='sand-price-in-pakistan' element={<Sand></Sand>}/>

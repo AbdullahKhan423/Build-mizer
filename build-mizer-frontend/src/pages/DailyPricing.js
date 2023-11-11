@@ -30,7 +30,7 @@ function DailyPricing() {
     {
       category: 'Steel',
       data: [
-        { id: 1, name: 'Product 1', price: 100 },
+        { id: 1, name: 'Ambrelli Sreel', price: 100 },
         { id: 2, name: 'Product 2', price: 150 },
       ],
     },

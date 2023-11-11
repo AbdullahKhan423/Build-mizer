@@ -28,6 +28,14 @@ const projectSchema = new mongoose.Schema({
   ],
   bricks:[{type:mongoose.Schema.Types.ObjectId,
         ref:'Brick'}],
+        cement:[{type:mongoose.Schema.Types.ObjectId,
+          ref:'Cement'}],
+          crush:[{type:mongoose.Schema.Types.ObjectId,
+            ref:'Crush'}],
+            sand:[{type:mongoose.Schema.Types.ObjectId,
+              ref:'Sand'}],
+              steel:[{type:mongoose.Schema.Types.ObjectId,
+                ref:'Steel'}],
   constructionPhases: [
     {
       name: String,

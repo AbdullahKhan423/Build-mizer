@@ -10,7 +10,7 @@ router.get('/logout', Logout);
 
 
 
-router.post("/signup", Signup);
+
 
 
 export default router;

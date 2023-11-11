@@ -21,6 +21,11 @@ function MaterialContent() {
   const [customMaterialType, setCustomMaterialType] = useState('');
   const [unitCost, setUnitCost] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [hasBrickEntries, setHasBrickEntries] = useState(false);
+  const [hasSandEntries,setHasSandEntries]=useState(false);
+  const [hasCrushEntries,setHasCrushEntries]=useState(false);
+  const [hasCementEntries,setHasCementEntries]=useState(false);
+  const [hasSteelEntries,setHasSteelEntries]=useState(false);
   // i introduced this state and now i am going to replace materialtype with materialName
   const [materialName,setMaterialName]=useState('');
   const [customEntries, setCustomEntries] = useState({});
@@ -32,7 +37,7 @@ function MaterialContent() {
     quantity: '',
     
   });
-  
+  //for bricks
   const [bricks, setBricks] = useState([]);
   const [brick, setBrick] = useState({
     date: '',
@@ -46,14 +51,285 @@ function MaterialContent() {
     payment_type: 'cash',
   });
   const [showBrickForm, setShowBrickForm] = useState(false);
+  // for cement
+  const [cementEntries, setCementEntries] = useState([]); // State to store cement entries
+  const [cementData, setCementData] = useState({
+    date: '',
+    status: '',
+    supplier: '',
+    brand: '',
+    type: '',
+    quantity: 0,
+    unit_cost: 0,
+    payment: 0,
+    payment_type: 'cash',
+  });
+  const [showCementForm, setShowCementForm] = useState(false);
+
+  const handleCementSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/cement/${projectId}`, cementData);
+  
+      if (response.status === 200) {
+        // Add the newly created brick to the state
+        setCementEntries([...cementEntries, response.data]);
+  
+        // Reset the brick state
+        setCementData({
+          date: '',
+          status: '',
+          supplier: '',
+          brand: '',
+          type: '',
+          quantity: 0,
+          unit_cost: 0,
+          payment: 0,
+          payment_type: 'cash',
+        });
+        
+        setShowCementForm(false);
+        window.location.reload();
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error in handleCementSubmit:', error);
+    }
+  };
+
+  const handleCementDelete = async (entry) => {
+    try {
+      // Send a DELETE request to your server to delete the brick entry by its ID
+      console.log(entry);
+      const response = await axios.delete(`http://localhost:4000/cement/${entry}`);
+  
+      if (response.status === 204) {
+        // If the request is successful (status 204), remove the brick entry from your state
+        const updatedCement = cementEntries.filter((cement) => cement._id !== entry._id);
+        setCementEntries(updatedCement);
+        window.location.reload();
+      } else {
+        // Handle errors or provide user feedback if the deletion was unsuccessful
+        console.error('Failed to delete brick entry');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting brick entry:', error);
+    }
+  };
+
+  // for sand
+  const [sandEntries, setSandEntries] = useState([]); // State to store sand entries
+  const [sandData, setSandData] = useState({
+    date: '',
+    status: '',
+    supplier: '',
+    brand: '',
+    type: '',
+    quantity: 0,
+    unit_cost: 0,
+    payment: 0,
+    payment_type: 'cash',
+  });
+  const [showSandForm, setShowSandForm] = useState(false);
+
+  const handleSandSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/sand/${projectId}`, sandData);
+  
+      if (response.status === 200) {
+        // Add the newly created brick to the state
+        setSandEntries([...sandEntries, response.data]);
+  
+        // Reset the brick state
+        setSandData({
+          date: '',
+          status: '',
+          supplier: '',
+          brand: '',
+          type: '',
+          quantity: 0,
+          unit_cost: 0,
+          payment: 0,
+          payment_type: 'cash',
+        });
+        
+        setShowSandForm(false);
+        window.location.reload();
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error in handleCementSubmit:', error);
+    }
+  };
+
+  const handleSandDelete = async (entry) => {
+    try {
+      // Send a DELETE request to your server to delete the brick entry by its ID
+      
+      const response = await axios.delete(`http://localhost:4000/sand/${entry}`);
+  
+      if (response.status === 204) {
+        // If the request is successful (status 204), remove the brick entry from your state
+        const updatedSand = sandEntries.filter((sand) => sand._id !== entry._id);
+        setSandEntries(updatedSand);
+        window.location.reload();
+      } else {
+        // Handle errors or provide user feedback if the deletion was unsuccessful
+        console.error('Failed to delete brick entry');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting brick entry:', error);
+    }
+  };
+
+  // for crush
+  const [crushEntries, setCrushEntries] = useState([]); // State to store crush entries
+  const [crushData, setCrushData] = useState({
+    date: '',
+    status: '',
+    supplier: '',
+    brand: '',
+    type: '',
+    quantity: 0,
+    unit_cost: 0,
+    payment: 0,
+    payment_type: 'cash',
+  });
+  const [showCrushForm, setShowCrushForm] = useState(false);
+
+  const handleCrushSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/crush/${projectId}`, crushData);
+      console.log(response);
+      if (response.status === 200) {
+        // Add the newly created brick to the state
+        setCrushEntries([...crushEntries, response.data]);
+  
+        // Reset the brick state
+        setCrushData({
+          date: '',
+          status: '',
+          supplier: '',
+          brand: '',
+          type: '',
+          quantity: 0,
+          unit_cost: 0,
+          payment: 0,
+          payment_type: 'cash',
+        });
+        
+        setShowCrushForm(false);
+        window.location.reload();
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error in handleCementSubmit:', error);
+    }
+  };
+  
+  const handleCrushDelete = async (entry) => {
+    try {
+      // Send a DELETE request to your server to delete the brick entry by its ID
+      
+      const response = await axios.delete(`http://localhost:4000/crush/${entry}`);
+  
+      if (response.status === 204) {
+        // If the request is successful (status 204), remove the brick entry from your state
+        const updatedCrush = crushEntries.filter((crush) => crush._id !== entry._id);
+        setCrushEntries(updatedCrush);
+        window.location.reload();
+      } else {
+        // Handle errors or provide user feedback if the deletion was unsuccessful
+        console.error('Failed to delete brick entry');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting brick entry:', error);
+    }
+  };
+
+  // for steel
+  const [steelEntries, setSteelEntries] = useState([]); // State to store steel entries
+  const [steelData, setSteelData] = useState({
+    date: '',
+    status: '',
+    supplier: '',
+    brand: '',
+    type: '',
+    quantity: 0,
+    unit_cost: 0,
+    payment: 0,
+    payment_type: 'cash',
+  });
+  const [showSteelForm, setShowSteelForm] = useState(false);
+
+  const handleSteelSubmit = async () => {
+    try {
+      const response = await axios.post(`http://localhost:4000/steel/${projectId}`, steelData);
+  
+      if (response.status === 200) {
+        // Add the newly created brick to the state
+        setSteelEntries([...steelEntries, response.data]);
+  
+        // Reset the brick state
+        setSteelData({
+          date: '',
+          status: '',
+          supplier: '',
+          brand: '',
+          type: '',
+          quantity: 0,
+          unit_cost: 0,
+          payment: 0,
+          payment_type: 'cash',
+        });
+        
+        setShowSteelForm(false);
+        window.location.reload();
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error in handleCrushSubmit:', error);
+    }
+  };
+
+  const handleSteelDelete = async (entry) => {
+    try {
+      // Send a DELETE request to your server to delete the brick entry by its ID
+      
+      const response = await axios.delete(`http://localhost:4000/steel/${entry}`);
+  
+      if (response.status === 204) {
+        // If the request is successful (status 204), remove the brick entry from your state
+        const updatedSteel = steelEntries.filter((steel) => steel._id !== entry._id);
+        setSteelEntries(updatedSteel);
+        window.location.reload();
+      } else {
+        // Handle errors or provide user feedback if the deletion was unsuccessful
+        console.error('Failed to delete brick entry');
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting brick entry:', error);
+    }
+  };
+
+
 
   const { projectId } = useParams(); 
   const handleNameTypeChange = (event) => {
     const selectedName = event.target.value;
     if (selectedName === 'Bricks') {
       setShowBrickForm(true);
-    } else {
-      setShowBrickForm(false);
+    } else if (selectedName === 'Cement') {
+      setShowCementForm(true);
+    } else if(selectedName==='Sand'){
+      setShowSandForm(true);
+    }else if(selectedName==='Crush'){
+      setShowCrushForm(true);
+    }else if(selectedName==='Steel'){
+      setShowSteelForm(true);
     }
   // Use the state updater function to set the state based on the previous state
   setMaterialName(selectedName);
@@ -72,33 +348,80 @@ function MaterialContent() {
  
     // Inside the effect, make the API request to fetch materials when the component mounts or when projectId changes.
     useEffect(() => {
-      async function fetchMaterials() {
-        try {
-          const response = await axios.get(`http://localhost:4000/materials/${projectId}`);
-          const materialsResponse = response.data;
-          const groupedMaterials = {};
-          materialsResponse.forEach((material) => {
-            const name = material.name;
-            if (!groupedMaterials[name]) {
-              groupedMaterials[name] = [];
-            }
-            groupedMaterials[name].push(material);
-          });
-          setMaterials(groupedMaterials);
-        } catch (error) {
-          console.error('Error fetching materials', error);
-        }
-      }
-      fetchMaterials();
+      
       const getAllBricks = async () => {
         try {
           const response = await axios.get(`http://localhost:4000/brick/${projectId}`);
           setBricks(response.data);
+         const brickData=response.data;
+          if (brickData && brickData.length > 0) {
+            setHasBrickEntries(true);
+          }
         } catch (error) {
           console.error('Error fetching bricks:', error);
         }
       };
       getAllBricks();
+      const getAllCement=async()=>{
+        try {
+          const response = await axios.get(`http://localhost:4000/cement/${projectId}`);
+          setCementEntries(response.data);
+          console.log(response.data);
+         const cementData=response.data;
+          if (cementData && cementData.length > 0) {
+            setHasCementEntries(true);
+          }
+        } catch (error) {
+          console.error('Error fetching bricks:', error);
+        }
+      };
+      getAllCement();
+      const getAllSand=async()=>{
+        try {
+          const response = await axios.get(`http://localhost:4000/sand/${projectId}`);
+          setSandEntries(response.data);
+          console.log(response.data);
+         const SandData=response.data;
+          if (SandData && SandData.length > 0) {
+            setHasSandEntries(true);
+          }
+        } catch (error) {
+          console.error('Error fetching bricks:', error);
+        }
+      };
+      getAllSand();
+
+      const getAllCrush=async()=>{
+        try {
+          const response = await axios.get(`http://localhost:4000/crush/${projectId}`);
+          setCrushEntries(response.data);
+          console.log(response.data);
+         const CrushData=response.data;
+          if (CrushData && CrushData.length > 0) {
+            setHasCrushEntries(true);
+          }
+        } catch (error) {
+          console.error('Error fetching bricks:', error);
+        }
+      };
+      getAllCrush();
+
+      const getAllSteel=async()=>{
+        try {
+          const response = await axios.get(`http://localhost:4000/steel/${projectId}`);
+          setSteelEntries(response.data);
+          console.log(response.data);
+         const SteelData=response.data;
+          if (SteelData && SteelData.length > 0) {
+            setHasSteelEntries(true);
+          }
+        } catch (error) {
+          console.error('Error fetching bricks:', error);
+        }
+      };
+      getAllSteel();
+
+      
     }, [projectId]);
     
     
@@ -246,6 +569,10 @@ function MaterialContent() {
     
   };
 
+  const openCementForm=()=>{
+    setShowCementForm(true);
+  }
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
@@ -345,7 +672,304 @@ function MaterialContent() {
                     </Paper>
                     </Modal>
               )}
-                  
+              {materialName === 'Cement' && (
+                  <Modal open={showCementForm} onClose={() =>{ setShowCementForm(false);setMaterialName(''); }} >
+                    <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
+                <h2 style={{ marginBottom: '20px' }}>Add Cement</h2>
+                
+                {/* Add a form to collect brick data */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={cementData.date}
+                    onChange={(e) => setCementData({ ...cementData, date: e.target.value })}
+                  />
+                  <TextField
+                    label="Supplier"
+                    value={cementData.supplier}
+                    onChange={(e) => setCementData({ ...cementData, supplier: e.target.value })}
+                  />
+                  <TextField
+                    label="Brand"
+                    value={cementData.brand}
+                    onChange={(e) => setCementData({ ...cementData, brand: e.target.value })}
+                  />
+                  <Select
+                    label="Status"
+                    value={cementData.status}
+                    onChange={(e) => setCementData({ ...cementData, status: e.target.value })}
+                  >
+                    <MenuItem value="ordered">Ordered</MenuItem>
+                    <MenuItem value="received">Received</MenuItem>
+                  </Select>
+                  <Select
+                    label="Type"
+                    value={cementData.type}
+                    onChange={(e) => setCementData({ ...cementData, type: e.target.value })}
+                  >
+                    <MenuItem value="awal">Awal</MenuItem>
+                    <MenuItem value="dom">Dom</MenuItem>
+                    <MenuItem value="som">Som</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
+                  <TextField
+                    label="Quantity"
+                    type="number"
+                    value={cementData.quantity}
+                    onChange={(e) => setCementData({ ...cementData, quantity: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Unit Cost"
+                    type="number"
+                    value={cementData.unit_cost}
+                    onChange={(e) => setCementData({ ...cementData, unit_cost: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Payment"
+                    type="number"
+                    value={cementData.payment}
+                    onChange={(e) => setCementData({ ...cementData, payment: parseInt(e.target.value) })}
+                  />
+                  <Select
+                    label="Payment Type"
+                    value={cementData.payment_type}
+                    onChange={(e) => setCementData({ ...cementData, payment_type: e.target.value })}
+                  >
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="account">Account</MenuItem>
+                  </Select>
+                  <Button variant="contained" onClick={handleCementSubmit}>
+                    Submit Cement
+                  </Button>
+                </div>
+                    </Paper>
+                  </Modal>
+                )}
+
+                {materialName === 'Sand' && (
+                  <Modal open={showSandForm} onClose={() => {setShowSandForm(false); setMaterialData('')}}>
+                    <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
+                <h2 style={{ marginBottom: '20px' }}>Add Sand</h2>
+                
+                {/* Add a form to collect brick data */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={sandData.date}
+                    onChange={(e) => setSandData({ ...sandData, date: e.target.value })}
+                  />
+                  <TextField
+                    label="Supplier"
+                    value={sandData.supplier}
+                    onChange={(e) => setSandData({ ...sandData, supplier: e.target.value })}
+                  />
+                  <TextField
+                    label="Brand"
+                    value={sandData.brand}
+                    onChange={(e) => setSandData({ ...sandData, brand: e.target.value })}
+                  />
+                  <Select
+                    label="Status"
+                    value={sandData.status}
+                    onChange={(e) => setSandData({ ...sandData, status: e.target.value })}
+                  >
+                    <MenuItem value="ordered">Ordered</MenuItem>
+                    <MenuItem value="received">Received</MenuItem>
+                  </Select>
+                  <Select
+                    label="Type"
+                    value={sandData.type}
+                    onChange={(e) => setSandData({ ...sandData, type: e.target.value })}
+                  >
+                    <MenuItem value="awal">Awal</MenuItem>
+                    <MenuItem value="dom">Dom</MenuItem>
+                    <MenuItem value="som">Som</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
+                  <TextField
+                    label="Quantity"
+                    type="number"
+                    value={sandData.quantity}
+                    onChange={(e) => setSandData({ ...sandData, quantity: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Unit Cost"
+                    type="number"
+                    value={sandData.unit_cost}
+                    onChange={(e) => setSandData({ ...sandData, unit_cost: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Payment"
+                    type="number"
+                    value={sandData.payment}
+                    onChange={(e) => setSandData({ ...sandData, payment: parseInt(e.target.value) })}
+                  />
+                  <Select
+                    label="Payment Type"
+                    value={sandData.payment_type}
+                    onChange={(e) => setSandData({ ...sandData, payment_type: e.target.value })}
+                  >
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="account">Account</MenuItem>
+                  </Select>
+                  <Button variant="contained" onClick={handleSandSubmit}>
+                    Submit Sand
+                  </Button>
+                </div>
+                    </Paper>
+                  </Modal>
+                )}
+
+                {materialName === 'Crush' && (
+                  <Modal open={showCrushForm} onClose={() => {setShowCrushForm(false); setMaterialData('');}}>
+                    <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
+                <h2 style={{ marginBottom: '20px' }}>Add Crush</h2>
+                
+                {/* Add a form to collect brick data */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={crushData.date}
+                    onChange={(e) => setCrushData({ ...crushData, date: e.target.value })}
+                  />
+                  <TextField
+                    label="Supplier"
+                    value={crushData.supplier}
+                    onChange={(e) => setCrushData({ ...crushData, supplier: e.target.value })}
+                  />
+                  <TextField
+                    label="Brand"
+                    value={crushData.brand}
+                    onChange={(e) => setCrushData({ ...crushData, brand: e.target.value })}
+                  />
+                  <Select
+                    label="Status"
+                    value={crushData.status}
+                    onChange={(e) => setCrushData({ ...crushData, status: e.target.value })}
+                  >
+                    <MenuItem value="ordered">Ordered</MenuItem>
+                    <MenuItem value="received">Received</MenuItem>
+                  </Select>
+                  <Select
+                    label="Type"
+                    value={crushData.type}
+                    onChange={(e) => setCrushData({ ...crushData, type: e.target.value })}
+                  >
+                    <MenuItem value="awal">Awal</MenuItem>
+                    <MenuItem value="dom">Dom</MenuItem>
+                    <MenuItem value="som">Som</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
+                  <TextField
+                    label="Quantity"
+                    type="number"
+                    value={crushData.quantity}
+                    onChange={(e) => setCrushData({ ...crushData, quantity: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Unit Cost"
+                    type="number"
+                    value={crushData.unit_cost}
+                    onChange={(e) => setCrushData({ ...crushData, unit_cost: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Payment"
+                    type="number"
+                    value={crushData.payment}
+                    onChange={(e) => setCrushData({ ...crushData, payment: parseInt(e.target.value) })}
+                  />
+                  <Select
+                    label="Payment Type"
+                    value={crushData.payment_type}
+                    onChange={(e) => setCrushData({ ...crushData, payment_type: e.target.value })}
+                  >
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="account">Account</MenuItem>
+                  </Select>
+                  <Button variant="contained" onClick={handleCrushSubmit}>
+                    Submit Crush
+                  </Button>
+                </div>
+                    </Paper>
+                  </Modal>
+                )}
+                {materialName==='Steel'&&(
+                  <Modal open={showSteelForm} onClose={()=>{setShowSteelForm(false); setMaterialData('');}}>
+                    <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
+                <h2 style={{ marginBottom: '20px' }}>Add Steel</h2>
+                
+                {/* Add a form to collect brick data */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <TextField
+                    label="Date"
+                    type="date"
+                    value={steelData.date}
+                    onChange={(e) => setSteelData({ ...steelData, date: e.target.value })}
+                  />
+                  <TextField
+                    label="Supplier"
+                    value={steelData.supplier}
+                    onChange={(e) => setSteelData({ ...steelData, supplier: e.target.value })}
+                  />
+                  <TextField
+                    label="Brand"
+                    value={steelData.brand}
+                    onChange={(e) => setSteelData({ ...steelData, brand: e.target.value })}
+                  />
+                  <Select
+                    label="Status"
+                    value={steelData.status}
+                    onChange={(e) => setSteelData({ ...steelData, status: e.target.value })}
+                  >
+                    <MenuItem value="ordered">Ordered</MenuItem>
+                    <MenuItem value="received">Received</MenuItem>
+                  </Select>
+                  <Select
+                    label="Type"
+                    value={steelData.type}
+                    onChange={(e) => setSteelData({ ...steelData, type: e.target.value })}
+                  >
+                    <MenuItem value="awal">Awal</MenuItem>
+                    <MenuItem value="dom">Dom</MenuItem>
+                    <MenuItem value="som">Som</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </Select>
+                  <TextField
+                    label="Quantity"
+                    type="number"
+                    value={steelData.quantity}
+                    onChange={(e) => setSteelData({ ...steelData, quantity: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Unit Cost"
+                    type="number"
+                    value={steelData.unit_cost}
+                    onChange={(e) => setSteelData({ ...steelData, unit_cost: parseInt(e.target.value) })}
+                  />
+                  <TextField
+                    label="Payment"
+                    type="number"
+                    value={steelData.payment}
+                    onChange={(e) => setSteelData({ ...steelData, payment: parseInt(e.target.value) })}
+                  />
+                  <Select
+                    label="Payment Type"
+                    value={steelData.payment_type}
+                    onChange={(e) => setSteelData({ ...steelData, payment_type: e.target.value })}
+                  >
+                    <MenuItem value="cash">Cash</MenuItem>
+                    <MenuItem value="account">Account</MenuItem>
+                  </Select>
+                  <Button variant="contained" onClick={handleSteelSubmit}>
+                    Submit Steel
+                  </Button>
+                </div>
+                    </Paper>
+                  </Modal>
+                )}    
             </div>
           </Paper>
         </Modal>
@@ -403,6 +1027,7 @@ function MaterialContent() {
               </Table>
             </div>
           ))}
+          
           {Object.entries(customEntries).map(([name, entries], index) => (
             <div key={index} style={{ marginBottom: '20px' }}>
               <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
@@ -435,6 +1060,7 @@ function MaterialContent() {
             </div>
             
           ))}
+          {hasBrickEntries && (
           <div style={{ marginBottom: '20px' }}>
             <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
               Brick
@@ -478,16 +1104,197 @@ function MaterialContent() {
               </TableBody>
             </Table>
           </div>
+          )}
+
+          {hasCementEntries && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+              Cement
+            </h3>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Date</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cementEntries.map((cement, cementIndex) => (
+                  <TableRow key={cementIndex}>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.date}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.status}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.supplier}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.brand}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.quantity}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.unit_cost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.totalCost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment_type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCementDelete(cement._id)}>Delete</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(cement._id)}>Update</button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          )}
+
+          {hasSandEntries && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+              Sand
+            </h3>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Date</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sandEntries.map((sand, sandIndex) => (
+                  <TableRow key={sandIndex}>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.date}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.status}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.supplier}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.brand}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.quantity}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.unit_cost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.totalCost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment_type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSandDelete(sand._id)}>Delete</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(sand._id)}>Update</button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          )}
+
+          {hasSteelEntries && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+              Steel
+            </h3>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Date</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {steelEntries.map((steel, steelIndex) => (
+                  <TableRow key={steelIndex}>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.date}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.status}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.supplier}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.brand}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.quantity}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.unit_cost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.totalCost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment_type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSteelDelete(steel._id)}>Delete</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(steel._id)}>Update</button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          )}
+
+          {hasCrushEntries && (
+          <div style={{ marginBottom: '20px' }}>
+            <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
+              Crush
+            </h3>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Date</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {crushEntries.map((crush, crushIndex) => (
+                  <TableRow key={crushIndex}>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.date}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.status}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.supplier}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.brand}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.quantity}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.unit_cost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.totalCost}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment_type}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCrushDelete(crush._id)}>Delete</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(crush._id)}>Update</button></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          )}
         </TableContainer>
       </Paper>
       
   <div>
-   
-  
-  
 </div>
-
-    </>
+</>
   );}
 
   export default MaterialContent;

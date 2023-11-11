@@ -56,8 +56,7 @@ export const getAllBricks = async (req, res) => {
       const savedBrick = await brick.save();
   
       // Add the brick's ID to the project's bricks array
-      console.log('project.bricks:', project.bricks);
-      console.log('savedBrick._id:', savedBrick._id);
+      
       project.bricks.push(savedBrick._id);
       console.log("hello");
       await project.save();
@@ -96,8 +95,8 @@ export const getAllBricks = async (req, res) => {
       }
       
       if (updatedBrick.quantity && updatedBrick.unit_cost) {
-        updatedBrick.total_cost = updatedBrick.quantity * updatedBrick.unit_cost;
-        updatedBrick.payment_outstanding = updatedBrick.total_cost - updatedBrick.payment;
+        updatedBrick.totalCost = updatedBrick.quantity * updatedBrick.unit_cost;
+        updatedBrick.payment_outstanding = updatedBrick.totalCost - updatedBrick.payment;
       }
       
       res.status(200).json(updatedBrick);
