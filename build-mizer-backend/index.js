@@ -14,6 +14,7 @@ import cementRoute from './Routes/Material/CementRoute.js';
 import crushRoute from './Routes/Material/CrushRoute.js';
 import sandRoute from './Routes/Material/SandRoute.js';
 import steelRoute from './Routes/Material/Steel.js';
+import calculateRoute from './Routes/CalculatorRoute.js';
 const app = express();
 dotenv.config();
 // Middleware
@@ -40,6 +41,7 @@ mongoose.connect(process.env.YOUR_MONGODB_URI, { useNewUrlParser: true, useUnifi
 // Define your routes here
 app.use("/", authRoute);
 app.use("/projects", projectRoute);
+app.use('/calculator',calculateRoute);
 app.use('/materials',materialRoute);
 app.use('/custom',custommaterialRoute);
 app.use('/',userRoute);

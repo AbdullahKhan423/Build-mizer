@@ -26,6 +26,7 @@ const projectSchema = new mongoose.Schema({
       ref: 'Material',
     },
   ],
+  calculator:[{type:mongoose.Schema.Types.ObjectId,ref:'Calculator',},],
   bricks:[{type:mongoose.Schema.Types.ObjectId,
         ref:'Brick'}],
         cement:[{type:mongoose.Schema.Types.ObjectId,
