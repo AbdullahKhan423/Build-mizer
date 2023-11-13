@@ -12,6 +12,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Cookies from 'js-cookie';
 import Modal from '@mui/material/Modal';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -22,6 +27,7 @@ function MaterialContent() {
   const [unitCost, setUnitCost] = useState('');
   const [quantity, setQuantity] = useState('');
   const [hasBrickEntries, setHasBrickEntries] = useState(false);
+  const [totalCost, setTotalCost] = useState();
   const [hasSandEntries,setHasSandEntries]=useState(false);
   const [hasCrushEntries,setHasCrushEntries]=useState(false);
   const [hasCementEntries,setHasCementEntries]=useState(false);
@@ -352,6 +358,7 @@ function MaterialContent() {
       const getAllBricks = async () => {
         try {
           const response = await axios.get(`http://localhost:4000/brick/${projectId}`);
+          console.log(response);
           setBricks(response.data);
          const brickData=response.data;
           if (brickData && brickData.length > 0) {
@@ -420,8 +427,30 @@ function MaterialContent() {
         }
       };
       getAllSteel();
-
+      const getCalculation = async () => {
+        try {
+          const response = await axios.get(`http://localhost:4000/calculator/${projectId}`);
+          console.log(response.data);
       
+          if (response.data && response.data.data && response.data.data.length > 0) {
+            const calculationData = response.data.data[0];
+            console.log(calculationData);
+      
+            if (calculationData && calculationData.totalCost !== undefined) {
+              const totalCost = calculationData.totalCost;
+              setTotalCost(totalCost);
+            } else {
+              console.error('Total cost is undefined or not present in the response');
+            }
+          } else {
+            console.error('Invalid or empty response data');
+          }
+        } catch (error) {
+          console.error('Error fetching calculation', error);
+        }
+      };
+      
+      getCalculation();
     }, [projectId]);
     
     
@@ -575,6 +604,21 @@ function MaterialContent() {
 
   return (
     <>
+    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
+  <Accordion style={{ width: '100%', maxWidth: '1000px' }}>
+    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+      <Typography variant="h6" style={{ textAlign: 'center' }}>
+        {totalCost !== undefined ? `Total Estimated Cost of Grey Structure: ${totalCost}` : 'Loading...'}
+      </Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      {/* Add the content you want to display inside the Accordion here */}
+      <Typography>
+        {/* You can display additional details or data here */}
+      </Typography>
+    </AccordionDetails>
+  </Accordion>
+</div>
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
         <Button variant="contained" onClick={openMaterialForm} style={{ marginRight: '10px' }}>
           Add Material

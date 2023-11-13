@@ -39,6 +39,7 @@ function ProjectManager() {
    
   });
   const [isNavigating, setIsNavigating] = useState(false);
+  const [squareFeet, setSquareFeet] = useState('');
   const [nameError, setNameError] = useState(false);
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
@@ -87,49 +88,58 @@ function ProjectManager() {
     setShowInputForm(true);
   };
 
-  const handleSubmitProject = () => {
-   console.log(cookies.token);
+  const handleSubmitProject = async () => {
+    console.log(cookies.token);
     if (!projectData.name) {
       setNameError(true);
       return;
     }
-    
-     //const token = getCookie("token");
-    // Clear the form and update projects
-    fetch('http://localhost:4000/projects/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-
-      },
-      body: JSON.stringify(projectData),
-    })
-      .then(response => {
-        if (response.ok) {
-          // Handle a successful response (status code 200) from the server
-          window.location.reload();
-          console.log('Project submitted successfully!');
-          // Clear the form and update local state
-          setProjects([...projects, projectData]);
-          setShowInputForm(false);
-          setIsNavigating(true);
   
-          // Simulate navigation to a different tab or route after a delay
-          setTimeout(() => {
-            setIsNavigating(false);
-            // Use routing to navigate to a different tab
-          }, 3000);
-        } else {
-          // Handle errors or other responses from the server
-          console.error('Error submitting project');
-        }
-      })
-      .catch(error => {
-        // Handle network errors
-        console.error('Network error:', error);
+    let projectResponse;  // Declare projectResponse outside the try block
+  
+    try {
+      // Clear the form and update projects
+      projectResponse = await fetch('http://localhost:4000/projects/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(projectData),
       });
+  
+      if (projectResponse.ok) {
+        // Handle a successful response (status code 200) from the server
+        
+        console.log('Project submitted successfully!');
+  
+        // Clear the form and update local state
+        const projectDataWithId = await projectResponse.json();
+        setProjects([...projects, projectDataWithId]);
+        setShowInputForm(false);
+        setIsNavigating(true);
+  
+        // Simulate navigation to a different tab or route after a delay
+        setTimeout(() => {
+          setIsNavigating(false);
+          // Use routing to navigate to a different tab
+        }, 3000);
+  
+        // Step 2: Make a separate Axios request for square feet
+        const squareFeetResponse = await axios.post(`http://localhost:4000/calculator/${projectDataWithId._id}`, {
+          squareFeet,
+        });
+        console.log('Square feet submitted successfully:', squareFeetResponse.data);
+      } else {
+        // Handle errors or other responses from the server
+        console.error('Error submitting project');
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Network error:', error);
+    }
   };
+  
 
   const handleDelete = (projectId) => {
     console.log(projectId);
@@ -219,6 +229,12 @@ function ProjectManager() {
             value={projectData.location}
             onChange={(e) => setProjectData({ ...projectData, location: e.target.value })}
             sx={{  mx:1,my:1 }}
+          />
+          <TextField
+            label="Square Feet"
+            value={squareFeet}
+            onChange={(e) => setSquareFeet(e.target.value)}
+            sx={{ mx: 1, my: 1 }}
           />
          
           {/* Add more input fields for other project details */}
