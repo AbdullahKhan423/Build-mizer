@@ -39,6 +39,12 @@ const calculatorSchema = new mongoose.Schema({
   totalCost: {
     type: Number,
   },
+  brickQuantityDifference: {
+    type: Number, // or any other data type suitable for your application
+  },
+  cementQuantityDifference:{type:Number,},
+  crushQuantityDifference:{type:Number,},
+  sandQuantityDifference:{type:Number,},
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project', // Reference to the Project model
