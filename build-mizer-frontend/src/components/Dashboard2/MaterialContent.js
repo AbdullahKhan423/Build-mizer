@@ -12,6 +12,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Cookies from 'js-cookie';
 import Modal from '@mui/material/Modal';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -28,6 +30,16 @@ function MaterialContent() {
   const [quantity, setQuantity] = useState('');
   const [hasBrickEntries, setHasBrickEntries] = useState(false);
   const [totalCost, setTotalCost] = useState();
+  const [bricksRate,setBricksRate]=useState();
+  const [bricksQuantity,setBricksQuantity]=useState();
+  const [cementRate, setCementRate]=useState();
+  const [cementQuantity,setCementQuantity]=useState();
+  const [sandRate,setSandRate]=useState();
+  const [sandQuantity,setSandQuantity]=useState();
+  const [steelQuantity,setSteelQuantity]=useState();
+  const [steelRate,setSteelRate]=useState();
+  const [crushQuantity,setCrushQuantity]=useState();
+  const [crushRate, setCrushRate]=useState();
   const [hasSandEntries,setHasSandEntries]=useState(false);
   const [hasCrushEntries,setHasCrushEntries]=useState(false);
   const [hasCementEntries,setHasCementEntries]=useState(false);
@@ -36,6 +48,9 @@ function MaterialContent() {
   const [materialName,setMaterialName]=useState('');
   const [customEntries, setCustomEntries] = useState({});
   const [materials, setMaterials] = useState([]);
+  const [accordionOpen, setAccordionOpen] = useState(false);
+
+  
   const token = Cookies.get('token');
   const [materialData, setMaterialData] = useState({
     name: '',
@@ -438,7 +453,28 @@ function MaterialContent() {
       
             if (calculationData && calculationData.totalCost !== undefined) {
               const totalCost = calculationData.totalCost;
+              const bricksQuantity=calculationData.bricksQuantity;
+              const bricksRate=calculationData.bricksRate;
+              const cementQuantity=calculationData.cementQuantity;
+              const cementRate=calculationData.cementRate;
+              const crushQuantity=calculationData.crushQuantity;
+              const crushRate=calculationData.crushRate;
+              const sandQuantity=calculationData.sandQuantity;
+              const sandRate=calculationData.sandRate;
+              const steelQuantity=calculationData.steelQuantity;
+              const steelRate=calculationData.steelRate;
               setTotalCost(totalCost);
+              setBricksQuantity(bricksQuantity);
+              setBricksRate(bricksRate);
+              setCementQuantity(cementQuantity);
+              setCementRate(cementRate);
+              setCrushQuantity(crushQuantity);
+              setCrushRate(crushRate);
+              setSandQuantity(sandQuantity);
+              setSandRate(sandRate);
+              setSteelQuantity(steelQuantity);
+              setSteelRate(steelRate);
+
             } else {
               console.error('Total cost is undefined or not present in the response');
             }
@@ -612,10 +648,50 @@ function MaterialContent() {
       </Typography>
     </AccordionSummary>
     <AccordionDetails>
-      {/* Add the content you want to display inside the Accordion here */}
-      <Typography>
-        {/* You can display additional details or data here */}
-      </Typography>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Item</TableCell>
+              <TableCell>Rate</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Cost</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>Bricks</TableCell>
+              <TableCell>{bricksRate}/Unit</TableCell>
+              <TableCell>{bricksQuantity}</TableCell>
+              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Cement</TableCell>
+              <TableCell>{cementRate}/Bag</TableCell>
+              <TableCell>{cementQuantity}</TableCell>
+              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Crush</TableCell>
+              <TableCell>{crushRate}/Cft</TableCell>
+              <TableCell>{crushQuantity}</TableCell>
+              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Sand</TableCell>
+              <TableCell>{sandRate}/Cft</TableCell>
+              <TableCell>{sandQuantity}</TableCell>
+              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Steel</TableCell>
+              <TableCell>{steelRate}</TableCell>
+              <TableCell>{steelQuantity}</TableCell>
+              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </AccordionDetails>
   </Accordion>
 </div>
@@ -628,7 +704,8 @@ function MaterialContent() {
           Add Custom Material
         </Button>
       </div>
-      <Paper>
+      
+      <Paper style={{ maxWidth: '800px', margin: 'auto', overflowX: 'auto' }}>
         <Modal open={showMaterialForm} onClose={() => setShowMaterialForm(false)}>
           <Paper style={{ padding: '20px', textAlign: 'center' }}>
             <h2 style={{ marginBottom: '20px' }}>Add Material</h2>
@@ -1335,7 +1412,7 @@ function MaterialContent() {
           )}
         </TableContainer>
       </Paper>
-      
+    
   <div>
 </div>
 </>
