@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
+import CircularProgress from '@mui/material/CircularProgress';
+import {Backdrop}  from '@mui/material';
+import Slide from '@mui/material/Slide';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -21,6 +24,15 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { TransitionProps } from '@mui/material/transitions';
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function MaterialContent() {
   const [showMaterialForm, setShowMaterialForm] = useState(false);
@@ -29,6 +41,7 @@ function MaterialContent() {
   const [unitCost, setUnitCost] = useState('');
   const [quantity, setQuantity] = useState('');
   const [hasBrickEntries, setHasBrickEntries] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalCost, setTotalCost] = useState();
   const [bricksRate,setBricksRate]=useState();
   const [bricksQuantity,setBricksQuantity]=useState();
@@ -49,7 +62,40 @@ function MaterialContent() {
   const [customEntries, setCustomEntries] = useState({});
   const [materials, setMaterials] = useState([]);
   const [accordionOpen, setAccordionOpen] = useState(false);
-
+  const [bricksQuantityDifference, setBricksQuantityDifference] = useState(0);
+  const [cementQuantityDifference, setCementQuantityDifference] = useState(0);
+  const [crushQuantityDifference, setCrushQuantityDifference] = useState(0);
+  const [sandQuantityDifference, setSandQuantityDifference] = useState(0);
+  const [open, setOpen] = useState(false);
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = async (projectId) => {
+    try {
+      setLoading(true);
+      console.log("hello");
+  
+      // Make your API call to calculate differences
+      const response = await axios.post(`http://localhost:4000/calculator/${projectId}/calculate-differences/`);
+      
+      // Process your data or update state as needed
+      const { data } = response;
+      
+      // Assuming the data structure includes properties like bricksQuantityDifference, cementQuantityDifference, etc.
+      setBricksQuantityDifference(data.brickQuantityDifference);
+      setCementQuantityDifference(data.cementQuantityDifference);
+      setCrushQuantityDifference(data.crushQuantityDifference);
+      setSandQuantityDifference(data.sandQuantityDifference);
+      
+    } catch (error) {
+      // Handle error scenarios if needed
+      console.error('Error calculating differences:', error);
+    } finally {
+      setLoading(false);
+      setOpen(true);
+    }
+  };
   
   const token = Cookies.get('token');
   const [materialData, setMaterialData] = useState({
@@ -369,7 +415,7 @@ function MaterialContent() {
  
     // Inside the effect, make the API request to fetch materials when the component mounts or when projectId changes.
     useEffect(() => {
-      
+      setLoading(true);
       const getAllBricks = async () => {
         try {
           const response = await axios.get(`http://localhost:4000/brick/${projectId}`);
@@ -463,6 +509,11 @@ function MaterialContent() {
               const sandRate=calculationData.sandRate;
               const steelQuantity=calculationData.steelQuantity;
               const steelRate=calculationData.steelRate;
+              const bricksQuantityDifference=calculationData.brickQuantityDifference;
+              const cementQuantityDifference=calculationData.cementQuantityDifference;
+              const crushQuantityDifference=calculationData.crushQuantityDifference;
+              const sandQuantityDifference=calculationData.sandQuantityDifference;
+              
               setTotalCost(totalCost);
               setBricksQuantity(bricksQuantity);
               setBricksRate(bricksRate);
@@ -474,6 +525,11 @@ function MaterialContent() {
               setSandRate(sandRate);
               setSteelQuantity(steelQuantity);
               setSteelRate(steelRate);
+              setBricksQuantityDifference(bricksQuantityDifference);
+              setCementQuantityDifference(cementQuantityDifference);
+              setCrushQuantityDifference(crushQuantityDifference);
+              setSandQuantityDifference(sandQuantityDifference);
+
 
             } else {
               console.error('Total cost is undefined or not present in the response');
@@ -483,6 +539,9 @@ function MaterialContent() {
           }
         } catch (error) {
           console.error('Error fetching calculation', error);
+        } finally {
+          // Regardless of success or error, set loading to false
+          setLoading(false);
         }
       };
       
@@ -640,6 +699,10 @@ function MaterialContent() {
 
   return (
     <>
+     {loading ? (
+      <CircularProgress sx={{ position: 'absolute', top: '50%', left: '60%' }} />
+    ) : (
+      <>
     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
   <Accordion style={{ width: '100%', maxWidth: '1000px' }}>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -704,7 +767,60 @@ function MaterialContent() {
           Add Custom Material
         </Button>
       </div>
-      
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px', padding: '5px' }}>
+  <Button variant="contained" color="success" onClick={() => handleOpen(projectId)}>Track Progress</Button>
+  <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+  <Dialog
+    open={open}
+    TransitionComponent={Transition}
+    keepMounted
+    onClose={handleClose}
+    fullWidth
+    maxWidth="md"
+  >
+    <DialogTitle>Your Table Title</DialogTitle>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Item</TableCell>
+            <TableCell>Estimated Quantity</TableCell>
+            <TableCell>Remaining Quantity</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableCell>Brick</TableCell>
+            <TableCell>{bricksQuantity}</TableCell>
+            <TableCell>{bricksQuantityDifference}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Sand</TableCell>
+            <TableCell>{sandQuantity}</TableCell>
+            <TableCell>{sandQuantityDifference}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Cement</TableCell>
+            <TableCell>{cementQuantity}</TableCell>
+            <TableCell>{cementQuantityDifference}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Crush</TableCell>
+            <TableCell>{crushQuantity}</TableCell>
+            <TableCell>{crushQuantityDifference}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Dialog>
+      </div>
+
       <Paper style={{ maxWidth: '800px', margin: 'auto', overflowX: 'auto' }}>
         <Modal open={showMaterialForm} onClose={() => setShowMaterialForm(false)}>
           <Paper style={{ padding: '20px', textAlign: 'center' }}>
@@ -1415,6 +1531,8 @@ function MaterialContent() {
     
   <div>
 </div>
+</>
+    )}
 </>
   );}
 

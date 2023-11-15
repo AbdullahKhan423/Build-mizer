@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import { useUser } from '../../context/UserContext';
+import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
@@ -39,6 +40,7 @@ function ProjectManager() {
    
   });
   const [isNavigating, setIsNavigating] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [squareFeet, setSquareFeet] = useState('');
   const [nameError, setNameError] = useState(false);
   const navigate = useNavigate();
@@ -48,6 +50,7 @@ function ProjectManager() {
   const { user } = useUser();
   useEffect(() => {
     const verifyCookie = async () => {
+      setLoading(true);
       if (!cookies.token) {
         navigate("/signin");
         return; // Return to exit the function if the token is missing.
@@ -77,6 +80,8 @@ function ProjectManager() {
         console.error("Error:", error);
         removeCookie("token");
         navigate("/signin");
+      }finally{
+        setLoading(false);
       }
     };
     verifyCookie();
@@ -170,9 +175,13 @@ function ProjectManager() {
 
   return (
     <>
+  {loading ? (
+    <CircularProgress sx={{ position: 'absolute', top: '50%', left: '60%' }} />
+  ) : (
 
-  <Paper sx={{ marginTop: '2%' }}>
-
+  
+    <>
+      <Paper sx={{ marginTop: '2%' }}>
       <TableContainer component={Paper}>
       <Table>
       <TableHead>
@@ -242,15 +251,19 @@ function ProjectManager() {
         </Box>
       </Modal>
       {isNavigating && <div>Navigating to a different tab...</div>}
+      
+      
+      
     </Paper>
       <div style={{ display: 'flex' ,justifyContent: 'center', marginBottom: '10px' }}>
       <Button onClick={handleAddProjectClick} variant="contained" sx={{ ml: 'auto', m: 2 }}>
       Add Project
       </Button>
       </div>
-    </>
+      </>
+    )}
+  </>
   );
 }
 
 export default ProjectManager;
-//material
