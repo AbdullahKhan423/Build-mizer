@@ -36,7 +36,37 @@ const calculatorSchema = new mongoose.Schema({
   cementQuantity: {
     type: Number,
   },
+  sandCost:{
+    type:Number,
+  },
+  brickCost:{
+    type:Number,
+  },
+  crushCost:{
+    type:Number,
+  },
+  cementCost:{
+    type:Number,
+  },
+  steelCost:{
+    type:Number,
+  },
   totalCost: {
+    type: Number,
+  },
+  brickCostDifference: {
+    type: Number, // or any other data type suitable for your application
+  },
+  cementCostDifference: {
+    type: Number,
+  },
+  crushCostDifference: {
+    type: Number,
+  },
+  sandCostDifference: {
+    type: Number,
+  },
+  steelCostDifference:{
     type: Number,
   },
   brickQuantityDifference: {

@@ -30,6 +30,19 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TransitionProps } from '@mui/material/transitions';
+
+function formatCurrency(number) {
+  const formatter = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'PKR', // Assuming INR as the currency, you can change it accordingly
+    notation: 'compact',
+    compactDisplay: 'long',
+  });
+
+  return formatter.format(number);
+}
+
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -43,6 +56,11 @@ function MaterialContent() {
   const [hasBrickEntries, setHasBrickEntries] = useState(false);
   const [loading, setLoading] = useState(true);
   const [totalCost, setTotalCost] = useState();
+  const [brickCost, setBrickCost] = useState(0);
+  const [sandCost, setSandCost] = useState(0);
+  const [steelCost, setSteelCost] = useState(0);
+  const [cementCost, setCementCost] = useState(0);
+  const [crushCost, setCrushCost] = useState(0);
   const [bricksRate,setBricksRate]=useState();
   const [bricksQuantity,setBricksQuantity]=useState();
   const [cementRate, setCementRate]=useState();
@@ -57,7 +75,6 @@ function MaterialContent() {
   const [hasCrushEntries,setHasCrushEntries]=useState(false);
   const [hasCementEntries,setHasCementEntries]=useState(false);
   const [hasSteelEntries,setHasSteelEntries]=useState(false);
-  // i introduced this state and now i am going to replace materialtype with materialName
   const [materialName,setMaterialName]=useState('');
   const [customEntries, setCustomEntries] = useState({});
   const [materials, setMaterials] = useState([]);
@@ -509,6 +526,11 @@ function MaterialContent() {
               const sandRate=calculationData.sandRate;
               const steelQuantity=calculationData.steelQuantity;
               const steelRate=calculationData.steelRate;
+              const brickCost=calculationData.brickCost;
+              const cementCost=calculationData.cementCost;
+              const crushCost=calculationData.crushCost;
+              const steelCost=calculationData.steelCost;
+              const sandCost=calculationData.sandCost;
               const bricksQuantityDifference=calculationData.brickQuantityDifference;
               const cementQuantityDifference=calculationData.cementQuantityDifference;
               const crushQuantityDifference=calculationData.crushQuantityDifference;
@@ -525,6 +547,11 @@ function MaterialContent() {
               setSandRate(sandRate);
               setSteelQuantity(steelQuantity);
               setSteelRate(steelRate);
+              setBrickCost(brickCost);
+              setSandCost(sandCost);
+              setSteelCost(steelCost);
+              setCementCost(cementCost);
+              setCrushCost(crushCost);
               setBricksQuantityDifference(bricksQuantityDifference);
               setCementQuantityDifference(cementQuantityDifference);
               setCrushQuantityDifference(crushQuantityDifference);
@@ -707,7 +734,7 @@ function MaterialContent() {
   <Accordion style={{ width: '100%', maxWidth: '1000px' }}>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>
-        {totalCost !== undefined ? `Total Estimated Cost of Grey Structure: ${totalCost}` : 'Loading...'}
+        {totalCost !== undefined ? `Total Estimated Cost of Grey Structure: ${formatCurrency(totalCost)}` : 'Loading...'}
       </Typography>
     </AccordionSummary>
     <AccordionDetails>
@@ -726,31 +753,31 @@ function MaterialContent() {
               <TableCell>Bricks</TableCell>
               <TableCell>{bricksRate}/Unit</TableCell>
               <TableCell>{bricksQuantity}</TableCell>
-              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+              <TableCell>{brickCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Cement</TableCell>
               <TableCell>{cementRate}/Bag</TableCell>
               <TableCell>{cementQuantity}</TableCell>
-              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+              <TableCell>{cementCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Crush</TableCell>
               <TableCell>{crushRate}/Cft</TableCell>
               <TableCell>{crushQuantity}</TableCell>
-              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+              <TableCell>{crushCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Sand</TableCell>
               <TableCell>{sandRate}/Cft</TableCell>
               <TableCell>{sandQuantity}</TableCell>
-              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+              <TableCell>{sandCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Steel</TableCell>
               <TableCell>{steelRate}</TableCell>
               <TableCell>{steelQuantity}</TableCell>
-              <TableCell>{/* Calculate cost or leave it empty */}</TableCell>
+              <TableCell>{steelCost} Rs</TableCell>
             </TableRow>
           </TableBody>
         </Table>
