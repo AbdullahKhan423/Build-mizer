@@ -83,6 +83,12 @@ function MaterialContent() {
   const [cementQuantityDifference, setCementQuantityDifference] = useState(0);
   const [crushQuantityDifference, setCrushQuantityDifference] = useState(0);
   const [sandQuantityDifference, setSandQuantityDifference] = useState(0);
+  const [brickCostDifference, setBrickCostDifference] = useState(0);
+  const [cementCostDifference, setCementCostDifference] = useState(0);
+  const [crushCostDifference, setCrushCostDifference] = useState(0);
+  const [sandCostDifference, setSandCostDifference] = useState(0);
+
+
   const [open, setOpen] = useState(false);
   
   const handleClose = () => {
@@ -104,7 +110,10 @@ function MaterialContent() {
       setCementQuantityDifference(data.cementQuantityDifference);
       setCrushQuantityDifference(data.crushQuantityDifference);
       setSandQuantityDifference(data.sandQuantityDifference);
-      
+      setBrickCostDifference(data.brickCostDifference);
+      setCementCostDifference(data.cementCostDifference);
+      setCrushCostDifference(data.crushCostDifference);
+      setSandCostDifference(data.sandCostDifference);
     } catch (error) {
       // Handle error scenarios if needed
       console.error('Error calculating differences:', error);
@@ -811,8 +820,16 @@ function MaterialContent() {
     fullWidth
     maxWidth="md"
   >
-    <DialogTitle>Your Table Title</DialogTitle>
+   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <Typography variant="h5" style={{ margin: '10px' }} gutterBottom>
+    Inventory and Cost tracker
+  </Typography>
+  {/* Your other components go here */}
+</div>
     <TableContainer>
+    <Typography variant="h6" gutterBottom>
+        Inventory tracking
+      </Typography>
       <Table>
         <TableHead>
           <TableRow>
@@ -824,27 +841,70 @@ function MaterialContent() {
         <TableBody>
           <TableRow>
             <TableCell>Brick</TableCell>
-            <TableCell>{bricksQuantity}</TableCell>
-            <TableCell>{bricksQuantityDifference}</TableCell>
+            <TableCell>{bricksQuantity} No of bricks</TableCell>
+            <TableCell>{bricksQuantityDifference} No of bricks</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Sand</TableCell>
-            <TableCell>{sandQuantity}</TableCell>
-            <TableCell>{sandQuantityDifference}</TableCell>
+            <TableCell>{sandQuantity} CFT</TableCell>
+            <TableCell>{sandQuantityDifference} CFT</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Cement</TableCell>
-            <TableCell>{cementQuantity}</TableCell>
-            <TableCell>{cementQuantityDifference}</TableCell>
+            <TableCell>{cementQuantity} No of bags</TableCell>
+            <TableCell>{cementQuantityDifference} No of bags</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Crush</TableCell>
-            <TableCell>{crushQuantity}</TableCell>
-            <TableCell>{crushQuantityDifference}</TableCell>
+            <TableCell>{crushQuantity} CFT</TableCell>
+            <TableCell>{crushQuantityDifference} CFT</TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
+
+    <TableContainer style={{ margin: '10px' }}>
+    <Typography variant="h6" gutterBottom>
+        Cost tracking
+      </Typography>
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell>Material</TableCell>
+        <TableCell>Estimated Cost</TableCell>
+        
+        <TableCell>Remaining Payment</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell>Brick</TableCell>
+        <TableCell>{brickCost} Rs</TableCell>
+        
+        <TableCell>{brickCostDifference} Rs</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Cement</TableCell>
+        <TableCell>{cementCost} Rs</TableCell>
+        
+        <TableCell>{cementCostDifference} Rs</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Crush</TableCell>
+        <TableCell>{crushCost} Rs</TableCell>
+       
+        <TableCell>{crushCostDifference} Rs</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Sand</TableCell>
+        <TableCell>{sandCost} Rs</TableCell>
+        
+        <TableCell>{sandCostDifference} Rs</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableContainer>
+
   </Dialog>
       </div>
 
