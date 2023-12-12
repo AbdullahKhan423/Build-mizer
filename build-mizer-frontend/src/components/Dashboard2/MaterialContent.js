@@ -5,6 +5,8 @@ import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import CircularProgress from '@mui/material/CircularProgress';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import {Backdrop}  from '@mui/material';
 import Slide from '@mui/material/Slide';
 import TableCell from '@mui/material/TableCell';
@@ -22,7 +24,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useParams } from 'react-router-dom';
+import { Form, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -914,14 +916,16 @@ function MaterialContent() {
             <h2 style={{ marginBottom: '20px' }}>Add Material</h2>
   
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              
-              <Select label="Material Type" value={materialName} onChange={handleNameTypeChange}>
+              <FormControl fullWidth>
+                <InputLabel labelId='material-type'>Material Type</InputLabel>
+              <Select label="Material Type" labelId='material-type' value={materialName} onChange={handleNameTypeChange}>
                 {["Bricks", "Sand", "Crush", "Cement", "Steel"].map((material) => (
                   <MenuItem key={material} value={material}>
                     {material}
                   </MenuItem>
                 ))}
               </Select>
+              </FormControl>
               {materialName==='Bricks'&&(
                  <Modal open={showBrickForm}    onClose={() =>{ setShowBrickForm(false);setMaterialName(''); }}>
                 <Paper style={{ padding: '20px', textAlign: 'center',maxHeight: '100vh', overflowY: 'auto', margin: 'auto', width: '50%' }}>
@@ -938,23 +942,58 @@ function MaterialContent() {
                   <TextField
                     label="Supplier"
                     value={brick.supplier}
-                    onChange={(e) => setBrick({ ...brick, supplier: e.target.value })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only letters
+                      if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+                        setBrick({ ...brick, supplier: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
-                  <TextField
+
+                  <FormControl fullWidth>
+                  <InputLabel labelId='brick-brand-label'>Brand</InputLabel>
+                  <Select
+                    labelId='brick-brand-label'
                     label="Brand"
                     value={brick.brand}
                     onChange={(e) => setBrick({ ...brick, brand: e.target.value })}
-                  />
+                  >
+                    <MenuItem value="Awwal Bricks 101">Awwal Bricks 101</MenuItem>
+                    <MenuItem value="Awwal Bricks S">Awwal Bricks S</MenuItem>
+                    <MenuItem value="Fly Ash Bricks AAA">Fly Ash Bricks AAA</MenuItem>
+                    <MenuItem value="Awwal Bricks CH">Awwal Bricks CH</MenuItem>
+                    <MenuItem value="Awwal Bricks SB">Awwal Bricks SB</MenuItem>
+                    <MenuItem value="Awal Bricks Machine Made">Awal Bricks Machine Made</MenuItem>
+                    <MenuItem value="Awwal Bricks KS">Awwal Bricks KS</MenuItem>
+                    <MenuItem value="Awwal Bricks PK">Awwal Bricks PK</MenuItem>
+                    <MenuItem value="Awwal Tile Bricks">Awwal Tile Bricks</MenuItem>
+                    <MenuItem value="Doam Bricks (B Class)">Doam Bricks (B Class)</MenuItem>
+                    <MenuItem value="Khangar Bricks 325">Khangar Bricks 325</MenuItem>
+                    <MenuItem value="Tuff Tiles">Tuff Tiles</MenuItem>
+                    <MenuItem value="D25">D25</MenuItem>
+
+                  </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                  <InputLabel labelId='brick-status-label'>Status</InputLabel>
                   <Select
                     label="Status"
+                    labelId='Status'
                     value={brick.status}
                     onChange={(e) => setBrick({ ...brick, status: e.target.value })}
                   >
                     <MenuItem value="ordered">Ordered</MenuItem>
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                  <InputLabel labelId='type-label'>Type</InputLabel>
                   <Select
                     label="Type"
+                    labelId='type-label'
                     value={brick.type}
                     onChange={(e) => setBrick({ ...brick, type: e.target.value })}
                   >
@@ -963,23 +1002,48 @@ function MaterialContent() {
                     <MenuItem value="som">Som</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
                   </Select>
+                  </FormControl>
                   <TextField
                     label="Quantity"
-                    type="number"
+                    type="text"
                     value={brick.quantity}
-                    onChange={(e) => setBrick({ ...brick, quantity: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numbers
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setBrick({ ...brick, quantity: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Unit Cost"
-                    type="number"
+                    type="text"
                     value={brick.unit_cost}
-                    onChange={(e) => setBrick({ ...brick, unit_cost: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numbers
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setBrick({ ...brick, unit_cost: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Payment"
-                    type="number"
+                    type="text"
                     value={brick.payment}
-                    onChange={(e) => setBrick({ ...brick, payment: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numbers
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setBrick({ ...brick, payment: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <Select
                     label="Payment Type"
@@ -1009,17 +1073,46 @@ function MaterialContent() {
                     value={cementData.date}
                     onChange={(e) => setCementData({ ...cementData, date: e.target.value })}
                   />
-                  <TextField
-                    label="Supplier"
-                    value={cementData.supplier}
-                    onChange={(e) => setCementData({ ...cementData, supplier: e.target.value })}
-                  />
-                  <TextField
-                    label="Brand"
-                    value={cementData.brand}
-                    onChange={(e) => setCementData({ ...cementData, brand: e.target.value })}
-                  />
+                 
+                 <TextField
+                  label="Supplier"
+                  value={cementData.supplier}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+
+                    // Check if the input contains only letters and spaces
+                    if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+                      setCementData({ ...cementData, supplier: inputValue });
+                    }
+                    // You might provide feedback to the user about the invalid input here if needed
+                  }}
+                />
+                  
+                  <FormControl fullWidth>
+                    <InputLabel id="cement-brand-label">Brand</InputLabel>
+                    <Select
+                      labelId="cement-brand-label"
+                      value={cementData.brand}
+                      onChange={(e) => setCementData({ ...cementData, brand: e.target.value })}
+                      label="Brand"
+                    >
+                      <MenuItem value="Flying Cement">Flying Cement</MenuItem>
+                      <MenuItem value="Bestway Cement">Bestway Cement</MenuItem>
+                      <MenuItem value="Bestway Xtreme Bond">Bestway Xtreme Bond</MenuItem>
+                      <MenuItem value="Bestway SRC">Bestway SRC</MenuItem>
+                      <MenuItem value="Bestway Pakcem">Bestway Pakcem</MenuItem>
+                      <MenuItem value="Cherat Cement OPC">Cherat Cement OPC</MenuItem>
+                      <MenuItem value="DG Cement OPC">DG Cement OPC</MenuItem>
+                      <MenuItem value="Kohat Cement">Kohat Cement</MenuItem>
+                      <MenuItem value="Fauji Cement">Fauji Cement</MenuItem>
+                      <MenuItem value="Lucky Cement OPC">Lucky Cement OPC</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="cement-status-label">Status</InputLabel>
                   <Select
+                    labelId='cement-status-label'
                     label="Status"
                     value={cementData.status}
                     onChange={(e) => setCementData({ ...cementData, status: e.target.value })}
@@ -1027,6 +1120,7 @@ function MaterialContent() {
                     <MenuItem value="ordered">Ordered</MenuItem>
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
+                  </FormControl>
                   <Select
                     label="Type"
                     value={cementData.type}
@@ -1038,23 +1132,47 @@ function MaterialContent() {
                     <MenuItem value="other">Other</MenuItem>
                   </Select>
                   <TextField
-                    label="Quantity"
-                    type="number"
-                    value={cementData.quantity}
-                    onChange={(e) => setCementData({ ...cementData, quantity: parseInt(e.target.value) })}
-                  />
-                  <TextField
-                    label="Unit Cost"
-                    type="number"
-                    value={cementData.unit_cost}
-                    onChange={(e) => setCementData({ ...cementData, unit_cost: parseInt(e.target.value) })}
-                  />
-                  <TextField
-                    label="Payment"
-                    type="number"
-                    value={cementData.payment}
-                    onChange={(e) => setCementData({ ...cementData, payment: parseInt(e.target.value) })}
-                  />
+        label="Quantity"
+        type="text"
+        value={cementData.quantity}
+        onChange={(e) => {
+          const inputValue = e.target.value;
+
+          // Check if the input contains only numeric characters
+          if (/^[0-9]*$/.test(inputValue)) {
+            setCementData({ ...cementData, quantity: inputValue });
+          }
+          // You might provide feedback to the user about the invalid input here if needed
+        }}
+      />
+      <TextField
+        label="Unit Cost"
+        type="text"
+        value={cementData.unit_cost}
+        onChange={(e) => {
+          const inputValue = e.target.value;
+
+          // Check if the input contains only numeric characters
+          if (/^[0-9]*$/.test(inputValue)) {
+            setCementData({ ...cementData, unit_cost: inputValue });
+          }
+          // You might provide feedback to the user about the invalid input here if needed
+        }}
+      />
+      <TextField
+        label="Payment"
+        type="text"
+        value={cementData.payment}
+        onChange={(e) => {
+          const inputValue = e.target.value;
+
+          // Check if the input contains only numeric characters
+          if (/^[0-9]*$/.test(inputValue)) {
+            setCementData({ ...cementData, payment: inputValue });
+          }
+          // You might provide feedback to the user about the invalid input here if needed
+        }}
+      />
                   <Select
                     label="Payment Type"
                     value={cementData.payment_type}
@@ -1087,21 +1205,47 @@ function MaterialContent() {
                   <TextField
                     label="Supplier"
                     value={sandData.supplier}
-                    onChange={(e) => setSandData({ ...sandData, supplier: e.target.value })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only letters and spaces
+                      if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+                        setSandData({ ...sandData, supplier: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
-                  <TextField
+                  <FormControl fullWidth>
+                    <InputLabel labelId='sand-brand-label'>Brand</InputLabel>
+                  <Select
                     label="Brand"
+                    labelId='sand-brand-label'
                     value={sandData.brand}
                     onChange={(e) => setSandData({ ...sandData, brand: e.target.value })}
-                  />
+                  >
+                    <MenuItem value="Chanab Sand A+ Trolley 1250 CFT">Chanab Sand A+ Trolley 1250 CFT</MenuItem>
+                    <MenuItem value="Chanab Sand B Trolley 1250 CFT">Chanab Sand B Trolley 1250 CFT</MenuItem>
+                    <MenuItem value="Chanab Sand C Trolly 1250 CFT">Chanab Sand C Trolly 1250 CFT</MenuItem>
+                    <MenuItem value="Head Qadirabad Trolley 900 CFT">Head Qadirabad Trolley 900 CFT</MenuItem>
+                    <MenuItem value="Lawrencepur/ Harrow Trolley 900 CFT">Lawrencepur/ Harrow Trolley 900 CFT</MenuItem>
+                    <MenuItem value="Ravi Sand Trolley 700 CFT">Ravi Sand Trolley 700 CFT</MenuItem>
+                    <MenuItem value="Ravi Gassu Trolley 900 CFT">Ravi Gassu Trolley 900 CFT</MenuItem>
+                    <MenuItem value="Shiekhupura Trolley">Shiekhupura Trolley</MenuItem>
+
+                  </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                  <InputLabel labelId='sand-status-label'>Status</InputLabel>
                   <Select
                     label="Status"
+                    labelId='sand-status-label'
                     value={sandData.status}
                     onChange={(e) => setSandData({ ...sandData, status: e.target.value })}
                   >
                     <MenuItem value="ordered">Ordered</MenuItem>
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
+                  </FormControl>
                   <Select
                     label="Type"
                     value={sandData.type}
@@ -1112,23 +1256,48 @@ function MaterialContent() {
                     <MenuItem value="som">Som</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
                   </Select>
+                  
                   <TextField
                     label="Quantity"
-                    type="number"
+                    type="text"
                     value={sandData.quantity}
-                    onChange={(e) => setSandData({ ...sandData, quantity: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSandData({ ...sandData, quantity: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Unit Cost"
-                    type="number"
+                    type="text"
                     value={sandData.unit_cost}
-                    onChange={(e) => setSandData({ ...sandData, unit_cost: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSandData({ ...sandData, unit_cost: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Payment"
-                    type="number"
+                    type="text"
                     value={sandData.payment}
-                    onChange={(e) => setSandData({ ...sandData, payment: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSandData({ ...sandData, payment: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <Select
                     label="Payment Type"
@@ -1162,21 +1331,42 @@ function MaterialContent() {
                   <TextField
                     label="Supplier"
                     value={crushData.supplier}
-                    onChange={(e) => setCrushData({ ...crushData, supplier: e.target.value })}
+                    onChange={(e) => {
+                      const inputValue=e.target.value;
+                      if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+                        setCrushData({ ...crushData, supplier: inputValue });
+                      }
+                    }}
                   />
-                  <TextField
+                  <FormControl fullWidth>
+                    <InputLabel labelId='crush-brand-label'>Brand</InputLabel>
+                  <Select
                     label="Brand"
+                    labelId='crush-brand-label'
                     value={crushData.brand}
                     onChange={(e) => setCrushData({ ...crushData, brand: e.target.value })}
-                  />
+                  >
+                    <MenuItem value="Margalla">Margalla</MenuItem>
+                    <MenuItem value="Sargodha">Sargodha</MenuItem>
+                    <MenuItem value="Mix">Mix</MenuItem>
+                    <MenuItem value="Saaf">Saaf</MenuItem>
+                    <MenuItem value="Khaka">Khaka</MenuItem>
+                    <MenuItem value="WBM">WBM</MenuItem>
+                    <MenuItem value="Dina">Dina</MenuItem>
+                  </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                  <InputLabel labelId='crush-status'>Status</InputLabel>
                   <Select
                     label="Status"
+                    labelId='crush-status'
                     value={crushData.status}
                     onChange={(e) => setCrushData({ ...crushData, status: e.target.value })}
                   >
                     <MenuItem value="ordered">Ordered</MenuItem>
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
+                  </FormControl>
                   <Select
                     label="Type"
                     value={crushData.type}
@@ -1189,21 +1379,36 @@ function MaterialContent() {
                   </Select>
                   <TextField
                     label="Quantity"
-                    type="number"
+                    type="text"
                     value={crushData.quantity}
-                    onChange={(e) => setCrushData({ ...crushData, quantity: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue=e.target.value;
+                      if(/^[0-9]*$/.test(inputValue)){
+                        setCrushData({ ...crushData, quantity: inputValue});
+                      }
+                    }}
                   />
                   <TextField
                     label="Unit Cost"
-                    type="number"
+                    type="text"
                     value={crushData.unit_cost}
-                    onChange={(e) => setCrushData({ ...crushData, unit_cost: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue=e.target.value;
+                      if(/^[0-9]*$/.test(inputValue)){
+                        setCrushData({ ...crushData, unit_cost: inputValue});
+                      }
+                    }}
                   />
                   <TextField
                     label="Payment"
-                    type="number"
+                    type="text"
                     value={crushData.payment}
-                    onChange={(e) => setCrushData({ ...crushData, payment: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue=e.target.value;
+                      if(/^[0-9]*$/.test(inputValue)){
+                      setCrushData({ ...crushData, payment: inputValue });
+                    }
+                    }}
                   />
                   <Select
                     label="Payment Type"
@@ -1236,21 +1441,47 @@ function MaterialContent() {
                   <TextField
                     label="Supplier"
                     value={steelData.supplier}
-                    onChange={(e) => setSteelData({ ...steelData, supplier: e.target.value })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only letters and spaces
+                      if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+                        setSteelData({ ...steelData, supplier: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
-                  <TextField
+                  <FormControl fullWidth>
+                  <InputLabel labelId='steel-brand-label'>Brand</InputLabel>
+                  <Select
                     label="Brand"
+                    labelId='steel-brand-label'
                     value={steelData.brand}
                     onChange={(e) => setSteelData({ ...steelData, brand: e.target.value })}
-                  />
+                  ><MenuItem value="Amreli Steels">Amreli Steels</MenuItem>
+                  <MenuItem value="Kamran Steel">Kamran Steel</MenuItem>
+                  <MenuItem value="FF Steel">FF Steel</MenuItem>
+                  <MenuItem value="SJ Steel">SJ Steel</MenuItem>
+                  <MenuItem value="Mughal Steel">Mughal Steel</MenuItem>
+                  <MenuItem value="Moiz Steel">Moiz Steel</MenuItem>
+                  <MenuItem value="AF Steel">AF Steel</MenuItem>
+                  <MenuItem value="Agha Steel">Agha Steel</MenuItem>
+                  <MenuItem value="Sheikhoo Steel">Sheikhoo Steel</MenuItem>
+                  <MenuItem value="Aziz Steel">Aziz Steel</MenuItem>
+                  </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                  <InputLabel labelId='steel-status'>Status</InputLabel>
                   <Select
                     label="Status"
+                    labelId='steel-status'
                     value={steelData.status}
                     onChange={(e) => setSteelData({ ...steelData, status: e.target.value })}
                   >
                     <MenuItem value="ordered">Ordered</MenuItem>
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
+                  </FormControl>
                   <Select
                     label="Type"
                     value={steelData.type}
@@ -1263,21 +1494,45 @@ function MaterialContent() {
                   </Select>
                   <TextField
                     label="Quantity"
-                    type="number"
+                    type="text"
                     value={steelData.quantity}
-                    onChange={(e) => setSteelData({ ...steelData, quantity: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSteelData({ ...steelData, quantity: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Unit Cost"
-                    type="number"
+                    type="text"
                     value={steelData.unit_cost}
-                    onChange={(e) => setSteelData({ ...steelData, unit_cost: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSteelData({ ...steelData, unit_cost: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <TextField
                     label="Payment"
-                    type="number"
+                    type="text"
                     value={steelData.payment}
-                    onChange={(e) => setSteelData({ ...steelData, payment: parseInt(e.target.value) })}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+
+                      // Check if the input contains only numeric characters
+                      if (/^[0-9]*$/.test(inputValue)) {
+                        setSteelData({ ...steelData, payment: inputValue });
+                      }
+                      // You might provide feedback to the user about the invalid input here if needed
+                    }}
                   />
                   <Select
                     label="Payment Type"
