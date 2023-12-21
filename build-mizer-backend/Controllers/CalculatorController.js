@@ -98,7 +98,8 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
   try {
     // Retrieve the calculator document for the specified project
     const calculator = await Calculator.findOne({ project: req.params.projectId });
-   
+    
+
     // Retrieve the 'received' brick entries for the specified project
     const receivedBricks = await Brick.find({ project: req.params.projectId, status: 'received' });
     const receivedCement= await Cement.find({project:req.params.projectId, status:'received'});
@@ -172,12 +173,37 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
 
     //Update the calculator document with the calculated cost
 
+    calculator.actualBricksQuantity = actualBricksQuantity;
+    calculator.actualCementQuantity = actualCementQuantity;
+    calculator.actualCrushQuantity = actualCrushQuantity;
+    calculator.actualSandQuantity = actualSandQuantity;
+    calculator.actualBricksCost = actualBricksCost;
+    calculator.actualCementCost = actualCementCost;
+    calculator.actualCrushCost = actualCrushCost;
+    calculator.actualSandCost = actualSandCost;
+    
     await calculator.save();
 
     // Repeat the process for other material types (cement, crush, sand) as needed
 
     console.log('Material quantity differences calculated and updated successfully.');
-    return res.status(200).json({ success: true, brickQuantityDifference,sandQuantityDifference,crushQuantityDifference,cementQuantityDifference,brickCostDifference,sandCostDifference, crushCostDifference,cementCostDifference, });
+    return res.status(200).json({ success: true, brickQuantityDifference,sandQuantityDifference,crushQuantityDifference,cementQuantityDifference,brickCostDifference,sandCostDifference, crushCostDifference,cementCostDifference,actualBricksQuantity,
+      actualCementQuantity,
+      actualCrushQuantity,
+      actualSandQuantity,
+      actualBricksCost,
+      actualCementCost,
+      actualCrushCost,
+      actualSandCost,
+      brickCost: calculator.brickCost,
+      cementCost: calculator.cementCost,
+      crushCost: calculator.crushCost,
+      sandCost: calculator.sandCost,
+      brickQuantity: calculator.bricksQuantity,
+      cementQuantity: calculator.cementQuantity,
+      crushQuantity: calculator.crushQuantity,
+      sandQuantity: calculator.sandQuantity,
+    });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }

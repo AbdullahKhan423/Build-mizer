@@ -32,10 +32,10 @@ const categories = [
       {
         id: 'Dashboard',
         icon: <PeopleIcon />,
-        active: true,
+       
         
       },
-      { id: 'Report', icon: <DnsRoundedIcon /> },
+      { id: 'Report', icon: <DnsRoundedIcon />, active: true },
       { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
       { id: 'Hosting', icon: <PublicIcon /> },
       { id: 'Functions', icon: <SettingsEthernetIcon /> },

@@ -9,9 +9,6 @@ import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
 
-
-
-
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">

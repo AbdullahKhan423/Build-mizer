@@ -1,0 +1,62 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .section-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .section {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px; /* Add rounded edges */
+    margin-right: 10px; /* Adjust the margin as needed */
+    height: 170px; /* Increase the height as needed */
+  }
+  
+  .third-section {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  .lower-left-div {
+    display: flex;
+    
+    
+    flex-direction: column;
+    flex: 2;
+    margin-right: 10px;
+  }
+  
+  .lower-right-div {
+    flex: 1;
+  }
+  
+  .full-width-section{
+    padding: 20px;
+    height: 170px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .vertical-align-section{
+    padding: 20px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .remaining-space-section {
+    padding: 20px;
+    height: 283px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }

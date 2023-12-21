@@ -75,6 +75,14 @@ const calculatorSchema = new mongoose.Schema({
   cementQuantityDifference:{type:Number,},
   crushQuantityDifference:{type:Number,},
   sandQuantityDifference:{type:Number,},
+  actualBricksQuantity: Number,
+  actualCementQuantity: Number,
+  actualCrushQuantity: Number,
+  actualSandQuantity: Number,
+  actualBricksCost: Number,
+  actualCementCost: Number,
+  actualCrushCost: Number,
+  actualSandCost: Number,
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project', // Reference to the Project model

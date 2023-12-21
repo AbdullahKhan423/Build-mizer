@@ -24,7 +24,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -80,7 +80,6 @@ function MaterialContent() {
   const [materialName,setMaterialName]=useState('');
   const [customEntries, setCustomEntries] = useState({});
   const [materials, setMaterials] = useState([]);
-  const [accordionOpen, setAccordionOpen] = useState(false);
   const [bricksQuantityDifference, setBricksQuantityDifference] = useState(0);
   const [cementQuantityDifference, setCementQuantityDifference] = useState(0);
   const [crushQuantityDifference, setCrushQuantityDifference] = useState(0);
@@ -99,7 +98,7 @@ function MaterialContent() {
   const handleOpen = async (projectId) => {
     try {
       setLoading(true);
-      console.log("hello");
+      
   
       // Make your API call to calculate differences
       const response = await axios.post(`http://localhost:4000/calculator/${projectId}/calculate-differences/`);
