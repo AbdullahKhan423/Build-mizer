@@ -160,7 +160,7 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
     const actualSandCost = receivedSand.reduce((total, sand) => total + sand.totalCost, 0);
     const sandCostDifference = estimatedSandCost - actualSandCost;
     
-
+    const actualCost= actualBricksCost+actualCementCost+actualSandCost+actualCrushCost;
     // Update the calculator document with the calculated difference
     calculator.brickQuantityDifference = brickQuantityDifference;
     calculator.cementQuantityDifference=cementQuantityDifference;
@@ -181,7 +181,7 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
     calculator.actualCementCost = actualCementCost;
     calculator.actualCrushCost = actualCrushCost;
     calculator.actualSandCost = actualSandCost;
-    
+    calculator.actualCost=actualCost;
     await calculator.save();
 
     // Repeat the process for other material types (cement, crush, sand) as needed
@@ -203,6 +203,7 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
       cementQuantity: calculator.cementQuantity,
       crushQuantity: calculator.crushQuantity,
       sandQuantity: calculator.sandQuantity,
+      actualCost
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });

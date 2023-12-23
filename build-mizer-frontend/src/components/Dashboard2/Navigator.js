@@ -30,7 +30,7 @@ const categories = [
     id: 'Build',
     children: [
       {
-        id: 'Dashboard',
+        id: 'Inventory',
         icon: <PeopleIcon />,
        
         

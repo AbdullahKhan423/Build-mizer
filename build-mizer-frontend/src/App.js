@@ -35,7 +35,7 @@ function App() {
         <Route path='cement-price-in-pakistan' element={<Cement></Cement>}/>
         <Route path='crush-price-in-pakistan' element={<Crush></Crush>}/>
         <Route path='sand-price-in-pakistan' element={<Sand></Sand>}/>
-        <Route path='Dashboard' element={<Paper></Paper>}/>
+        <Route path='inventory' element={<Paper></Paper>}/>
         <Route path='report' element={<Report></Report>}/>
       </Routes>
       <DashboardRoutes></DashboardRoutes>
