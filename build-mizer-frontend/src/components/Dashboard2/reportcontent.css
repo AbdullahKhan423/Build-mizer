@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid red;
     
   }
   
@@ -12,7 +11,7 @@
     width: 100%;
     margin-top: 2%;
     margin-bottom: 20px;
-    border: 2px solid green;
+   
   }
   
   .section {
@@ -45,7 +44,7 @@
   
   .full-width-section{
     padding: 20px;
-    height: 170px;
+    height: 190px;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -59,7 +58,7 @@
   }
   .remaining-space-section {
     padding: 20px;
-    height: 283px;
+    height: 323px;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin-bottom: 10px;

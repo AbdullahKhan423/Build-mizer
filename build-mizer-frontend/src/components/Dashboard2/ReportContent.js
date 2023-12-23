@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import BarChart from './Charts/BarChart';
+import PieChart from './Charts/PieChart';
 import './reportcontent.css';
 function ReportContent() {
    
@@ -310,6 +311,16 @@ function ReportContent() {
           },
         ],
       });
+      const chartData = {
+        labels: ['Cement', 'Sand', 'Brick', 'Crush'],
+        datasets: [
+          {
+            data: [cementCost, sandCost, brickCost, crushCost],
+            backgroundColor: ['#FF5733', '#33FF57', '#3366FF', '#FF3366'], // Replace with your desired color codes
+            hoverBackgroundColor: ['#FF5733', '#33FF57', '#3366FF', '#FF3366'],
+          },
+        ],
+      };
       const [brickCostData, setBrickCostData] = useState({
         labels: ['Brick Cost', 'Actual Brick Cost'],
         datasets: [
@@ -365,6 +376,7 @@ function ReportContent() {
       
   return (
     <div className="dashboard">
+      
     {costData.datasets[0].data && costData.datasets[0].data.length > 0 ? (
             <BarChart chartData={costData} />
           ) : (
@@ -439,7 +451,7 @@ function ReportContent() {
           <div className="full-width-section">Full Width Section</div>
         </div>
         <div className="lower-right-div">
-          <div className="remaining-space-section">Remaining Space Section</div>
+          <div className="remaining-space-section">Breakdown of Total Cost : {totalCost}Rs<PieChart chartData={chartData} />;</div>
         </div>
       </div>
     </div>
