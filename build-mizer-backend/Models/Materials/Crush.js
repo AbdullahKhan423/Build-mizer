@@ -20,7 +20,7 @@ const crushSchema= new mongoose.Schema({
       type: {
         type: String,
         enum: ['awal', 'dom','som','other'],
-        required: true
+        
       },
       quantity: {
         type: Number,

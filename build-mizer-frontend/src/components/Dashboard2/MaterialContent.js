@@ -152,7 +152,7 @@ function MaterialContent() {
     status: '',
     supplier: '',
     brand: '',
-    type: '',
+    
     quantity: 0,
     unit_cost: 0,
     payment: 0,
@@ -174,7 +174,7 @@ function MaterialContent() {
           status: '',
           supplier: '',
           brand: '',
-          type: '',
+          
           quantity: 0,
           unit_cost: 0,
           payment: 0,
@@ -218,7 +218,7 @@ function MaterialContent() {
     status: '',
     supplier: '',
     brand: '',
-    type: '',
+   
     quantity: 0,
     unit_cost: 0,
     payment: 0,
@@ -240,7 +240,7 @@ function MaterialContent() {
           status: '',
           supplier: '',
           brand: '',
-          type: '',
+         
           quantity: 0,
           unit_cost: 0,
           payment: 0,
@@ -284,7 +284,7 @@ function MaterialContent() {
     status: '',
     supplier: '',
     brand: '',
-    type: '',
+    
     quantity: 0,
     unit_cost: 0,
     payment: 0,
@@ -306,7 +306,7 @@ function MaterialContent() {
           status: '',
           supplier: '',
           brand: '',
-          type: '',
+          
           quantity: 0,
           unit_cost: 0,
           payment: 0,
@@ -350,7 +350,7 @@ function MaterialContent() {
     status: '',
     supplier: '',
     brand: '',
-    type: '',
+    
     quantity: 0,
     unit_cost: 0,
     payment: 0,
@@ -372,7 +372,7 @@ function MaterialContent() {
           status: '',
           supplier: '',
           brand: '',
-          type: '',
+          
           quantity: 0,
           unit_cost: 0,
           payment: 0,
@@ -1120,16 +1120,7 @@ function MaterialContent() {
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
                   </FormControl>
-                  <Select
-                    label="Type"
-                    value={cementData.type}
-                    onChange={(e) => setCementData({ ...cementData, type: e.target.value })}
-                  >
-                    <MenuItem value="awal">Awal</MenuItem>
-                    <MenuItem value="dom">Dom</MenuItem>
-                    <MenuItem value="som">Som</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
+                  
                   <TextField
         label="Quantity"
         type="text"
@@ -1245,16 +1236,7 @@ function MaterialContent() {
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
                   </FormControl>
-                  <Select
-                    label="Type"
-                    value={sandData.type}
-                    onChange={(e) => setSandData({ ...sandData, type: e.target.value })}
-                  >
-                    <MenuItem value="awal">Awal</MenuItem>
-                    <MenuItem value="dom">Dom</MenuItem>
-                    <MenuItem value="som">Som</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
+                  
                   
                   <TextField
                     label="Quantity"
@@ -1366,16 +1348,7 @@ function MaterialContent() {
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
                   </FormControl>
-                  <Select
-                    label="Type"
-                    value={crushData.type}
-                    onChange={(e) => setCrushData({ ...crushData, type: e.target.value })}
-                  >
-                    <MenuItem value="awal">Awal</MenuItem>
-                    <MenuItem value="dom">Dom</MenuItem>
-                    <MenuItem value="som">Som</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
+                  
                   <TextField
                     label="Quantity"
                     type="text"
@@ -1481,16 +1454,7 @@ function MaterialContent() {
                     <MenuItem value="received">Received</MenuItem>
                   </Select>
                   </FormControl>
-                  <Select
-                    label="Type"
-                    value={steelData.type}
-                    onChange={(e) => setSteelData({ ...steelData, type: e.target.value })}
-                  >
-                    <MenuItem value="awal">Awal</MenuItem>
-                    <MenuItem value="dom">Dom</MenuItem>
-                    <MenuItem value="som">Som</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
+                  
                   <TextField
                     label="Quantity"
                     type="text"
@@ -1696,7 +1660,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
@@ -1714,7 +1678,7 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{cement.status}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.brand}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.type}</TableCell>
+                    
                     <TableCell sx={{ textAlign: 'center' }}>{cement.quantity}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.unit_cost}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.totalCost}</TableCell>
@@ -1742,7 +1706,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
@@ -1760,7 +1724,7 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{sand.status}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.brand}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.type}</TableCell>
+                   
                     <TableCell sx={{ textAlign: 'center' }}>{sand.quantity}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.unit_cost}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.totalCost}</TableCell>
@@ -1788,7 +1752,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
@@ -1806,7 +1770,7 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{steel.status}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.brand}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{steel.type}</TableCell>
+                    
                     <TableCell sx={{ textAlign: 'center' }}>{steel.quantity}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.unit_cost}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.totalCost}</TableCell>
@@ -1834,7 +1798,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Status</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Supplier</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Brand</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Type</TableCell>
+                  
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
@@ -1852,7 +1816,7 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{crush.status}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.brand}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.type}</TableCell>
+                   
                     <TableCell sx={{ textAlign: 'center' }}>{crush.quantity}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.unit_cost}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.totalCost}</TableCell>
