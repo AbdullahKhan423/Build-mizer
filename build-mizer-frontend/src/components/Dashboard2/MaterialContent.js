@@ -1003,7 +1003,7 @@ function MaterialContent() {
                   </Select>
                   </FormControl>
                   <TextField
-                    label="Quantity"
+                    label="Quantity (in Unit)"
                     type="text"
                     value={brick.quantity}
                     onChange={(e) => {
@@ -1122,7 +1122,7 @@ function MaterialContent() {
                   </FormControl>
                   
                   <TextField
-        label="Quantity"
+        label="Quantity (in CFT)"
         type="text"
         value={cementData.quantity}
         onChange={(e) => {
@@ -1239,7 +1239,7 @@ function MaterialContent() {
                   
                   
                   <TextField
-                    label="Quantity"
+                    label="Quantity (in CFT)"
                     type="text"
                     value={sandData.quantity}
                     onChange={(e) => {
@@ -1350,7 +1350,7 @@ function MaterialContent() {
                   </FormControl>
                   
                   <TextField
-                    label="Quantity"
+                    label="Quantity (in CFT)"
                     type="text"
                     value={crushData.quantity}
                     onChange={(e) => {
@@ -1618,7 +1618,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Made</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
@@ -1633,12 +1633,12 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{brick.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{brick.brand}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{brick.type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{brick.quantity}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{brick.unit_cost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{brick.totalCost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.quantity} Units</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.unit_cost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.totalCost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{brick.payment_type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{brick.payment_outstanding} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickDelete(brick._id)}>Delete</button></TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(brick._id)}>Update</button></TableCell>
                   </TableRow>
@@ -1664,7 +1664,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Made</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
@@ -1679,12 +1679,12 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{cement.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.brand}</TableCell>
                     
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.quantity}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.unit_cost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.totalCost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.quantity} Bags</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.unit_cost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.totalCost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.payment_type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{cement.payment_outstanding} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCementDelete(cement._id)}>Delete</button></TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(cement._id)}>Update</button></TableCell>
                   </TableRow>
@@ -1710,7 +1710,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Made</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
@@ -1725,12 +1725,12 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{sand.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.brand}</TableCell>
                    
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.quantity}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.unit_cost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.totalCost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.quantity} CFT</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.unit_cost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.totalCost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.payment_type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{sand.payment_outstanding} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSandDelete(sand._id)}>Delete</button></TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(sand._id)}>Update</button></TableCell>
                   </TableRow>
@@ -1756,7 +1756,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Made</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
@@ -1772,11 +1772,11 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{steel.brand}</TableCell>
                     
                     <TableCell sx={{ textAlign: 'center' }}>{steel.quantity}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{steel.unit_cost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{steel.totalCost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.unit_cost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.totalCost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.payment_type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{steel.payment_outstanding} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSteelDelete(steel._id)}>Delete</button></TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(steel._id)}>Update</button></TableCell>
                   </TableRow>
@@ -1802,7 +1802,7 @@ function MaterialContent() {
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Quantity</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Unit Cost</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Total Cost</TableCell>
-                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment</TableCell>
+                  <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Made</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Payment Type</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}>Outstanding Payment</TableCell>
                   <TableCell sx={{ backgroundColor: '#FFB802', color: 'black', textAlign: 'center' }}></TableCell>
@@ -1817,12 +1817,12 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{crush.supplier}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.brand}</TableCell>
                    
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.quantity}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.unit_cost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.totalCost}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.quantity} CFT</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.unit_cost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.totalCost} Rs</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.payment_type}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment_outstanding}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{crush.payment_outstanding} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCrushDelete(crush._id)}>Delete</button></TableCell>
                     <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(crush._id)}>Update</button></TableCell>
                   </TableRow>

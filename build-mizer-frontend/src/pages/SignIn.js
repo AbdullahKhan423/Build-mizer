@@ -74,7 +74,7 @@ export default function SignIn() {
           setUser(user);
           console.log("Hello",user);
           setTimeout(() => {
-            navigate("/Dashboard");
+            navigate("/inventory");
           }, 1000);
         } else {
           handleError(message);
