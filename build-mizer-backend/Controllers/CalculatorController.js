@@ -5,6 +5,7 @@ import Brick from '../Models/Materials/Bricks.js';
 import Cement from '../Models/Materials/Cement.js';
 import Crush from '../Models/Materials/Crush.js';
 import Sand from '../Models/Materials/Sand.js';
+import Steel from '../Models/Materials/Steel.js';
 // Create a new calculator item
 export const createCalculatorItem = async (req, res) => {
     try {
@@ -18,13 +19,14 @@ export const createCalculatorItem = async (req, res) => {
         return res.status(404).json({ message: 'Project not found' });
       }
   
-      const sandRate = 83;  // Set your default values
-      const crushRate = 146;  // Set your default values
+      const sandRate = 85;  // Set your default values
+      const crushRate = 160;  // Set your default values
       const bricksRate = 26;  // Set your default values
-      const cementRate = 1220;  // Set your default values
-  
+      const cementRate = 1300;  // Set your default values
+      const steelRate =  258000;
+
       const persqsandQuantity = (1815 / 675);
-      
+      const persqsteelQuantity= (2/675);
       const persqcrushQuantity = (1033 / 675);
       const persqbricksQuantity = (33757 / 675);
       const persqcementQuantity = (363 / 675);// Set your default values
@@ -33,18 +35,20 @@ export const createCalculatorItem = async (req, res) => {
       const crushCost = Math.floor(crushRate * persqcrushQuantity * squareFeet);
       const brickCost = Math.floor(bricksRate * persqbricksQuantity * squareFeet);
       const cementCost = Math.floor(cementRate * persqcementQuantity * squareFeet);
-      
+      const steelCost= Math.floor(steelRate*persqsteelQuantity*squareFeet);
+
       const sandQuantity= Math.floor(persqsandQuantity*squareFeet);
       const bricksQuantity=Math.floor(persqbricksQuantity*squareFeet);
       const cementQuantity=Math.floor(persqcementQuantity*squareFeet);
       const crushQuantity=Math.floor(persqcrushQuantity*squareFeet);
+      const steelQuantity=(persqsteelQuantity * squareFeet).toFixed(3);
 
-
-      const totalCost = sandCost + crushCost + brickCost + cementCost;
+      const totalCost = sandCost + crushCost + brickCost + cementCost + steelCost;
       const brickQuantityDifference=0;
       const sandQuantityDifference=0;
       const crushQuantityDifference=0;
       const cementQuantityDifference=0;
+      const steelQuantityDifference=0;
 
       const brickCostDifference=0;
       const cementCostDifference=0;
@@ -53,9 +57,9 @@ export const createCalculatorItem = async (req, res) => {
       const steelCostDifference=0;
       const newItem = new Calculator({
         squareFeet,
-        steelRate: 0,  // Set your default values or handle these fields as needed
-        steelQuantity: 0,  // Set your default values or handle these fields as needed
-        steelCost:0,
+        steelRate,  // Set your default values or handle these fields as needed
+        steelQuantity,  // Set your default values or handle these fields as needed
+        steelCost,
         sandRate,
         sandQuantity,
         crushRate,
@@ -78,6 +82,7 @@ export const createCalculatorItem = async (req, res) => {
         sandQuantityDifference,
         crushQuantityDifference,
         cementQuantityDifference,
+        steelQuantityDifference,
         project: project._id,
       });
   
@@ -105,14 +110,16 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
     const receivedCement= await Cement.find({project:req.params.projectId, status:'received'});
     const receivedSand= await Sand.find({project:req.params.projectId,status:'received'});
     const receivedCrush= await Crush.find({project:req.params.projectId,status:'received'});
-    
+    const receivedSteel= await Steel.find({project:req.params.projectId, status:'received'});
     // Calculate the quantity difference for bricks
     const estimatedBricksQuantity = calculator.bricksQuantity || 0;
     const actualBricksQuantity = receivedBricks.reduce((total, brick) => total + brick.quantity, 0);
     const brickQuantityDifference = estimatedBricksQuantity - actualBricksQuantity;
 
-    //Calculate the cost difference for bricks
-
+    //Calculate the quantity difference for steel
+    const estimatedSteelQuantity=calculator.steelQuantity || 0;
+    const actualSteelQuantity= receivedSteel.reduce((total,steel)=> total+ steel.quantity,0);
+    const steelQuantityDifference = estimatedSteelQuantity - actualSteelQuantity;
 
     //Difference for quantity for cement
     const estimatedCementQuantity= calculator.cementQuantity ||0;
@@ -152,57 +159,67 @@ export const calculateMaterialQuantityDifference = async (req,res) => {
     // Calculate the cost difference for crush
     const estimatedCrushCost = calculator.crushCost || 0;
     const actualCrushCost = receivedCrush.reduce((total, crush) => total + crush.totalCost, 0);
-    
     const crushCostDifference = estimatedCrushCost - actualCrushCost;
-    
+    // Calculate the cost difference for steel
+    const estimatedSteelCost=calculator.steelCost ||0;
+    const actualSteelCost= receivedSteel.reduce((total,steel)=>total+steel.totalCost,0);
+    const steelCostDifference=estimatedSteelCost - actualSteelCost;
     // Calculate the cost difference for sand
     const estimatedSandCost = calculator.sandCost || 0;
     const actualSandCost = receivedSand.reduce((total, sand) => total + sand.totalCost, 0);
     const sandCostDifference = estimatedSandCost - actualSandCost;
     
-    const actualCost= actualBricksCost+actualCementCost+actualSandCost+actualCrushCost;
+    const actualCost= actualBricksCost+actualCementCost+actualSandCost+actualCrushCost +actualSteelCost;
     // Update the calculator document with the calculated difference
     calculator.brickQuantityDifference = brickQuantityDifference;
     calculator.cementQuantityDifference=cementQuantityDifference;
     calculator.crushQuantityDifference=crushQuantityDifference;
     calculator.sandQuantityDifference=sandQuantityDifference;
+    calculator.steelQuantityDifference=steelQuantityDifference;
+
     calculator.brickCostDifference = isNaN(brickCostDifference) ? 0 : brickCostDifference;
     calculator.cementCostDifference = isNaN(cementCostDifference) ? 0 : cementCostDifference;
     calculator.crushCostDifference = isNaN(crushCostDifference) ? 0 : crushCostDifference;
     calculator.sandCostDifference = isNaN(sandCostDifference) ? 0 : sandCostDifference;
-
+    calculator.steelCostDifference= isNaN(steelCostDifference) ? 0 : steelCostDifference;
     //Update the calculator document with the calculated cost
 
     calculator.actualBricksQuantity = actualBricksQuantity;
     calculator.actualCementQuantity = actualCementQuantity;
     calculator.actualCrushQuantity = actualCrushQuantity;
     calculator.actualSandQuantity = actualSandQuantity;
+    calculator.actualSteelCost = actualSteelCost;
     calculator.actualBricksCost = actualBricksCost;
     calculator.actualCementCost = actualCementCost;
     calculator.actualCrushCost = actualCrushCost;
     calculator.actualSandCost = actualSandCost;
+    calculator.actualSteelCost= actualSteelCost;
     calculator.actualCost=actualCost;
     await calculator.save();
 
     // Repeat the process for other material types (cement, crush, sand) as needed
 
     console.log('Material quantity differences calculated and updated successfully.');
-    return res.status(200).json({ success: true, brickQuantityDifference,sandQuantityDifference,crushQuantityDifference,cementQuantityDifference,brickCostDifference,sandCostDifference, crushCostDifference,cementCostDifference,actualBricksQuantity,
+    return res.status(200).json({ success: true, brickQuantityDifference,sandQuantityDifference,crushQuantityDifference,steelQuantityDifference,cementQuantityDifference,brickCostDifference,sandCostDifference, crushCostDifference,steelCostDifference,cementCostDifference,actualBricksQuantity,
       actualCementQuantity,
       actualCrushQuantity,
       actualSandQuantity,
+      actualSteelQuantity,
       actualBricksCost,
       actualCementCost,
       actualCrushCost,
       actualSandCost,
+      actualSteelCost,
       brickCost: calculator.brickCost,
       cementCost: calculator.cementCost,
       crushCost: calculator.crushCost,
       sandCost: calculator.sandCost,
+      steelCost: calculator.steelCost,
       brickQuantity: calculator.bricksQuantity,
       cementQuantity: calculator.cementQuantity,
       crushQuantity: calculator.crushQuantity,
       sandQuantity: calculator.sandQuantity,
+      steelQuantity:calculator.steelQuantity,
       actualCost
     });
   } catch (error) {
