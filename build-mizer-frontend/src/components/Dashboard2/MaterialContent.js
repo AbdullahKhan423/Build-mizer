@@ -84,11 +84,12 @@ function MaterialContent() {
   const [cementQuantityDifference, setCementQuantityDifference] = useState(0);
   const [crushQuantityDifference, setCrushQuantityDifference] = useState(0);
   const [sandQuantityDifference, setSandQuantityDifference] = useState(0);
+  const [steelQuantityDifference, setSteelQuantityDifference]= useState(0);
   const [brickCostDifference, setBrickCostDifference] = useState(0);
   const [cementCostDifference, setCementCostDifference] = useState(0);
   const [crushCostDifference, setCrushCostDifference] = useState(0);
   const [sandCostDifference, setSandCostDifference] = useState(0);
-
+  const [steelCostDifference, setSteelCostDifference]= useState(0);
 
   const [open, setOpen] = useState(false);
   
@@ -115,6 +116,7 @@ function MaterialContent() {
       setCementCostDifference(data.cementCostDifference);
       setCrushCostDifference(data.crushCostDifference);
       setSandCostDifference(data.sandCostDifference);
+      setSteelCostDifference(data.steelCostDifference);
     } catch (error) {
       // Handle error scenarios if needed
       console.error('Error calculating differences:', error);
@@ -545,7 +547,7 @@ function MaterialContent() {
               const cementQuantityDifference=calculationData.cementQuantityDifference;
               const crushQuantityDifference=calculationData.crushQuantityDifference;
               const sandQuantityDifference=calculationData.sandQuantityDifference;
-              
+              const steelQuantityDifference=calculationData.steelQuantityDifference;
               setTotalCost(totalCost);
               setBricksQuantity(bricksQuantity);
               setBricksRate(bricksRate);
@@ -566,7 +568,7 @@ function MaterialContent() {
               setCementQuantityDifference(cementQuantityDifference);
               setCrushQuantityDifference(crushQuantityDifference);
               setSandQuantityDifference(sandQuantityDifference);
-
+              setSteelQuantityDifference(steelQuantityDifference);
 
             } else {
               console.error('Total cost is undefined or not present in the response');
@@ -860,6 +862,11 @@ function MaterialContent() {
             <TableCell>{crushQuantity} CFT</TableCell>
             <TableCell>{crushQuantityDifference} CFT</TableCell>
           </TableRow>
+          <TableRow>
+            <TableCell>Steel</TableCell>
+            <TableCell>{steelQuantity} Tonnes</TableCell>
+            <TableCell>{steelQuantityDifference} Tonnes</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
@@ -899,8 +906,12 @@ function MaterialContent() {
       <TableRow>
         <TableCell>Sand</TableCell>
         <TableCell>{sandCost} Rs</TableCell>
-        
         <TableCell>{sandCostDifference} Rs</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Steel</TableCell>
+        <TableCell>{steelCost} Rs</TableCell>
+        <TableCell>{steelCostDifference} Rs</TableCell>
       </TableRow>
     </TableBody>
   </Table>

@@ -31,10 +31,12 @@ function ReportContent() {
     const [actualCementQuantity, setActualCementQuantity] = useState(0);
     const [actualCrushQuantity, setActualCrushQuantity] = useState(0);
     const [actualSandQuantity, setActualSandQuantity] = useState(0);
+    const [actualSteelQuantity, setActualSteelQuantity]=useState(0);
     const [actualBricksCost, setActualBricksCost] = useState(0);
     const [actualCementCost, setActualCementCost] = useState(0);
     const [actualCrushCost, setActualCrushCost] = useState(0);
     const [actualSandCost, setActualSandCost] = useState(0);
+    const [actualSteelCost, setActualSteelCost]= useState(0);
     const [open, setOpen] = useState(false);
   
     const handleClose = () => {
@@ -78,14 +80,14 @@ function ReportContent() {
                   const cementQuantityDifference=calculationData.cementQuantityDifference;
                   const crushQuantityDifference=calculationData.crushQuantityDifference;
                   const sandQuantityDifference=calculationData.sandQuantityDifference;
-                  
+                  const steelQuantityDifference=calculationData.steelQuantityDifference;
                   setTotalCost(totalCost);
                   
                   setBricksQuantityDifference(bricksQuantityDifference);
                   setCementQuantityDifference(cementQuantityDifference);
                   setCrushQuantityDifference(crushQuantityDifference);
                   setSandQuantityDifference(sandQuantityDifference);
-    
+                 
     
                 } else {
                   console.error('Total cost is undefined or not present in the response');
@@ -117,6 +119,7 @@ function ReportContent() {
             setCementQuantityDifference(data.cementQuantityDifference);
             setCrushQuantityDifference(data.crushQuantityDifference);
             setSandQuantityDifference(data.sandQuantityDifference);
+            
             setBrickCostDifference(data.brickCostDifference);
             setCementCostDifference(data.cementCostDifference);
             setCrushCostDifference(data.crushCostDifference);
@@ -126,10 +129,12 @@ function ReportContent() {
             setActualCementQuantity(data.actualCementQuantity || 0);
             setActualCrushQuantity(data.actualCrushQuantity || 0);
             setActualSandQuantity(data.actualSandQuantity || 0);
+            setActualSteelQuantity(data.actualSteelQuantity || 0);
             setActualBricksCost(data.actualBricksCost || 0);
             setActualCementCost(data.actualCementCost || 0);
             setActualCrushCost(data.actualCrushCost || 0);
             setActualSandCost(data.actualSandCost || 0);
+            setActualSteelCost(data.actualSteelCost || 0);
             setBrickCost(data.brickCost);
             setBricksQuantity(data.brickQuantity);
             setCementCost(data.cementCost);
@@ -138,6 +143,8 @@ function ReportContent() {
             setCrushQuantity(data.crushQuantity);
             setSandCost(data.sandCost);
             setSandQuantity(data.sandQuantity);
+            setSteelCost(data.steelCost);
+            setSteelQuantity(data.steelQuantity);
             setCostData((prevUserData)=>({
               ...prevUserData,
               datasets:[{
@@ -151,6 +158,15 @@ function ReportContent() {
                 {
                   ...prevUserData.datasets[0],
                   data: [bricksQuantity, actualBricksQuantity],
+                },
+              ],
+            }));
+            setSteelQuantityData((prevUserData) => ({
+              ...prevUserData,
+              datasets: [
+                {
+                  ...prevUserData.datasets[0],
+                  data: [steelQuantity, actualSteelQuantity],
                 },
               ],
             }));
@@ -188,6 +204,15 @@ function ReportContent() {
                 {
                   ...prevData.datasets[0],
                   data: [brickCost, actualBricksCost],
+                },
+              ],
+            }));
+            setSteelCostData((prevData) => ({
+              ...prevData,
+              datasets: [
+                {
+                  ...prevData.datasets[0],
+                  data: [steelCost, actualSteelCost],
                 },
               ],
             }));
@@ -239,6 +264,8 @@ function ReportContent() {
         actualSandQuantity,
         cementQuantity,
         actualCementQuantity,
+        steelQuantity,
+        actualSteelQuantity,
         brickCost,
         actualBricksCost,
         crushCost,
@@ -246,7 +273,11 @@ function ReportContent() {
         sandCost,
         actualSandCost,
         cementCost,
-        actualCementCost,actualCost,totalCost ]);
+        actualCementCost,
+        steelCost,
+        actualSteelCost,
+        actualCost,
+        totalCost ]);
 
         const [costData, setCostData] = useState({
           labels: ['Estimated Cost', 'Cost Spent'],
@@ -311,11 +342,23 @@ function ReportContent() {
           },
         ],
       });
-      const chartData = {
-        labels: ['Cement', 'Sand', 'Brick', 'Crush'],
+      const [steelQuantityData, setSteelQuantityData] = useState({
+        labels: ['Steel Quantity', 'Actual Steel Quantity'],
         datasets: [
           {
-            data: [cementCost, sandCost, brickCost, crushCost],
+            label: 'Material Quantity',
+            data: [],
+            backgroundColor: ['#878E88', '#588B8B'],
+            borderColor: ['#878E88', '#588B8B'],
+            borderWidth: 1,
+          },
+        ],
+      });
+      const chartData = {
+        labels: ['Cement', 'Sand', 'Brick', 'Crush','Steel'],
+        datasets: [
+          {
+            data: [cementCost, sandCost, brickCost, crushCost, steelCost],
             backgroundColor: ['#FF5733', '#33FF57', '#3366FF', '#FF3366'], // Replace with your desired color codes
             hoverBackgroundColor: ['#FF5733', '#33FF57', '#3366FF', '#FF3366'],
           },
@@ -362,6 +405,18 @@ function ReportContent() {
       
       const [crushCostData, setCrushCostData] = useState({
         labels: ['Crush Cost', 'Actual Crush Cost'],
+        datasets: [
+          {
+            label: 'Material Cost',
+            data: [],
+            backgroundColor: ['#878E88', '#588B8B'],
+            borderColor: ['#878E88', '#588B8B'],
+            borderWidth: 1,
+          },
+        ],
+      });
+      const [steelCostData, setSteelCostData] = useState({
+        labels: ['Steel Cost', 'Actual Steel Cost'],
         datasets: [
           {
             label: 'Material Cost',
@@ -435,6 +490,21 @@ function ReportContent() {
          </div> 
       <div className="section">{sandCostData.datasets[0].data && sandCostData.datasets[0].data.length > 0 ? (
             <BarChart chartData={sandCostData} />
+          ) : (
+            <p>Loading chart...</p>
+          )}</div>
+      
+    </div>
+    <div className="section-container">
+      <div className="section"> 
+      {steelQuantityData.datasets[0].data && steelQuantityData.datasets[0].data.length > 0 ? (
+            <BarChart chartData={steelQuantityData} />
+          ) : (
+            <p>Loading chart...</p>
+          )}
+         </div> 
+      <div className="section">{steelCostData.datasets[0].data && steelCostData.datasets[0].data.length > 0 ? (
+            <BarChart chartData={steelCostData} />
           ) : (
             <p>Loading chart...</p>
           )}</div>
