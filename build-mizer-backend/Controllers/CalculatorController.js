@@ -21,7 +21,7 @@ export const createCalculatorItem = async (req, res) => {
   
       const sandRate = 85;  // Set your default values
       const crushRate = 160;  // Set your default values
-      const bricksRate = 26;  // Set your default values
+      const bricksRate = 20;  // Set your default values
       const cementRate = 1300;  // Set your default values
       const steelRate =  258000;
 

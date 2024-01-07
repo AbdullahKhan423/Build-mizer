@@ -8,8 +8,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-const ConstructionCostTable = () => {
-
+const ConstructionCostTable = ({ costs }) => {
+  const {
+    sandCost,
+    crushCost,
+    brickCost,
+    cementCost,
+    steelCost,
+    sandQuantity,
+    bricksQuantity,
+    cementQuantity,
+    crushQuantity,
+    steelQuantity,
+    totalCost,
+  } = costs;
   return (
     <TableContainer component={Paper}>
       <Table aria-label="construction-cost-table">
@@ -35,7 +47,7 @@ const ConstructionCostTable = () => {
             <TableCell>10000</TableCell>
             <TableCell>2000</TableCell>
             <TableCell>3000</TableCell>
-            <TableCell>4000</TableCell>
+            <TableCell>{sandCost}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Cement(number of bags)</TableCell>

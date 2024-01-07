@@ -7,9 +7,6 @@ export const Signup = async (req, res, next) => {
     try {
 
       const { firstname,lastname,email, password, createdAt } = req.body;
-
-      
-
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         return res.status(400);

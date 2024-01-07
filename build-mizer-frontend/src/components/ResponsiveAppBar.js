@@ -17,7 +17,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../media/logo.png'
 import LoginIcon from '@mui/icons-material/Login';
 
-const pages = [  'About Us','Dashboard','Daily Pricing','Construction Cost Calculator','Stay in Touch','AreaUnit' ]
+const pages = [  'About Us','inventory','Daily Pricing','Construction Cost Calculator','Stay in Touch','AreaUnit' ]
   
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

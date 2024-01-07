@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField, Typography, Container, Paper, CssBaseline } from '@mui/material';
 
 function ChangePassword() {
-  const [currentPassword, setCurrentPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -10,7 +10,7 @@ function ChangePassword() {
 
   const handleChangePassword = () => {
     // Simple password validation
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!email || !newPassword || !confirmPassword) {
       setErrorMessage('Please fill in all fields.');
       return;
     }
@@ -27,7 +27,7 @@ function ChangePassword() {
     setSuccessMessage('Password changed successfully.');
 
     // Clear the form
-    setCurrentPassword('');
+    
     setNewPassword('');
     setConfirmPassword('');
   };
@@ -46,10 +46,10 @@ function ChangePassword() {
               margin="normal"
               required
               fullWidth
-              label="Current Password"
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              label="Enter your email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
