@@ -516,10 +516,7 @@ function ReportContent() {
       
     </div>
     <div className="third-section">
-        <div className="lower-left-div">
-          <div className="vertical-align-section">Vertical Align Section 1</div>
-          <div className="full-width-section">Full Width Section</div>
-        </div>
+        
         <div className="lower-right-div">
           <div className="remaining-space-section">Breakdown of Total Cost : {totalCost}Rs<PieChart chartData={chartData} />;</div>
         </div>

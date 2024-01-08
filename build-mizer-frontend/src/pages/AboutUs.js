@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import team from '../media/team.jpg';
 import abdullahImage from '../media/abdullah.jpg';
 import daniyalImage from '../media/daniyal.jpg';
+import moizImage from '../media/moiz.jpeg';
 import before from '../media/before.jpg'
 import after from '../media/after.jpg'
 import '../css/styles.css';
@@ -49,7 +50,7 @@ function AboutUs() {
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Avatar alt="Daniyal Hamid" src={abdullahImage} sx={{ width: 120, height: 120, margin: '0 auto' }} />
+            <Avatar alt="Daniyal Hamid" src={moizImage} sx={{ width: 120, height: 120, margin: '0 auto' }} />
             <Typography variant="body1" color="textSecondary" align="center" paragraph>
               Moiz Fayyaz</Typography>
           </Grid>

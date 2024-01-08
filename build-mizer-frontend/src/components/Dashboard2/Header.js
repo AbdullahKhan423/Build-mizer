@@ -172,14 +172,7 @@ function Header(props) {
         </h4>
             </Grid>
             <Grid item>
-              <Button
-                sx={{ borderColor: lightColor }}
-                variant="outlined"
-                color="inherit"
-                size="small"
-              >
-                Web setup
-              </Button>
+              
             </Grid>
             <Grid item>
               <Tooltip title="Help">
