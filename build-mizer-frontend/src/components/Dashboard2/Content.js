@@ -47,6 +47,19 @@ function ProjectManager() {
   const [cookies, removeCookie] = useCookies([]);
   const [projects, setProjects] = useState([]);
   const token = Cookies.get('token');
+
+  const numericRegex = /^[0-9]*$/;
+
+// Function to handle input change with regex validation
+const handleSquareFeetChange = (e) => {
+  const inputValue = e.target.value;
+
+  // Check if the input matches the numeric regex
+  if (numericRegex.test(inputValue)) {
+    // Update the state only if it's a valid input
+    setSquareFeet(inputValue);
+  }
+};
   const { user } = useUser();
   useEffect(() => {
     const verifyCookie = async () => {
@@ -240,11 +253,11 @@ function ProjectManager() {
             sx={{  mx:1,my:1 }}
           />
           <TextField
-            label="Square Feet"
-            value={squareFeet}
-            onChange={(e) => setSquareFeet(e.target.value)}
-            sx={{ mx: 1, my: 1 }}
-          />
+  label="Square Feet"
+  value={squareFeet}
+  onChange={handleSquareFeetChange}
+  sx={{ mx: 1, my: 1 }}
+/>
          
           {/* Add more input fields for other project details */}
           <Button sx={{mx:20}} variant ="contained"  onClick={handleSubmitProject}>Submit Project</Button>

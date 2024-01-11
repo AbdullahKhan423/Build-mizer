@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import { FormControlLabel, Radio, RadioGroup,Alert } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -90,8 +93,17 @@ function MaterialContent() {
   const [crushCostDifference, setCrushCostDifference] = useState(0);
   const [sandCostDifference, setSandCostDifference] = useState(0);
   const [steelCostDifference, setSteelCostDifference]= useState(0);
-
+  const [showModal, setShowModal] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState('ordered'); // Default value
+  const [brickIdToUpdate, setBrickIdToUpdate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   
   const handleClose = () => {
     setOpen(false);
@@ -722,9 +734,187 @@ function MaterialContent() {
     }
   };
   
-  const handleBrickUpdate=async(entry)=>{
+  const handleBrickUpdate = async (brickId) => {
+    try {
+      // Assuming you have an API endpoint to update the status
+      const apiUrl = `http://localhost:4000/brick/${brickId}`;
+      console.log('API URL:', apiUrl);
+      const response = await axios.put(`http://localhost:4000/brick/${brickId}`, {
+        status: 'received', // Set the new status here
+      });
+  
+      // Check if the status was updated successfully
+      if (response.status === 200) {
+        // Optionally, you can fetch the updated data or perform other actions
+        // ...
+  
+        // Show a success message using MUI Alert
+        
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Tracker Updated!');
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+        
+      } else {
+       
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to update status!');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+  
+      // Show an error message using MUI Alert
+      <Alert severity="error">An error occurred while updating status!</Alert>;
+    }
+  };
+  
+  const handleSteelUpdate = async (steelId) => {
+    try {
+      const apiUrl = `http://localhost:4000/steel/${steelId}`;
+      console.log('API URL:', apiUrl);
+  
+      const response = await axios.put(apiUrl, {
+        status: 'received', // Set the new status here
+      });
+  
+      if (response.status === 200) {
+        // Optionally, you can fetch the updated data or perform other actions
+        // ...
+  
+        // Show a success message using MUI Snackbar
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Tracker Updated!');
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        // Show an error message using MUI Snackbar
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to update status for Steel');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error updating status for Steel:', error);
+  
+      // Show an error message using MUI Snackbar
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred while updating status for Steel');
+      setSnackbarOpen(true);
+    }
+  };
 
-  }
+  const handleCementUpdate = async (cementId) => {
+    try {
+      const apiUrl = `http://localhost:4000/cement/${cementId}`;
+      console.log('API URL:', apiUrl);
+  
+      const response = await axios.put(apiUrl, {
+        status: 'received', // Set the new status here
+      });
+  
+      if (response.status === 200) {
+        // Optionally, you can fetch the updated data or perform other actions
+        // ...
+  
+        // Show a success message using MUI Snackbar
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Tracker Updated!');
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        // Show an error message using MUI Snackbar
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to update status for Cement');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error updating status for Cement:', error);
+  
+      // Show an error message using MUI Snackbar
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred while updating status for Cement');
+      setSnackbarOpen(true);
+    }
+  };
+  
+  const handleSandUpdate = async (sandId) => {
+    try {
+      const apiUrl = `http://localhost:4000/sand/${sandId}`;
+      console.log('API URL:', apiUrl);
+  
+      const response = await axios.put(apiUrl, {
+        status: 'received', // Set the new status here
+      });
+  
+      if (response.status === 200) {
+        // Optionally, you can fetch the updated data or perform other actions
+        // ...
+  
+        // Show a success message using MUI Snackbar
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Tracker Updated!');
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        // Show an error message using MUI Snackbar
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to update status for Sand');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error updating status for Sand:', error);
+  
+      // Show an error message using MUI Snackbar
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred while updating status for Sand');
+      setSnackbarOpen(true);
+    }
+  };
+  
+  const handleCrushUpdate = async (crushId) => {
+    try {
+      const apiUrl = `http://localhost:4000/crush/${crushId}`;
+      console.log('API URL:', apiUrl);
+  
+      const response = await axios.put(apiUrl, {
+        status: 'received', // Set the new status here
+      });
+  
+      if (response.status === 200) {
+        // Optionally, you can fetch the updated data or perform other actions
+        // ...
+  
+        // Show a success message using MUI Snackbar
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Tracker Updated!');
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        // Show an error message using MUI Snackbar
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Failed to update status for Crush');
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error updating status for Crush:', error);
+  
+      // Show an error message using MUI Snackbar
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred while updating status for Crush');
+      setSnackbarOpen(true);
+    }
+  };
+  
 
   const openBrickForm = () => {
    
@@ -1545,7 +1735,20 @@ function MaterialContent() {
             </div>
           </Paper>
         </Modal>
-  
+        <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
         <TableContainer>
           {Object.entries(materials).map(([name, entries], index) => (
             <div key={index} style={{ marginBottom: '20px' }}>
@@ -1613,6 +1816,7 @@ function MaterialContent() {
             </div>
             
           ))}
+          
           {hasBrickEntries && (
           <div style={{ marginBottom: '20px' }}>
             <h3 style={{ textAlign: 'center', color: 'black', padding: '10px' }}>
@@ -1650,8 +1854,24 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{brick.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{brick.payment_type}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{brick.payment_outstanding} Rs</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickDelete(brick._id)}>Delete</button></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(brick._id)}>Update</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+  <Button variant="contained" color="error" onClick={() => handleBrickDelete(brick._id)}>
+    Delete
+  </Button>
+</TableCell>
+<TableCell sx={{ textAlign: 'center' }}>
+  {brick.status === 'received' ? (
+    <Button variant="contained" disabled>
+      Already set to Received
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" onClick={() => handleBrickUpdate(brick._id)}>
+      Change Status
+    </Button>
+  )}
+</TableCell>
+
+                      
                   </TableRow>
                 ))}
               </TableBody>
@@ -1696,8 +1916,23 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{cement.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.payment_type}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{cement.payment_outstanding} Rs</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCementDelete(cement._id)}>Delete</button></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(cement._id)}>Update</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+  <Button variant="contained" color="error" onClick={() => handleCementDelete(cement._id)}>
+    Delete
+  </Button>
+</TableCell>
+<TableCell sx={{ textAlign: 'center' }}>
+  {cement.status === 'received' ? (
+    <Button variant="contained" disabled>
+      Already set to Received
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" onClick={() => handleCementUpdate(cement._id)}>
+      Change Status
+    </Button>
+  )}
+</TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -1742,8 +1977,23 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{sand.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.payment_type}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{sand.payment_outstanding} Rs</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSandDelete(sand._id)}>Delete</button></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(sand._id)}>Update</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+  <Button variant="contained" color="error" onClick={() => handleSandDelete(sand._id)}>
+    Delete
+  </Button>
+</TableCell>
+<TableCell sx={{ textAlign: 'center' }}>
+  {sand.status === 'received' ? (
+    <Button variant="contained" disabled>
+      Already set to Received
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" onClick={() => handleSandUpdate(sand._id)}>
+      Change Status
+    </Button>
+  )}
+</TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -1788,8 +2038,23 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{steel.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.payment_type}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{steel.payment_outstanding} Rs</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleSteelDelete(steel._id)}>Delete</button></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(steel._id)}>Update</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+  <Button variant="contained" color="error" onClick={() => handleSteelDelete(steel._id)}>
+    Delete
+  </Button>
+</TableCell>
+<TableCell sx={{ textAlign: 'center' }}>
+  {steel.status === 'received' ? (
+    <Button variant="contained" disabled>
+      Already set to Received
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" onClick={() => handleSteelUpdate(steel._id)}>
+      Change Status
+    </Button>
+  )}
+</TableCell>
+
                   </TableRow>
                 ))}
               </TableBody>
@@ -1834,8 +2099,22 @@ function MaterialContent() {
                     <TableCell sx={{ textAlign: 'center' }}>{crush.payment} Rs</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.payment_type}</TableCell>
                     <TableCell sx={{ textAlign: 'center' }}>{crush.payment_outstanding} Rs</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleCrushDelete(crush._id)}>Delete</button></TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}><button onClick={() => handleBrickUpdate(crush._id)}>Update</button></TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+  <Button variant="contained" color="error" onClick={() => handleCrushDelete(crush._id)}>
+    Delete
+  </Button>
+</TableCell>
+<TableCell sx={{ textAlign: 'center' }}>
+  {crush.status === 'received' ? (
+    <Button variant="contained" disabled>
+      Already set to Received
+    </Button>
+  ) : (
+    <Button variant="contained" color="primary" onClick={() => handleCrushUpdate(crush._id)}>
+      Change Status
+    </Button>
+  )}
+</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

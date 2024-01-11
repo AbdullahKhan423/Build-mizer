@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import BarChart from './Charts/BarChart';
 import PieChart from './Charts/PieChart';
+import CircularProgress from '@mui/material/CircularProgress';
 import './reportcontent.css';
 function ReportContent() {
    
@@ -430,84 +431,66 @@ function ReportContent() {
       
       
   return (
+    <>
+     {loading ? (
+      <CircularProgress sx={{ position: 'absolute', top: '50%', left: '60%' }} />
+    ) : (
     <div className="dashboard">
       
-    {costData.datasets[0].data && costData.datasets[0].data.length > 0 ? (
+    
             <BarChart chartData={costData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+          
      <div className="section-container">
-    <div className='section'>{brickQuantityData.datasets[0].data && brickQuantityData.datasets[0].data.length > 0 ? (
+    <div className='section'>
             <BarChart chartData={brickQuantityData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}</div>
+          </div>
     <div className="section">
-      {brickCostData.datasets[0].data && brickCostData.datasets[0].data.length > 0 ? (
+      
             <BarChart chartData={brickCostData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+         
       </div>
       </div>
     <div className="section-container">
       <div className="section"> 
-      {cementQuantityData.datasets[0].data && cementQuantityData.datasets[0].data.length > 0 ? (
+      
             <BarChart chartData={cementQuantityData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+          
          </div> 
-      <div className="section"> {cementCostData.datasets[0].data && cementCostData.datasets[0].data.length > 0 ? (
+      <div className="section"> 
             <BarChart chartData={cementCostData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}</div>
+          </div>
     </div>
     <div className="section-container">
       <div className="section"> 
-      {crushQuantityData.datasets[0].data && crushQuantityData.datasets[0].data.length > 0 ? (
+      
             <BarChart chartData={crushQuantityData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+          
          </div> 
-      <div className="section">{crushCostData.datasets[0].data && crushCostData.datasets[0].data.length > 0 ? (
+      <div className="section">
             <BarChart chartData={crushCostData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}</div>
+          </div>
       
     </div>
     <div className="section-container">
       <div className="section"> 
-      {sandQuantityData.datasets[0].data && sandQuantityData.datasets[0].data.length > 0 ? (
+      
             <BarChart chartData={sandQuantityData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+         
          </div> 
-      <div className="section">{sandCostData.datasets[0].data && sandCostData.datasets[0].data.length > 0 ? (
+      <div className="section">
             <BarChart chartData={sandCostData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}</div>
+          </div>
       
     </div>
     <div className="section-container">
       <div className="section"> 
-      {steelQuantityData.datasets[0].data && steelQuantityData.datasets[0].data.length > 0 ? (
+      
             <BarChart chartData={steelQuantityData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}
+          
          </div> 
-      <div className="section">{steelCostData.datasets[0].data && steelCostData.datasets[0].data.length > 0 ? (
+      <div className="section">
             <BarChart chartData={steelCostData} />
-          ) : (
-            <p>Loading chart...</p>
-          )}</div>
+          </div>
       
     </div>
 
@@ -522,7 +505,8 @@ function ReportContent() {
         </div>
       </div>
     </div>
-  
+    )}
+    </>
 );
   
 }
