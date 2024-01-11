@@ -518,7 +518,7 @@ function ReportContent() {
     <div className="third-section">
         
         <div className="lower-right-div">
-          <div className="remaining-space-section">Breakdown of Total Cost : {totalCost}Rs<PieChart chartData={chartData} />;</div>
+          <div className="remaining-space-section">Breakdown of Total  Cost : {totalCost}Rs<PieChart chartData={chartData} />;</div>
         </div>
       </div>
     </div>
