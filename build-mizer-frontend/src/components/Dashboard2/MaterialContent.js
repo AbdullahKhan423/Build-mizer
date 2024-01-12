@@ -954,31 +954,31 @@ function MaterialContent() {
             <TableRow>
               <TableCell>Bricks</TableCell>
               <TableCell>{bricksRate}/Unit</TableCell>
-              <TableCell>{bricksQuantity}</TableCell>
+              <TableCell>{bricksQuantity} No of Bricks</TableCell>
               <TableCell>{brickCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Cement</TableCell>
               <TableCell>{cementRate}/Bag</TableCell>
-              <TableCell>{cementQuantity}</TableCell>
+              <TableCell>{cementQuantity} Bags</TableCell>
               <TableCell>{cementCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Crush</TableCell>
               <TableCell>{crushRate}/Cft</TableCell>
-              <TableCell>{crushQuantity}</TableCell>
+              <TableCell>{crushQuantity} CFT</TableCell>
               <TableCell>{crushCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Sand</TableCell>
               <TableCell>{sandRate}/Cft</TableCell>
-              <TableCell>{sandQuantity}</TableCell>
+              <TableCell>{sandQuantity} CFT</TableCell>
               <TableCell>{sandCost} Rs</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Steel</TableCell>
               <TableCell>{steelRate}</TableCell>
-              <TableCell>{steelQuantity}</TableCell>
+              <TableCell>{steelQuantity} Ton</TableCell>
               <TableCell>{steelCost} Rs</TableCell>
             </TableRow>
           </TableBody>
