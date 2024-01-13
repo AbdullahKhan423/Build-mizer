@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 export const getAllProjects = async (req, res) => {
   const token = req.cookies.token; // Adjust this based on your token storage method
     const decodedToken = jwt.verify(token, process.env.TOKEN_KEY); // Get the user's ID from the URL parameters
-  
+    
   try {
     // Retrieve only the projects where projectManager matches the userid
     const projects = await Project.find({ projectManager: decodedToken.id });

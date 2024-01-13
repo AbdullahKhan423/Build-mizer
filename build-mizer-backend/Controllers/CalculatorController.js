@@ -19,17 +19,17 @@ export const createCalculatorItem = async (req, res) => {
         return res.status(404).json({ message: 'Project not found' });
       }
   
-      const sandRate = 85;  // Set your default values
+      const sandRate = 70;  // Set your default values
       const crushRate = 160;  // Set your default values
-      const bricksRate = 20;  // Set your default values
+      const bricksRate = 17;  // Set your default values
       const cementRate = 1300;  // Set your default values
       const steelRate =  258000;
 
-      const persqsandQuantity = (1815 / 675);
-      const persqsteelQuantity= (2/675);
-      const persqcrushQuantity = (1033 / 675);
-      const persqbricksQuantity = (33757 / 675);
-      const persqcementQuantity = (363 / 675);// Set your default values
+      const persqsandQuantity = (3497 / 2250);
+      const persqsteelQuantity= (4/2250);
+      const persqcrushQuantity = (1913 / 2250);
+      const persqbricksQuantity = (65039 / 2250);
+      const persqcementQuantity = (699 / 2250);// Set your default values
   
       const sandCost = Math.floor(sandRate * persqsandQuantity * squareFeet);
       const crushCost = Math.floor(crushRate * persqcrushQuantity * squareFeet);

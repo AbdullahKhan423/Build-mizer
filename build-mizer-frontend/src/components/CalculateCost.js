@@ -41,22 +41,22 @@ function CalculateCost() {
 
     // Add logic to handle different number of floors if needed
     const floorMultiplier =
-      numFloors === 'single' ? 1 : numFloors === 'double' ? 2 : 3;
+      numFloors === 'single' ? 1 : numFloors === 'double' ? 1.5 : 2;
 
     const adjustedSquareFeet = squareFeet * floorMultiplier;
 
     // Your calculations based on the provided logic
-    const sandRate = 85;
-    const crushRate = 160;
-    const bricksRate = 20;
-    const cementRate = 1300;
-    const steelRate = 258000;
+    const sandRate = 70;  // Set your default values
+    const crushRate = 160;  // Set your default values
+    const bricksRate = 17;  // Set your default values
+    const cementRate = 1300;  // Set your default values
+    const steelRate =  258000;
 
-    const persqsandQuantity = 1815 / 675;
-    const persqsteelQuantity = 2 / 675;
-    const persqcrushQuantity = 1033 / 675;
-    const persqbricksQuantity = 33757 / 675;
-    const persqcementQuantity = 363 / 675;
+    const persqsandQuantity = (3497 / 2250);
+    const persqsteelQuantity= (4/2250);
+    const persqcrushQuantity = (1913 / 2250);
+    const persqbricksQuantity = (65039 / 2250);
+    const persqcementQuantity = (699 / 2250);
 
     const sandCost = Math.floor(sandRate * persqsandQuantity * adjustedSquareFeet);
     const crushCost = Math.floor(crushRate * persqcrushQuantity * adjustedSquareFeet);
@@ -64,11 +64,11 @@ function CalculateCost() {
     const cementCost = Math.floor(cementRate * persqcementQuantity * adjustedSquareFeet);
     const steelCost = Math.floor(steelRate * persqsteelQuantity * adjustedSquareFeet);
 
-    const sandQuantity= Math.floor(persqsandQuantity*squareFeet);
-    const bricksQuantity=Math.floor(persqbricksQuantity*squareFeet);
-    const cementQuantity=Math.floor(persqcementQuantity*squareFeet);
-    const crushQuantity=Math.floor(persqcrushQuantity*squareFeet);
-    const steelQuantity=(persqsteelQuantity * squareFeet).toFixed(3);
+    const sandQuantity= Math.floor(persqsandQuantity*adjustedSquareFeet);
+    const bricksQuantity=Math.floor(persqbricksQuantity*adjustedSquareFeet);
+    const cementQuantity=Math.floor(persqcementQuantity*adjustedSquareFeet);
+    const crushQuantity=Math.floor(persqcrushQuantity*adjustedSquareFeet);
+    const steelQuantity=(persqsteelQuantity *adjustedSquareFeet).toFixed(3);
     
     const totalCost = sandCost + crushCost + brickCost + cementCost + steelCost;
 

@@ -935,9 +935,17 @@ function MaterialContent() {
     <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', padding: '5px' }}>
   <Accordion style={{ width: '100%', maxWidth: '1000px' }}>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>
-        {totalCost !== undefined ? `Total Estimated Cost of Grey Structure: ${formatCurrency(totalCost)}` : 'Loading...'}
-      </Typography>
+    <Typography variant="h6" style={{ textAlign: 'center' }}>
+  {totalCost !== undefined ? (
+    <span>
+      Total Estimated Cost of Grey Structure: {formatCurrency(totalCost)}{' '}
+      <span style={{ color: 'green' }}>(+-5%)</span>
+    </span>
+  ) : (
+    'Loading...'
+  )}
+</Typography>
+
     </AccordionSummary>
     <AccordionDetails>
       <TableContainer>
@@ -977,7 +985,7 @@ function MaterialContent() {
             </TableRow>
             <TableRow>
               <TableCell>Steel</TableCell>
-              <TableCell>{steelRate}</TableCell>
+              <TableCell>{steelRate}/Ton</TableCell>
               <TableCell>{steelQuantity} Ton</TableCell>
               <TableCell>{steelCost} Rs</TableCell>
             </TableRow>

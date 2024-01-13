@@ -3,6 +3,8 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { useUser } from '../context/UserContext';
 import Checkbox from '@mui/material/Checkbox';
 //import Link from '@mui/material/Link';
@@ -16,6 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Logo from '../media/logo.png';
 import axios from "axios";
 function Copyright(props) {
+  
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -47,7 +50,12 @@ export default function SignIn() {
         [name]: value,
       });
     };
-  
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
     const handleError = (err) =>
       toast.error(err, {
         position: "bottom-left",
@@ -71,15 +79,23 @@ export default function SignIn() {
         const { success, message } = data;
         if (success) {
           handleSuccess(message);
+          setSnackbarSeverity('success');
+          setSnackbarMessage('Login Succesful');
+          setSnackbarOpen(true);
           setUser(user);
           console.log("Hello",user);
           setTimeout(() => {
             navigate("/inventory");
           }, 1000);
         } else {
-          handleError(message);
+          setSnackbarSeverity('error');
+          setSnackbarMessage('Failed to update status for Sand');
+          setSnackbarOpen(true);
         }
       } catch (error) {
+        setSnackbarSeverity('error');
+          setSnackbarMessage('Wrong Credentials');
+          setSnackbarOpen(true);
         console.log(error);
       }
       setInputValue({
@@ -101,7 +117,20 @@ export default function SignIn() {
             flexDirection: 'column',
             alignItems: 'center',
           }}
+        ><Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
         >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
           <Link to='/'><img src={Logo} width="200px" alt="logo"></img></Link>
           <Typography component="h1" variant="h5">
             Sign in
@@ -155,6 +184,7 @@ export default function SignIn() {
               </Grid>
             </Grid>
           </Box>
+          
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
