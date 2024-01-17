@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
+import Tooltip from '@mui/material/Tooltip';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -252,12 +253,14 @@ const handleSquareFeetChange = (e) => {
             onChange={(e) => setProjectData({ ...projectData, location: e.target.value })}
             sx={{  mx:1,my:1 }}
           />
-          <TextField
-  label="Square Feet"
-  value={squareFeet}
-  onChange={handleSquareFeetChange}
-  sx={{ mx: 1, my: 1 }}
-/>
+           <Tooltip title="Enter the covered area for construction in square feet" arrow>
+      <TextField
+        label="Square Feet"
+        value={squareFeet}
+        onChange={handleSquareFeetChange}
+        sx={{ mx: 1, my: 1 }}
+      />
+    </Tooltip>
          
           {/* Add more input fields for other project details */}
           <Button sx={{mx:20}} variant ="contained"  onClick={handleSubmitProject}>Submit Project</Button>
