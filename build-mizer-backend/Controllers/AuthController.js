@@ -1,6 +1,6 @@
 import User from '../Models/UserModel.js';
 import { createSecretToken } from "../util/SecretToken.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 
 export const Signup = async (req, res, next) => {
