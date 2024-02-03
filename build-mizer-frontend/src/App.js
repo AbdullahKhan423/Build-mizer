@@ -14,6 +14,7 @@ import Cement from './pages/Cement';
 import Steel from './pages/Steel';
 import Crush from './pages/Crush';
 import Sand from './pages/Sand';
+
 import Brick from './pages/Brick';
 import Report from './components/Dashboard2/ReportPaperbase';
 import Paper from './components/Dashboard2/Paperbase';
@@ -40,7 +41,7 @@ function App() {
         <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
         <Route path='bricks-price-in-pakistan' element={<Brick></Brick>}/>
         <Route path='inventory' element={<Paper></Paper>}/>
-        <Route path='report' element={<Report></Report>}/>
+        <Route path='reports' element={<Report></Report>}/>
         <Route path='change-password' element={<ForgotPassword></ForgotPassword>}/>
       </Routes>
       <DashboardRoutes></DashboardRoutes>
