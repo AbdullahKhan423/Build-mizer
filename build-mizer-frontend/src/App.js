@@ -41,7 +41,7 @@ function App() {
         <Route path='steel-price-in-pakistan' element={<Steel></Steel>}/>
         <Route path='bricks-price-in-pakistan' element={<Brick></Brick>}/>
         <Route path='inventory' element={<Paper></Paper>}/>
-        <Route path='reports' element={<Report></Report>}/>
+        <Route path='report' element={<Report></Report>}/>
         <Route path='change-password' element={<ForgotPassword></ForgotPassword>}/>
       </Routes>
       <DashboardRoutes></DashboardRoutes>
